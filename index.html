@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEARING DIAGNOSTIC HUB (H.D.H.) | Premier Speech & Hearing Clinic</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Custom Tailwind Configuration (Optional, but helps for consistent look) */
+        :root {
+            --primary-color: #0d9488; /* Teal-700 */
+            --accent-color: #f97316; /* Orange-600 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1f2937; /* Dark Gray */
+            line-height: 1.6;
+        }
+        .section-header {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .section-subheader {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 2.5rem;
+        }
+        .cta-button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .cta-button:hover {
+            background-color: #ea580c; /* Orange-700 */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        .card:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- 1. Header -->
+    <header id="header" class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+            <div class="text-2xl font-bold text-teal-700 tracking-wider">
+                H.D.H. Clinic <span class="text-orange-500 text-sm block sm:inline">Speech & Hearing Hub</span>
+            </div>
+            <nav class="hidden lg:flex space-x-6 items-center">
+                <a href="#expertise" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Expertise</a>
+                <a href="#services" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Services</a>
+                <a href="#specialist" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Specialists</a>
+                <a href="#products" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Products</a>
+                <a href="#gallery" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Gallery</a>
+                <a href="#cta" class="cta-button">Book Appointment</a>
+            </nav>
+            <div class="lg:hidden text-lg text-teal-700">
+                <i class="fas fa-bars"></i> <!-- Hamburger Menu Icon -->
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Hero Section -->
+    <section id="hero" class="relative bg-gray-900 text-white min-h-[70vh] flex items-center overflow-hidden">
+        <!-- Background Image/Overlay -->
+        <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://placehold.co/1920x1080/0d9488/ffffff?text= -');"></div>
+        <div class="absolute inset-0 bg-teal-800 opacity-60"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20 text-center">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
+                Achieve <span class="text-orange-400">Clarity</span> in Speech and Sound
+            </h1>
+            <p class="text-xl md:text-2xl font-light mb-8 max-w-3xl mx-auto">
+                HEARING DIAGNOSTIC HUB (H.D.H.) - Your trusted Speech & Hearing Specialist in Chhindwara, dedicated to personalized care and breakthrough communication.
+            </p>
+            <div class="space-y-4 sm:space-y-0 sm:space-x-6 flex flex-col sm:flex-row justify-center">
+                <a href="#cta" class="cta-button">
+                    <i class="fas fa-calendar-alt mr-2"></i> Request Consultation
+                </a>
+                <a href="tel:8100730040" class="inline-flex items-center justify-center px-8 py-3 border border-white text-base font-medium rounded-full text-white bg-transparent hover:bg-white hover:text-teal-700 transition duration-300">
+                    <i class="fas fa-phone mr-2"></i> Call Us Today
+                </a>
+            </div>
+            
+            <!-- Rating Badge -->
+            <div class="mt-8">
+                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white text-teal-700 shadow-lg">
+                    <span class="text-yellow-500 mr-2">⭐⭐⭐⭐⭐</span> 5.0 Rating (17 Reviews)
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Core Expertise -->
+    <section id="expertise" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="section-header">Pioneering Expertise in Communication Health</h2>
+            <p class="section-subheader">Our commitment is to accurate diagnosis and effective, patient-centered rehabilitation.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
+                <!-- Item 1: Diagnostic Accuracy -->
+                <div class="p-6 bg-gray-50 card border-t-4 border-orange-500 hover:border-teal-700">
+                    <i class="fas fa-stethoscope text-5xl text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Clinical Diagnostic Accuracy</h3>
+                    <p class="text-gray-600">Utilizing advanced, calibrated equipment for Pure Tone Audiometry, Tympanometry, and speech assessment to ensure reliable results.</p>
+                </div>
+                <!-- Item 2: Holistic Therapy -->
+                <div class="p-6 bg-gray-50 card border-t-4 border-orange-500 hover:border-teal-700">
+                    <i class="fas fa-brain text-5xl text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Holistic & Functional Therapy</h3>
+                    <p class="text-gray-600">Beyond mechanics, we focus on functional communication, cognitive skills, and behavioral integration for lasting improvement.</p>
+                </div>
+                <!-- Item 3: Child-Focused Care -->
+                <div class="p-6 bg-gray-50 card border-t-4 border-orange-500 hover:border-teal-700">
+                    <i class="fas fa-child text-5xl text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Specialized Pediatric Programs</h3>
+                    <p class="text-gray-600">Our clinic is equipped with dedicated resources and expertise for complex childhood conditions like Autism and ADHD-related communication challenges.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 4. Specialized Services -->
+    <section id="services" class="py-16 md:py-24 bg-teal-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="section-header">Comprehensive Care Spectrum</h2>
+            <p class="section-subheader">Tailored treatment plans addressing the full range of speech, language, and hearing needs.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+                
+                <!-- Service Card 1: Child Speech Therapy -->
+                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-comments text-3xl text-teal-700 mr-4"></i>
+                        <h3 class="text-xl font-semibold text-teal-700">Child Speech Therapy</h3>
+                    </div>
+                    <p class="text-gray-600">Addressing articulation, phonological disorders, stuttering, voice issues, and developmental language delay (DLD).</p>
+                </div>
+                
+                <!-- Service Card 2: Autism & Communication -->
+                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-puzzle-piece text-3xl text-teal-700 mr-4"></i>
+                        <h3 class="text-xl font-semibold text-teal-700">Autism Communication</h3>
+                    </div>
+                    <p class="text-gray-600">Specialized intervention for social-pragmatic language, non-verbal communication, and using Augmentative and Alternative Communication (AAC).</p>
+                </div>
+                
+                <!-- Service Card 3: ADHD / Hyperactivity -->
+                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-bolt text-3xl text-teal-700 mr-4"></i>
+                        <h3 class="text-xl font-semibold text-teal-700">ADHD/Hyperactivity Support</h3>
+                    </div>
+                    <p class="text-gray-600">Strategies to improve auditory processing, listening comprehension, and organizational communication skills related to ADHD.</p>
+                </div>
+
+                <!-- Service Card 4: Adult Hearing Loss -->
+                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-ear text-3xl text-teal-700 mr-4"></i>
+                        <h3 class="text-xl font-semibold text-teal-700">Adult Audiology & Hearing Loss</h3>
+                    </div>
+                    <p class="text-gray-600">Full range of audiological services, from routine hearing checks to diagnosing complex sensorineural issues.</p>
+                </div>
+
+                <!-- Service Card 5: Aphasia & Stroke Rehab -->
+                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-user-friends text-3xl text-teal-700 mr-4"></i>
+                        <h3 class="text-xl font-semibold text-teal-700">Adult Speech & Voice Rehab</h3>
+                    </div>
+                    <p class="text-gray-600">Rehabilitation for communication disorders (Aphasia, Dysarthria) and voice therapy (Dysphonia) following neurological events.</p>
+                </div>
+
+                <!-- Service Card 6: Tinnitus Management -->
+                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-music text-3xl text-teal-700 mr-4"></i>
+                        <h3 class="text-xl font-semibold text-teal-700">Tinnitus Management</h3>
+                    </div>
+                    <p class="text-gray-600">Evidence-based programs for Tinnitus Retraining Therapy (TRT) to reduce the perceived severity of ringing in the ears.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Meet the Specialist/Our Commitment -->
+    <section id="specialist" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-header text-center">Meet Our Dedicated Specialist</h2>
+            <p class="section-subheader text-center">Led by a certified Speech & Hearing Specialist, our team is committed to your well-being.</p>
+
+            <div class="flex flex-col lg:flex-row items-center lg:space-x-12 mt-10">
+                <!-- Specialist Image Placeholder -->
+                <div class="lg:w-1/3 mb-8 lg:mb-0">
+                    <div class="w-64 h-64 mx-auto lg:w-full lg:h-auto rounded-full overflow-hidden shadow-2xl border-8 border-teal-100">
+                        <img class="w-full h-full object-cover" src="https://placehold.co/400x400/0d9488/ffffff?text=Certified+Specialist" alt="H.D.H. Clinic Speech & Hearing Specialist">
+                    </div>
+                </div>
+
+                <!-- Commitment Text -->
+                <div class="lg:w-2/3 text-center lg:text-left">
+                    <h3 class="text-3xl font-bold mb-4 text-orange-600">Expertise, Empathy, and Excellence</h3>
+                    <p class="text-gray-700 mb-6 text-lg">
+                        At H.D.H., we believe that every individual deserves the chance to communicate clearly and connect fully with the world around them. Our specialist brings years of clinical experience, employing the latest research and compassionate care to achieve tangible, life-changing results for our patients in Chhindwara.
+                    </p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-certificate text-xl text-teal-700 mr-3 mt-1"></i>
+                            <span>**Certified Professionals:** Adherence to the highest national standards for Audiology and Speech-Language Pathology.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-heart text-xl text-teal-700 mr-3 mt-1"></i>
+                            <span>**Client-Centric Approach:** Tailoring every session to the unique profile, environment, and goals of the patient and family.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-location-dot text-xl text-teal-700 mr-3 mt-1"></i>
+                            <span>**Local Community Hub:** Conveniently located at Shop No. 17, 1-floor, complex-1, Chhindwara Main Road.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Products (Hearing Aids and Devices) -->
+    <section id="products" class="py-16 md:py-24 bg-teal-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="section-header">Next-Generation Hearing Solutions</h2>
+            <p class="section-subheader">Explore our curated selection of digital hearing aids and assistive listening devices (ALDs).</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+                
+                <!-- Product 1: Custom In-the-Ear (ITE) -->
+                <div class="bg-white p-6 card">
+                    <i class="fas fa-bullseye text-5xl text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Custom ITE Hearing Aids</h3>
+                    <p class="text-gray-600 mb-4">Discreet, custom-molded devices that fit entirely within the ear canal, providing natural and comfortable listening.</p>
+                    <a href="#cta" class="text-sm font-semibold text-orange-600 hover:text-teal-700">View Models & Pricing</a>
+                </div>
+                
+                <!-- Product 2: Receiver-in-Canal (RIC) -->
+                <div class="bg-white p-6 card">
+                    <i class="fas fa-mobile-screen text-5xl text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Bluetooth RIC Devices</h3>
+                    <p class="text-gray-600 mb-4">The most popular style: small, powerful, and connect seamlessly to your smartphone for streaming calls and music.</p>
+                    <a href="#cta" class="text-sm font-semibold text-orange-600 hover:text-teal-700">View Models & Pricing</a>
+                </div>
+                
+                <!-- Product 3: Assistive Listening Devices (ALDs) -->
+                <div class="bg-white p-6 card">
+                    <i class="fas fa-volume-down text-5xl text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Assistive Listening Devices</h3>
+                    <p class="text-gray-600 mb-4">Special devices like TV listeners, captioned phones, and FM systems to help in specific challenging environments.</p>
+                    <a href="#cta" class="text-sm font-semibold text-orange-600 hover:text-teal-700">View Models & Pricing</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Patient Testimonials -->
+    <section id="testimonials" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="section-header">What Our Patients Say</h2>
+            <p class="section-subheader">Trusted by 17+ families and individuals in the Chhindwara area and beyond.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+                <!-- Testimonial 1 (Speech) -->
+                <div class="bg-gray-50 p-6 card text-left">
+                    <div class="text-yellow-500 mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="italic text-gray-700 mb-4">"The team at H.D.H. truly changed my child's life. We saw a dramatic improvement in his social communication skills after the Autism program. The specialist is professional and deeply caring."</p>
+                    <p class="font-semibold text-teal-700">- Mrs. S. Kumar (Parent of patient with ASD)</p>
+                </div>
+                <!-- Testimonial 2 (Hearing) -->
+                <div class="bg-gray-50 p-6 card text-left">
+                    <div class="text-yellow-500 mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="italic text-gray-700 mb-4">"After my fitting, the world sounds clear again. The selection process was easy, and the follow-up support is excellent. Best hearing clinic experience I've had."</p>
+                    <p class="font-semibold text-teal-700">- Mr. R. Varma (Hearing Aid User)</p>
+                </div>
+                <!-- Testimonial 3 (ADHD/Pediatric) -->
+                <div class="bg-gray-50 p-6 card text-left">
+                    <div class="text-yellow-500 mb-3">⭐⭐⭐⭐⭐</div>
+                    <p class="italic text-gray-700 mb-4">"Our daughter's teachers noticed the difference immediately. Her ability to focus and process verbal instructions has increased significantly. Thank you, H.D.H. Clinic!"</p>
+                    <p class="font-semibold text-teal-700">- Anonymous Verified Patient</p>
+                </div>
+            </div>
+            <a href="#" class="inline-block mt-8 text-lg font-semibold text-orange-600 hover:text-teal-700 transition duration-300">
+                Read All 17+ Google Reviews <i class="fas fa-external-link-alt ml-1 text-sm"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 8. FAQ -->
+    <section id="faq" class="py-16 md:py-24 bg-teal-50">
+        <div class="container mx-auto px-4">
+            <h2 class="section-header text-center">Frequently Asked Questions</h2>
+            <p class="section-subheader text-center">Find quick answers about our services, appointments, and care philosophy.</p>
+            
+            <div class="max-w-4xl mx-auto space-y-4 text-left">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white p-5 rounded-lg shadow-md border-l-4 border-orange-500">
+                    <h4 class="text-lg font-semibold text-teal-700 mb-2">Do you treat speech delay or only hearing loss?</h4>
+                    <p class="text-gray-600">We are a fully integrated **Speech & Hearing Clinic**. We treat a comprehensive range of speech-language pathologies, including developmental delays, stuttering, voice disorders, and communication challenges related to conditions like Autism and ADHD, alongside our audiology services.</p>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="bg-white p-5 rounded-lg shadow-md border-l-4 border-orange-500">
+                    <h4 class="text-lg font-semibold text-teal-700 mb-2">How long does a first diagnostic session take?</h4>
+                    <p class="text-gray-600">The initial comprehensive diagnostic session typically lasts between 60 to 90 minutes. This allows for a detailed evaluation of your or your child's communication profile and a discussion of preliminary findings.</p>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="bg-white p-5 rounded-lg shadow-md border-l-4 border-orange-500">
+                    <h4 class="text-lg font-semibold text-teal-700 mb-2">Are your services covered by insurance?</h4>
+                    <p class="text-gray-600">Coverage varies widely depending on your health plan. We recommend contacting your provider directly to confirm coverage for "Speech-Language Pathology" and "Audiology Services." We will provide all necessary documentation for reimbursement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. CTA (Secondary) -->
+    <section id="cta" class="py-16 bg-teal-700 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-extrabold mb-4">Ready to Hear Clearly and Speak Confidently?</h2>
+            <p class="text-xl font-light mb-8 max-w-3xl mx-auto">
+                Take the first step towards better communication health. Contact us today to schedule your confidential consultation.
+            </p>
+            <a href="#header" class="cta-button bg-white text-teal-700 hover:bg-gray-200">
+                <i class="fas fa-hand-pointer mr-2"></i> Schedule My Visit Now
+            </a>
+            
+            <!-- Quick Contact Information -->
+            <div class="mt-8 text-lg font-medium">
+                <p>Or Call Us Directly: <span class="text-orange-400 font-bold">81007 30040</span></p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 10. Gallery -->
+    <section id="gallery" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="section-header">A Look Inside Our Clinic</h2>
+            <p class="section-subheader">Experience the modern, comfortable, and professional environment of H.D.H.</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
+                <!-- Gallery Item 1 -->
+                <div class="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img class="w-full h-48 object-cover transform hover:scale-105 transition duration-500" src="https://placehold.co/600x400/004d40/ffffff?text=Reception+Area" alt="Clinic Reception Area">
+                </div>
+                <!-- Gallery Item 2 -->
+                <div class="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img class="w-full h-48 object-cover transform hover:scale-105 transition duration-500" src="https://placehold.co/600x400/004d40/ffffff?text=Sound+Proof+Booth" alt="Audiometry Sound Booth">
+                </div>
+                <!-- Gallery Item 3 -->
+                <div class="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img class="w-full h-48 object-cover transform hover:scale-105 transition duration-500" src="https://placehold.co/600x400/004d40/ffffff?text=Therapy+Room" alt="Speech Therapy Room">
+                </div>
+                <!-- Gallery Item 4 -->
+                <div class="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <img class="w-full h-48 object-cover transform hover:scale-105 transition duration-500" src="https://placehold.co/600x400/004d40/ffffff?text=Waiting+Lounge" alt="Comfortable Waiting Lounge">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. Footer -->
+    <footer id="footer" class="bg-gray-800 text-gray-300 pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 border-b border-gray-700 pb-8">
+                
+                <!-- Col 1: Clinic Info -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-orange-400">H.D.H. Clinic</h4>
+                    <p class="text-sm mb-4">Premier Speech & Hearing Specialist in Chhindwara, providing comprehensive care for all ages.</p>
+                    <div class="flex space-x-4 text-lg">
+                        <a href="#" class="hover:text-white transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-white transition duration-300"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Col 2: Services -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-orange-400">Our Focus</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#services" class="hover:text-white transition duration-300">Pediatric Therapy</a></li>
+                        <li><a href="#services" class="hover:text-white transition duration-300">Autism Communication</a></li>
+                        <li><a href="#services" class="hover:text-white transition duration-300">Audiology & Diagnostics</a></li>
+                        <li><a href="#products" class="hover:text-white transition duration-300">Hearing Aids</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Location & Hours -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-orange-400">Visit Us</h4>
+                    <p class="text-sm mb-2">Shop No. 17, 1-floor, complex-1, HEARING Diagnostic Hub, Cure Speech & Hearing Clinic, Chhindwara Main Road (Parasi...)</p>
+                    <p class="text-sm font-bold mt-4">Opening Hours:</p>
+                    <p class="text-sm">Mon - Sat: 9:00 AM - 6:00 PM</p>
+                    <p class="text-sm">Sunday: Closed</p>
+                </div>
+                
+                <!-- Col 4: Contact -->
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-orange-400">Get in Touch</h4>
+                    <p class="text-sm mb-2"><i class="fas fa-phone mr-2"></i> 81007 30040</p>
+                    <p class="text-sm mb-2"><i class="fas fa-envelope mr-2"></i> neurospeechandhearing@gmail.com</p>
+                    <p class="text-sm mb-2"><i class="fas fa-comment-dots mr-2"></i> 84819 44731</p>
+                </div>
+            </div>
+            
+            <div class="text-center text-sm pt-6 border-t border-gray-700 mt-6">
+                &copy; 2025 HEARING DIAGNOSTIC HUB (H.D.H.). All Rights Reserved. | Designed by Bonix Solutions
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
