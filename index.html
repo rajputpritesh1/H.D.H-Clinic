@@ -65,6 +65,7 @@
             <div class="text-2xl font-bold text-teal-700 tracking-wider">
                 H.D.H. Clinic <span class="text-orange-500 text-sm block sm:inline">Speech & Hearing Hub</span>
             </div>
+            <!-- Desktop Nav (Hidden on Mobile) -->
             <nav class="hidden lg:flex space-x-6 items-center">
                 <a href="#expertise" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Expertise</a>
                 <a href="#services" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Services</a>
@@ -73,10 +74,23 @@
                 <a href="#gallery" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Gallery</a>
                 <a href="#cta" class="cta-button">Book Appointment</a>
             </nav>
-            <div class="lg:hidden text-lg text-teal-700">
-                <i class="fas fa-bars"></i> <!-- Hamburger Menu Icon -->
-            </div>
+            <!-- Mobile Menu Button (Visible on Mobile) -->
+            <button id="mobile-menu-button" class="lg:hidden p-2 text-2xl text-teal-700 focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
+        
+        <!-- Mobile Navigation (Hidden by Default) -->
+        <nav id="mobile-menu" class="hidden lg:hidden bg-white shadow-lg border-t border-gray-100 pb-2">
+            <div class="flex flex-col space-y-2 px-4 py-2">
+                <a href="#expertise" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Expertise</a>
+                <a href="#services" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Services</a>
+                <a href="#specialist" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Specialists</a>
+                <a href="#products" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Products</a>
+                <a href="#gallery" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Gallery</a>
+                <a href="#cta" class="w-full text-center py-2 mt-2 cta-button" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Book Appointment</a>
+            </div>
+        </nav>
     </header>
 
     <!-- 2. Hero Section -->
@@ -432,5 +446,28 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuButton && mobileMenu) {
+                // Toggle the mobile menu visibility on button click
+                menuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Hide the mobile menu after clicking any link (smooth UX for single-page sites)
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        // Small delay to allow smooth scrolling before hiding
+                        setTimeout(() => {
+                            mobileMenu.classList.add('hidden');
+                        }, 300);
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
