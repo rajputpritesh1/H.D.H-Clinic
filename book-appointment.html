@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Book Appointment | H.D.H. Marketplace - Schedule Consultation</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #f8fafc; }
+        .step-active { background: #0d9488; color: white; border-color: #0d9488; }
+        .step-completed { background: #10b981; color: white; border-color: #10b981; }
+        .time-slot { transition: all 0.2s; cursor: pointer; }
+        .time-slot.selected { background: #0d9488; color: white; border-color: #0d9488; }
+        .time-slot:hover:not(.selected) { background: #e6f7f5; border-color: #0d9488; }
+        .service-card.selected { border-color: #0d9488; background: #f0fdfa; }
+    </style>
+</head>
+<body>
+
+<!-- ======================== NAVBAR ======================== -->
+<nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <div class="bg-teal-700 w-9 h-9 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-ear-listen text-white text-lg"></i>
+                </div>
+                <span class="font-bold text-xl text-teal-800">H.D.H.<span class="text-orange-500"> Marketplace</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#" class="text-gray-600 hover:text-teal-600">Home</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">Find Experts</a>
+                <a href="#" class="text-teal-700 font-semibold border-b-2 border-teal-700 pb-1">Book Appointment</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-700 transition">Sign In</button>
+                <button class="border border-teal-600 text-teal-600 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-50 transition">Register</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================== PAGE HEADER ======================== -->
+<section class="bg-gradient-to-r from-teal-700 to-teal-600 text-white py-10">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Book an Appointment</h1>
+        <p class="text-teal-100">Schedule your consultation with certified speech & hearing specialists</p>
+    </div>
+</section>
+
+<!-- ======================== MAIN CONTENT ======================== -->
+<div class="max-w-6xl mx-auto px-4 py-10">
+    <!-- Booking Progress Steps -->
+    <div class="flex justify-between items-center mb-10 max-w-2xl mx-auto">
+        <div class="flex flex-col items-center">
+            <div id="step1Circle" class="w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold border-2 border-teal-600">1</div>
+            <span class="text-xs mt-2 text-gray-600">Select Service</span>
+        </div>
+        <div class="flex-1 h-0.5 bg-gray-200 mx-2"></div>
+        <div class="flex flex-col items-center">
+            <div id="step2Circle" class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-bold border-2 border-gray-200">2</div>
+            <span class="text-xs mt-2 text-gray-600">Choose Date & Time</span>
+        </div>
+        <div class="flex-1 h-0.5 bg-gray-200 mx-2"></div>
+        <div class="flex flex-col items-center">
+            <div id="step3Circle" class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-bold border-2 border-gray-200">3</div>
+            <span class="text-xs mt-2 text-gray-600">Your Details</span>
+        </div>
+        <div class="flex-1 h-0.5 bg-gray-200 mx-2"></div>
+        <div class="flex flex-col items-center">
+            <div id="step4Circle" class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-bold border-2 border-gray-200">4</div>
+            <span class="text-xs mt-2 text-gray-600">Confirm</span>
+        </div>
+    </div>
+
+    <!-- Step 1: Select Service -->
+    <div id="step1" class="step-content">
+        <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Select a Service</h2>
+            <p class="text-gray-500 mb-6">Choose the type of consultation you need</p>
+            
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="service-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer transition" data-service="audiometry" data-price="1200" data-name="Audiometry Assessment">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-ear-listen text-teal-600 text-2xl"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-800">Audiometry Assessment</h3>
+                            <p class="text-sm text-gray-500">Complete hearing evaluation using advanced equipment</p>
+                            <p class="text-teal-700 font-semibold mt-1">₹1,200</p>
+                            <p class="text-xs text-gray-400">⏱️ 45 minutes</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer transition" data-service="speech" data-price="800" data-name="Pediatric Speech Therapy">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-comments text-teal-600 text-2xl"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-800">Pediatric Speech Therapy</h3>
+                            <p class="text-sm text-gray-500">Speech delay, articulation, and language development</p>
+                            <p class="text-teal-700 font-semibold mt-1">₹800</p>
+                            <p class="text-xs text-gray-400">⏱️ 1 hour</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer transition" data-service="autism" data-price="1000" data-name="Autism Communication Therapy">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-puzzle-piece text-teal-600 text-2xl"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-800">Autism Communication Therapy</h3>
+                            <p class="text-sm text-gray-500">AAC, social skills, and behavioral communication</p>
+                            <p class="text-teal-700 font-semibold mt-1">₹1,000</p>
+                            <p class="text-xs text-gray-400">⏱️ 1 hour</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer transition" data-service="fitting" data-price="2000" data-name="Hearing Aid Fitting">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-microphone-alt text-teal-600 text-2xl"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-800">Hearing Aid Fitting & Trial</h3>
+                            <p class="text-sm text-gray-500">Digital hearing aid selection, fitting, and follow-up</p>
+                            <p class="text-teal-700 font-semibold mt-1">₹2,000</p>
+                            <p class="text-xs text-gray-400">⏱️ 1.5 hours</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer transition" data-service="tinnitus" data-price="1500" data-name="Tinnitus Management">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-music text-teal-600 text-2xl"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-800">Tinnitus Management</h3>
+                            <p class="text-sm text-gray-500">TRT and sound therapy for ringing ears</p>
+                            <p class="text-teal-700 font-semibold mt-1">₹1,500</p>
+                            <p class="text-xs text-gray-400">⏱️ 50 minutes</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card border-2 border-gray-200 rounded-xl p-4 cursor-pointer transition" data-service="consultation" data-price="500" data-name="General Consultation">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-stethoscope text-teal-600 text-2xl"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-800">General Consultation</h3>
+                            <p class="text-sm text-gray-500">Initial assessment and expert advice</p>
+                            <p class="text-teal-700 font-semibold mt-1">₹500</p>
+                            <p class="text-xs text-gray-400">⏱️ 30 minutes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+                <button id="nextStep1" disabled class="bg-gray-300 text-gray-500 px-6 py-2.5 rounded-lg font-semibold transition">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Select Date & Time -->
+    <div id="step2" class="step-content hidden">
+        <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Choose Date & Time</h2>
+            <p class="text-gray-500 mb-6">Select your preferred appointment slot</p>
+            
+            <!-- Expert Info -->
+            <div class="flex items-center gap-4 p-4 bg-teal-50 rounded-xl mb-6">
+                <div class="w-14 h-14 rounded-full bg-teal-200 flex items-center justify-center text-2xl">👩‍⚕️</div>
+                <div>
+                    <p class="font-bold text-gray-800">Dr. Priya Mehta</p>
+                    <p class="text-sm text-gray-600">MASLP, PhD Scholar | 12+ years experience</p>
+                    <p class="text-xs text-teal-600">⭐ 4.9 (128 reviews)</p>
+                </div>
+            </div>
+            
+            <!-- Date Selection -->
+            <label class="font-semibold text-gray-700 mb-2 block">Select Date</label>
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2 mb-6" id="dateContainer">
+                <!-- Dynamic dates will be populated -->
+            </div>
+            
+            <!-- Time Slots -->
+            <label class="font-semibold text-gray-700 mb-2 block">Available Time Slots</label>
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2" id="timeSlotsContainer">
+                <!-- Dynamic time slots -->
+            </div>
+            
+            <div class="mt-8 flex justify-between">
+                <button id="backStep2" class="border border-gray-300 text-gray-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-50 transition">Back</button>
+                <button id="nextStep2" disabled class="bg-gray-300 text-gray-500 px-6 py-2.5 rounded-lg font-semibold transition">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 3: Your Details -->
+    <div id="step3" class="step-content hidden">
+        <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Your Details</h2>
+            <p class="text-gray-500 mb-6">Please provide your information</p>
+            
+            <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                    <input type="text" id="fullName" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                    <input type="tel" id="phone" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                    <input type="email" id="email" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                    <input type="number" id="age" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400 outline-none">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Additional Notes (Optional)</label>
+                    <textarea id="notes" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400 outline-none" placeholder="Any specific concerns or questions for the doctor..."></textarea>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-between">
+                <button id="backStep3" class="border border-gray-300 text-gray-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-50 transition">Back</button>
+                <button id="nextStep3" class="bg-teal-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-teal-700 transition">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 4: Confirm Booking -->
+    <div id="step4" class="step-content hidden">
+        <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Confirm Your Appointment</h2>
+            <p class="text-gray-500 mb-6">Review your booking details</p>
+            
+            <div class="bg-gray-50 rounded-xl p-5 mb-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div><p class="text-gray-500 text-sm">Service</p><p class="font-semibold" id="confirmService">-</p></div>
+                    <div><p class="text-gray-500 text-sm">Fee</p><p class="font-semibold text-teal-700" id="confirmFee">-</p></div>
+                    <div><p class="text-gray-500 text-sm">Doctor</p><p class="font-semibold">Dr. Priya Mehta</p></div>
+                    <div><p class="text-gray-500 text-sm">Date & Time</p><p class="font-semibold" id="confirmDateTime">-</p></div>
+                    <div><p class="text-gray-500 text-sm">Patient Name</p><p class="font-semibold" id="confirmName">-</p></div>
+                    <div><p class="text-gray-500 text-sm">Contact</p><p class="font-semibold" id="confirmPhone">-</p></div>
+                </div>
+            </div>
+            
+            <!-- Payment Summary -->
+            <div class="border-t pt-4">
+                <div class="flex justify-between py-2"><span>Consultation Fee</span><span id="confirmFee2">-</span></div>
+                <div class="flex justify-between py-2"><span>Platform Fee</span><span>₹0</span></div>
+                <div class="flex justify-between py-2 font-bold text-lg border-t mt-2 pt-2"><span>Total Amount</span><span id="confirmTotal">-</span></div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-amber-50 rounded-lg text-sm text-amber-800">
+                <i class="fas fa-info-circle mr-2"></i> You can cancel or reschedule up to 24 hours before appointment.
+            </div>
+            
+            <div class="mt-8 flex justify-between">
+                <button id="backStep4" class="border border-gray-300 text-gray-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-50 transition">Back</button>
+                <button id="confirmBooking" class="bg-orange-500 text-white px-8 py-2.5 rounded-lg font-semibold hover:bg-orange-600 transition flex items-center gap-2"><i class="fas fa-check-circle"></i> Confirm & Book</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal (Hidden) -->
+    <div id="successModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl p-8 max-w-md text-center transform transition-all scale-95">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check-circle text-green-600 text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Appointment Booked!</h3>
+            <p class="text-gray-500 mb-4">Your appointment has been successfully scheduled.</p>
+            <div class="bg-gray-50 p-3 rounded-lg mb-4 text-left">
+                <p class="text-sm"><strong>Booking ID:</strong> <span id="bookingId">HDH-2024-001</span></p>
+                <p class="text-sm mt-1"><strong>Confirmation sent to:</strong> <span id="confirmationEmail">-</span></p>
+            </div>
+            <button onclick="closeModalAndRedirect()" class="w-full bg-teal-600 text-white py-2.5 rounded-lg font-semibold">View My Appointments</button>
+            <button onclick="closeModal()" class="w-full mt-2 text-gray-500 py-2">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="bg-gray-900 text-gray-400 py-8 mt-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+        <p>© 2025 HEARING DIAGNOSTIC HUB — Multi-Vendor Marketplace. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // State variables
+    let currentStep = 1;
+    let selectedService = null;
+    let selectedDate = null;
+    let selectedTime = null;
+    let selectedDateObj = null;
+    
+    // Generate dates (next 7 days)
+    function generateDates() {
+        const dates = [];
+        const today = new Date();
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(today);
+            date.setDate(today.getDate() + i);
+            dates.push(date);
+        }
+        return dates;
+    }
+    
+    // Format date for display
+    function formatDate(date) {
+        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+    
+    function formatDateFull(date) {
+        return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    
+    // Generate time slots
+    function generateTimeSlots() {
+        const slots = [];
+        const times = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"];
+        // Randomly mark some as unavailable
+        return times.map(time => ({
+            time: time,
+            available: !["12:00 PM", "4:00 PM"].includes(time)
+        }));
+    }
+    
+    // Render dates
+    function renderDates() {
+        const dates = generateDates();
+        const container = document.getElementById('dateContainer');
+        container.innerHTML = dates.map((date, idx) => `
+            <button class="date-btn border border-gray-200 rounded-lg py-2 px-2 text-sm hover:border-teal-400 transition ${selectedDateObj && selectedDateObj.toDateString() === date.toDateString() ? 'bg-teal-600 text-white border-teal-600' : ''}" data-date="${date.toISOString()}">
+                ${formatDate(date)}
+            </button>
+        `).join('');
+        
+        // Add event listeners to date buttons
+        document.querySelectorAll('.date-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.date-btn').forEach(b => {
+                    b.classList.remove('bg-teal-600', 'text-white', 'border-teal-600');
+                    b.classList.add('border-gray-200');
+                });
+                btn.classList.add('bg-teal-600', 'text-white', 'border-teal-600');
+                selectedDateObj = new Date(btn.getAttribute('data-date'));
+                selectedDate = formatDateFull(selectedDateObj);
+                renderTimeSlots();
+                checkStep2Complete();
+            });
+        });
+    }
+    
+    // Render time slots
+    function renderTimeSlots() {
+        const slots = generateTimeSlots();
+        const container = document.getElementById('timeSlotsContainer');
+        container.innerHTML = slots.map(slot => `
+            <button class="time-slot border border-gray-200 rounded-lg py-2 px-2 text-sm ${!slot.available ? 'opacity-50 cursor-not-allowed bg-gray-100' : 'hover:border-teal-400'}" ${!slot.available ? 'disabled' : ''} data-time="${slot.time}" data-available="${slot.available}">
+                ${slot.time}
+                ${!slot.available ? '<span class="block text-xs text-red-400">Booked</span>' : ''}
+            </button>
+        `).join('');
+        
+        // Add event listeners to time slots
+        document.querySelectorAll('.time-slot:not([disabled])').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.time-slot').forEach(b => {
+                    b.classList.remove('selected', 'bg-teal-600', 'text-white', 'border-teal-600');
+                });
+                btn.classList.add('selected', 'bg-teal-600', 'text-white', 'border-teal-600');
+                selectedTime = btn.getAttribute('data-time');
+                checkStep2Complete();
+            });
+        });
+    }
+    
+    function checkStep2Complete() {
+        const nextBtn = document.getElementById('nextStep2');
+        if (selectedDateObj && selectedTime) {
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('bg-gray-300', 'text-gray-500');
+            nextBtn.classList.add('bg-teal-600', 'text-white');
+        } else {
+            nextBtn.disabled = true;
+            nextBtn.classList.add('bg-gray-300', 'text-gray-500');
+            nextBtn.classList.remove('bg-teal-600', 'text-white');
+        }
+    }
+    
+    // Update step circles
+    function updateSteps() {
+        for (let i = 1; i <= 4; i++) {
+            const circle = document.getElementById(`step${i}Circle`);
+            if (i < currentStep) {
+                circle.classList.remove('bg-gray-200', 'text-gray-500');
+                circle.classList.add('bg-green-500', 'text-white');
+                circle.innerHTML = '<i class="fas fa-check text-xs"></i>';
+            } else if (i === currentStep) {
+                circle.classList.remove('bg-gray-200', 'bg-green-500');
+                circle.classList.add('bg-teal-600', 'text-white');
+                circle.innerHTML = i;
+            } else {
+                circle.classList.remove('bg-teal-600', 'bg-green-500', 'text-white');
+                circle.classList.add('bg-gray-200', 'text-gray-500');
+                circle.innerHTML = i;
+            }
+        }
+    }
+    
+    // Navigation
+    function showStep(step) {
+        document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+        document.getElementById(`step${step}`).classList.remove('hidden');
+        currentStep = step;
+        updateSteps();
+        
+        if (step === 4) {
+            // Populate confirmation details
+            document.getElementById('confirmService').innerText = selectedService.name;
+            document.getElementById('confirmFee').innerText = `₹${selectedService.price}`;
+            document.getElementById('confirmFee2').innerText = `₹${selectedService.price}`;
+            document.getElementById('confirmTotal').innerText = `₹${selectedService.price}`;
+            document.getElementById('confirmDateTime').innerText = `${selectedDate} at ${selectedTime}`;
+            document.getElementById('confirmName').innerText = document.getElementById('fullName').value || 'Not provided';
+            document.getElementById('confirmPhone').innerText = document.getElementById('phone').value || 'Not provided';
+        }
+    }
+    
+    // Service selection
+    document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.service-card').forEach(c => {
+                c.classList.remove('border-teal-600', 'bg-teal-50');
+                c.classList.add('border-gray-200');
+            });
+            card.classList.remove('border-gray-200');
+            card.classList.add('border-teal-600', 'bg-teal-50');
+            
+            selectedService = {
+                id: card.getAttribute('data-service'),
+                name: card.getAttribute('data-name'),
+                price: parseInt(card.getAttribute('data-price'))
+            };
+            
+            const nextBtn = document.getElementById('nextStep1');
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('bg-gray-300', 'text-gray-500');
+            nextBtn.classList.add('bg-teal-600', 'text-white');
+        });
+    });
+    
+    // Step 1 Next
+    document.getElementById('nextStep1').addEventListener('click', () => {
+        if (selectedService) {
+            renderDates();
+            renderTimeSlots();
+            showStep(2);
+        }
+    });
+    
+    // Step 2 Back
+    document.getElementById('backStep2').addEventListener('click', () => showStep(1));
+    
+    // Step 2 Next
+    document.getElementById('nextStep2').addEventListener('click', () => {
+        if (selectedDateObj && selectedTime) {
+            showStep(3);
+        }
+    });
+    
+    // Step 3 Back
+    document.getElementById('backStep3').addEventListener('click', () => showStep(2));
+    
+    // Step 3 Next
+    document.getElementById('nextStep3').addEventListener('click', () => {
+        const name = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        
+        if (!name || !phone || !email) {
+            alert('Please fill in all required fields (Name, Phone, Email)');
+            return;
+        }
+        
+        if (!/^\d{10}$/.test(phone)) {
+            alert('Please enter a valid 10-digit phone number');
+            return;
+        }
+        
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            alert('Please enter a valid email address');
+            return;
+        }
+        
+        showStep(4);
+    });
+    
+    // Step 4 Back
+    document.getElementById('backStep4').addEventListener('click', () => showStep(3));
+    
+    // Confirm Booking
+    document.getElementById('confirmBooking').addEventListener('click', () => {
+        const bookingId = 'HDH-' + Date.now().toString().slice(-8);
+        document.getElementById('bookingId').innerText = bookingId;
+        document.getElementById('confirmationEmail').innerText = document.getElementById('email').value;
+        document.getElementById('successModal').classList.remove('hidden');
+        
+        // Save to localStorage
+        const booking = {
+            id: bookingId,
+            service: selectedService,
+            date: selectedDate,
+            time: selectedTime,
+            patientName: document.getElementById('fullName').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            age: document.getElementById('age').value,
+            notes: document.getElementById('notes').value,
+            status: 'Confirmed',
+            bookedOn: new Date().toISOString()
+        };
+        
+        let bookings = JSON.parse(localStorage.getItem('hdh_bookings') || '[]');
+        bookings.push(booking);
+        localStorage.setItem('hdh_bookings', JSON.stringify(bookings));
+    });
+    
+    function closeModal() {
+        document.getElementById('successModal').classList.add('hidden');
+        // Reset form
+        location.reload();
+    }
+    
+    function closeModalAndRedirect() {
+        window.location.href = 'my-appointments.html';
+    }
+    
+    window.closeModal = closeModal;
+    window.closeModalAndRedirect = closeModalAndRedirect;
+    
+    // Initialize
+    renderDates();
+    renderTimeSlots();
+</script>
+</body>
+</html>

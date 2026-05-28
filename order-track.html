@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Order Tracking | H.D.H. Marketplace - Track Your Delivery</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #f8fafc; }
+        .track-step { position: relative; }
+        .track-step::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 40px;
+            bottom: -30px;
+            width: 2px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+        .track-step:last-child::before { display: none; }
+        .track-step.completed .step-icon { background: #10b981; border-color: #10b981; color: white; }
+        .track-step.completed::before { background: #10b981; }
+        .track-step.active .step-icon { background: #0d9488; border-color: #0d9488; color: white; box-shadow: 0 0 0 4px rgba(13,148,136,0.2); }
+        .track-step.pending .step-icon { background: #f59e0b; border-color: #f59e0b; color: white; }
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            position: relative;
+            z-index: 2;
+        }
+        .order-card { transition: all 0.3s ease; }
+        .order-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1); }
+        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-processing { background: #fef3c7; color: #92400e; }
+        .status-shipped { background: #dbeafe; color: #1e40af; }
+        .status-out-for-delivery { background: #e0f2fe; color: #0369a1; }
+        .status-delivered { background: #dcfce7; color: #166534; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+        .toast-message { position: fixed; bottom: 30px; right: 30px; background: #1e293b; color: white; padding: 12px 24px; border-radius: 50px; z-index: 1000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<div id="toastMsg" class="toast-message"></div>
+
+<!-- ======================== NAVBAR ======================== -->
+<nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <div class="bg-teal-700 w-9 h-9 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-ear-listen text-white text-lg"></i>
+                </div>
+                <span class="font-bold text-xl text-teal-800">H.D.H.<span class="text-orange-500"> Marketplace</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#" class="text-gray-600 hover:text-teal-600">Home</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">Products</a>
+                <a href="#" class="text-teal-700 font-semibold border-b-2 border-teal-700 pb-1">Track Order</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">My Orders</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
+                    <i class="fas fa-user-circle text-teal-600 text-lg"></i>
+                    <span class="text-sm font-medium">Rajesh Sharma</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================== PAGE HEADER ======================== -->
+<section class="bg-gradient-to-r from-teal-700 to-teal-600 text-white py-10">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold">Track Your Order</h1>
+                <p class="text-teal-100 mt-1">Real-time updates on your delivery status</p>
+            </div>
+            <div class="mt-3 md:mt-0">
+                <div class="bg-white/20 backdrop-blur rounded-full px-5 py-2">
+                    <i class="fas fa-truck mr-2"></i> Need help? Call +91 81007 30040
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======================== TRACKING SECTION ======================== -->
+<div class="max-w-7xl mx-auto px-4 py-8">
+    
+    <!-- Search Order Section -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 mb-8">
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+            <div class="flex-1 w-full">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Enter Order ID or Tracking Number</label>
+                <input type="text" id="orderSearchInput" placeholder="e.g., HDH-12345678" class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-teal-400 outline-none">
+            </div>
+            <button id="searchOrderBtn" class="bg-teal-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-teal-700 transition flex items-center gap-2 mt-5 md:mt-0">
+                <i class="fas fa-search"></i> Track Order
+            </button>
+        </div>
+        <p class="text-xs text-gray-400 mt-3"><i class="fas fa-info-circle"></i> Enter your order ID from the confirmation email or SMS</p>
+    </div>
+    
+    <!-- Recent Orders Section -->
+    <div class="mb-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Orders</h2>
+        <div id="recentOrdersList" class="space-y-3">
+            <!-- Dynamic recent orders -->
+        </div>
+    </div>
+    
+    <!-- Order Details Section (hidden initially) -->
+    <div id="orderDetailsSection" class="hidden">
+        <!-- Order Header -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+            <div class="flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <p class="text-sm text-gray-500">Order ID</p>
+                    <p id="trackOrderId" class="text-xl font-bold text-gray-800 font-mono">HDH-20241215-001</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Placed On</p>
+                    <p id="orderDate" class="font-medium">December 15, 2024</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Status</p>
+                    <span id="orderStatusBadge" class="status-badge status-processing">Processing</span>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Total Amount</p>
+                    <p id="orderTotal" class="text-xl font-bold text-teal-600">₹0</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tracking Timeline -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+            <h3 class="font-bold text-lg text-gray-800 mb-6">Delivery Status</h3>
+            <div id="trackingTimeline" class="space-y-6">
+                <!-- Dynamic timeline -->
+            </div>
+        </div>
+        
+        <!-- Order Items & Delivery Info -->
+        <div class="grid lg:grid-cols-3 gap-6">
+            <!-- Order Items -->
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-6">
+                <h3 class="font-bold text-lg text-gray-800 mb-4">Order Items</h3>
+                <div id="orderItemsList" class="space-y-3">
+                    <!-- Dynamic items -->
+                </div>
+            </div>
+            
+            <!-- Delivery Information -->
+            <div class="bg-white rounded-2xl shadow-sm p-6">
+                <h3 class="font-bold text-lg text-gray-800 mb-4">Delivery Information</h3>
+                <div id="deliveryInfo" class="space-y-3">
+                    <!-- Dynamic delivery info -->
+                </div>
+                <div class="border-t pt-4 mt-4">
+                    <button id="needHelpBtn" class="w-full border border-teal-600 text-teal-600 py-2.5 rounded-xl font-medium hover:bg-teal-50 transition">
+                        <i class="fas fa-headset mr-2"></i> Need Help?
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== HELP MODAL ======================== -->
+<div id="helpModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-gray-800">Customer Support</h3>
+            <button onclick="closeHelpModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+        </div>
+        <div class="space-y-4">
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                <i class="fas fa-phone text-teal-600 text-xl"></i>
+                <div><p class="font-medium">Call Us</p><p class="text-sm text-gray-500">+91 81007 30040</p></div>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                <i class="fab fa-whatsapp text-green-600 text-xl"></i>
+                <div><p class="font-medium">WhatsApp</p><p class="text-sm text-gray-500">+91 84819 44731</p></div>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                <i class="fas fa-envelope text-teal-600 text-xl"></i>
+                <div><p class="font-medium">Email</p><p class="text-sm text-gray-500">support@hdhmarket.com</p></div>
+            </div>
+        </div>
+        <button onclick="closeHelpModal()" class="w-full mt-5 bg-teal-600 text-white py-2.5 rounded-xl font-semibold">Close</button>
+    </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="bg-gray-900 text-gray-400 py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+        <p>© 2025 HEARING DIAGNOSTIC HUB — Multi-Vendor Marketplace. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // Mock orders database
+    let orders = [
+        {
+            id: "HDH-20241215-001",
+            trackingNumber: "TRK123456789",
+            date: "December 15, 2024",
+            dateISO: "2024-12-15",
+            status: "shipped",
+            total: 56898,
+            subtotal: 56799,
+            shipping: 99,
+            items: [
+                { name: "Phonak Audéo Lumity", price: 49999, quantity: 1, image: "🦻", vendor: "Chhindwara Speech Centre" },
+                { name: "Speech Therapy Kit", price: 1899, quantity: 2, image: "📚", vendor: "Chhindwara Speech Centre" }
+            ],
+            deliveryAddress: {
+                name: "Rajesh Sharma",
+                phone: "9876543210",
+                address: "Shop No. 17, Complex-1, Chhindwara Main Road",
+                city: "Chhindwara",
+                pincode: "480001"
+            },
+            timeline: [
+                { status: "Order Placed", date: "Dec 15, 2024 10:30 AM", completed: true, current: false, description: "Your order has been confirmed" },
+                { status: "Order Processed", date: "Dec 15, 2024 2:00 PM", completed: true, current: false, description: "Order verified and sent to vendor" },
+                { status: "Shipped", date: "Dec 16, 2024 9:15 AM", completed: true, current: true, description: "Your order has been shipped via Speed Post" },
+                { status: "Out for Delivery", date: "Expected Dec 18, 2024", completed: false, current: false, description: "Out for delivery to your address" },
+                { status: "Delivered", date: "", completed: false, current: false, description: "Will be delivered soon" }
+            ],
+            estimatedDelivery: "December 18-20, 2024"
+        },
+        {
+            id: "HDH-20241210-002",
+            trackingNumber: "TRK987654321",
+            date: "December 10, 2024",
+            dateISO: "2024-12-10",
+            status: "delivered",
+            total: 54999,
+            subtotal: 54999,
+            shipping: 0,
+            items: [
+                { name: "ReSound Omnia 9", price: 54999, quantity: 1, image: "🔋", vendor: "Indore Hearing Solutions" }
+            ],
+            deliveryAddress: {
+                name: "Rajesh Sharma",
+                phone: "9876543210",
+                address: "Shop No. 17, Complex-1, Chhindwara Main Road",
+                city: "Chhindwara",
+                pincode: "480001"
+            },
+            timeline: [
+                { status: "Order Placed", date: "Dec 10, 2024 11:20 AM", completed: true, current: false, description: "Your order has been confirmed" },
+                { status: "Order Processed", date: "Dec 10, 2024 3:30 PM", completed: true, current: false, description: "Order verified and sent to vendor" },
+                { status: "Shipped", date: "Dec 11, 2024 10:00 AM", completed: true, current: false, description: "Your order has been shipped via Blue Dart" },
+                { status: "Out for Delivery", date: "Dec 13, 2024 9:30 AM", completed: true, current: false, description: "Out for delivery to your address" },
+                { status: "Delivered", date: "Dec 13, 2024 4:15 PM", completed: true, current: false, description: "Order delivered successfully" }
+            ],
+            estimatedDelivery: "Delivered on Dec 13, 2024"
+        },
+        {
+            id: "HDH-20241205-003",
+            trackingNumber: "TRK456789123",
+            date: "December 5, 2024",
+            dateISO: "2024-12-05",
+            status: "out-for-delivery",
+            total: 1299,
+            subtotal: 1299,
+            shipping: 0,
+            items: [
+                { name: "Hearing Aid Dryer & Cleaner Kit", price: 1299, quantity: 1, image: "🧼", vendor: "Nagpur Audiology Hub" }
+            ],
+            deliveryAddress: {
+                name: "Rajesh Sharma",
+                phone: "9876543210",
+                address: "Shop No. 17, Complex-1, Chhindwara Main Road",
+                city: "Chhindwara",
+                pincode: "480001"
+            },
+            timeline: [
+                { status: "Order Placed", date: "Dec 5, 2024 2:15 PM", completed: true, current: false, description: "Your order has been confirmed" },
+                { status: "Order Processed", date: "Dec 5, 2024 5:00 PM", completed: true, current: false, description: "Order verified and sent to vendor" },
+                { status: "Shipped", date: "Dec 6, 2024 11:30 AM", completed: true, current: false, description: "Your order has been shipped via Delhivery" },
+                { status: "Out for Delivery", date: "Today, Dec 17, 2024 9:00 AM", completed: false, current: true, description: "Delivery agent is on the way" },
+                { status: "Delivered", date: "", completed: false, current: false, description: "Will be delivered soon" }
+            ],
+            estimatedDelivery: "Today, December 17, 2024"
+        }
+    ];
+    
+    let currentOrder = null;
+    
+    function showToast(msg, icon = "✓") {
+        const toast = document.getElementById('toastMsg');
+        toast.innerHTML = `${icon} ${msg}`;
+        toast.style.opacity = "1";
+        setTimeout(() => toast.style.opacity = "0", 2500);
+    }
+    
+    function getStatusBadgeClass(status) {
+        const classes = {
+            'processing': 'status-processing',
+            'shipped': 'status-shipped',
+            'out-for-delivery': 'status-out-for-delivery',
+            'delivered': 'status-delivered',
+            'cancelled': 'status-cancelled'
+        };
+        return classes[status] || 'status-processing';
+    }
+    
+    function getStatusLabel(status) {
+        const labels = {
+            'processing': 'Processing',
+            'shipped': 'Shipped',
+            'out-for-delivery': 'Out for Delivery',
+            'delivered': 'Delivered',
+            'cancelled': 'Cancelled'
+        };
+        return labels[status] || 'Processing';
+    }
+    
+    function renderRecentOrders() {
+        const container = document.getElementById('recentOrdersList');
+        const recentOrders = orders.slice(0, 3);
+        
+        container.innerHTML = recentOrders.map(order => `
+            <div class="order-card bg-white rounded-xl p-4 cursor-pointer border border-gray-100 hover:border-teal-200" onclick="trackOrderById('${order.id}')">
+                <div class="flex flex-wrap justify-between items-center gap-3">
+                    <div>
+                        <p class="font-mono text-sm font-semibold text-gray-700">${order.id}</p>
+                        <p class="text-xs text-gray-400">${order.date}</p>
+                    </div>
+                    <div>
+                        <span class="status-badge ${getStatusBadgeClass(order.status)}">${getStatusLabel(order.status)}</span>
+                    </div>
+                    <div>
+                        <p class="font-bold text-teal-600">₹${order.total.toLocaleString()}</p>
+                    </div>
+                    <div>
+                        <button onclick="event.stopPropagation(); trackOrderById('${order.id}')" class="text-teal-600 text-sm font-medium hover:underline">Track →</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        if (orders.length === 0) {
+            container.innerHTML = '<div class="bg-white rounded-xl p-6 text-center text-gray-400">No orders yet. Start shopping!</div>';
+        }
+    }
+    
+    function trackOrderById(orderId) {
+        const order = orders.find(o => o.id === orderId);
+        if (order) {
+            displayOrderDetails(order);
+            showToast(`Showing details for ${orderId}`, "📦");
+        } else {
+            showToast("Order not found. Please check the Order ID.", "❌");
+        }
+    }
+    
+    function searchOrder() {
+        const searchInput = document.getElementById('orderSearchInput').value.trim();
+        if (!searchInput) {
+            showToast("Please enter an Order ID", "⚠️");
+            return;
+        }
+        
+        const order = orders.find(o => o.id === searchInput || o.trackingNumber === searchInput);
+        if (order) {
+            displayOrderDetails(order);
+            showToast(`Found order: ${order.id}`, "✓");
+        } else {
+            showToast("Order not found. Please check the Order ID or Tracking Number.", "❌");
+            document.getElementById('orderDetailsSection').classList.add('hidden');
+        }
+    }
+    
+    function displayOrderDetails(order) {
+        currentOrder = order;
+        
+        // Update header
+        document.getElementById('trackOrderId').innerText = order.id;
+        document.getElementById('orderDate').innerText = order.date;
+        document.getElementById('orderTotal').innerText = `₹${order.total.toLocaleString()}`;
+        
+        const statusBadge = document.getElementById('orderStatusBadge');
+        statusBadge.innerText = getStatusLabel(order.status);
+        statusBadge.className = `status-badge ${getStatusBadgeClass(order.status)}`;
+        
+        // Render timeline
+        renderTimeline(order.timeline);
+        
+        // Render order items
+        renderOrderItems(order.items);
+        
+        // Render delivery info
+        renderDeliveryInfo(order.deliveryAddress, order.estimatedDelivery);
+        
+        // Show section
+        document.getElementById('orderDetailsSection').classList.remove('hidden');
+        
+        // Scroll to section
+        document.getElementById('orderDetailsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    function renderTimeline(timeline) {
+        const container = document.getElementById('trackingTimeline');
+        
+        container.innerHTML = timeline.map((step, index) => {
+            let stepClass = '';
+            if (step.completed) stepClass = 'completed';
+            else if (step.current) stepClass = 'active';
+            else stepClass = 'pending';
+            
+            return `
+                <div class="track-step ${stepClass} flex gap-4">
+                    <div class="step-icon">
+                        ${step.completed ? '<i class="fas fa-check"></i>' : 
+                          step.current ? '<i class="fas fa-circle-notch fa-spin"></i>' : 
+                          '<i class="far fa-circle"></i>'}
+                    </div>
+                    <div class="flex-1 pb-6">
+                        <div class="flex flex-wrap justify-between items-start">
+                            <div>
+                                <p class="font-semibold text-gray-800">${step.status}</p>
+                                <p class="text-sm text-gray-500 mt-1">${step.description}</p>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">${step.date || 'Pending'}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    function renderOrderItems(items) {
+        const container = document.getElementById('orderItemsList');
+        
+        container.innerHTML = items.map(item => `
+            <div class="flex justify-between items-center border-b pb-3">
+                <div class="flex gap-3">
+                    <span class="text-3xl">${item.image}</span>
+                    <div>
+                        <p class="font-medium text-gray-800">${item.name}</p>
+                        <p class="text-xs text-gray-500">${item.vendor}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-semibold">₹${(item.price * item.quantity).toLocaleString()}</p>
+                    <p class="text-xs text-gray-400">Qty: ${item.quantity}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function renderDeliveryInfo(address, estimatedDelivery) {
+        const container = document.getElementById('deliveryInfo');
+        
+        container.innerHTML = `
+            <div class="flex items-start gap-3">
+                <i class="fas fa-user text-teal-600 mt-1"></i>
+                <div><p class="font-medium">${address.name}</p><p class="text-sm text-gray-500">${address.phone}</p></div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-map-marker-alt text-teal-600 mt-1"></i>
+                <div><p class="text-sm">${address.address}, ${address.city} - ${address.pincode}</p></div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-calendar text-teal-600 mt-1"></i>
+                <div><p class="text-sm font-medium">Estimated Delivery</p><p class="text-sm text-gray-600">${estimatedDelivery}</p></div>
+            </div>
+        `;
+    }
+    
+    function openHelpModal() {
+        document.getElementById('helpModal').classList.remove('hidden');
+    }
+    
+    function closeHelpModal() {
+        document.getElementById('helpModal').classList.add('hidden');
+    }
+    
+    // Initialize
+    function init() {
+        renderRecentOrders();
+        
+        document.getElementById('searchOrderBtn').addEventListener('click', searchOrder);
+        document.getElementById('orderSearchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchOrder();
+        });
+        document.getElementById('needHelpBtn').addEventListener('click', openHelpModal);
+        
+        // Check URL for order ID parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderIdParam = urlParams.get('order');
+        if (orderIdParam) {
+            document.getElementById('orderSearchInput').value = orderIdParam;
+            searchOrder();
+        }
+    }
+    
+    // Make functions global
+    window.trackOrderById = trackOrderById;
+    window.closeHelpModal = closeHelpModal;
+    
+    init();
+</script>
+</body>
+</html>

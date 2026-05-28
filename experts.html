@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Find Experts | H.D.H. Marketplace - Speech & Hearing Specialists Directory</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #f8fafc; }
+        .expert-card { transition: all 0.3s ease; border-radius: 1.5rem; }
+        .expert-card:hover { transform: translateY(-5px); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15); }
+        .filter-chip.active { background: #0f766e; color: white; border-color: #0f766e; }
+        .star-rating { color: #fbbf24; }
+        .map-container { height: 400px; background: #e2e8f0; border-radius: 1.5rem; }
+    </style>
+</head>
+<body>
+
+<!-- ======================== NAVBAR ======================== -->
+<nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <div class="bg-teal-700 w-9 h-9 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-ear-listen text-white text-lg"></i>
+                </div>
+                <span class="font-bold text-xl text-teal-800">H.D.H.<span class="text-orange-500"> Marketplace</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#" class="text-gray-600 hover:text-teal-600">Home</a>
+                <a href="#" class="text-teal-700 font-semibold border-b-2 border-teal-700 pb-1">Find Experts</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">Products</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">About</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-700 transition">Sign In</button>
+                <button class="border border-teal-600 text-teal-600 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-50 transition">Register</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================== PAGE HEADER ======================== -->
+<section class="bg-gradient-to-r from-teal-700 to-teal-600 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-3">Find the Right <span class="text-orange-300">Speech & Hearing Expert</span></h1>
+        <p class="text-teal-100 text-lg max-w-2xl mx-auto">Search through verified audiologists, speech therapists, and hearing specialists near you</p>
+    </div>
+</section>
+
+<!-- ======================== MAIN CONTENT ======================== -->
+<div class="max-w-7xl mx-auto px-4 py-10">
+    <div class="flex flex-col lg:flex-row gap-8">
+        
+        <!-- ======================== SIDEBAR FILTERS ======================== -->
+        <div class="lg:w-80 flex-shrink-0">
+            <div class="bg-white rounded-2xl shadow-sm p-5 sticky top-24">
+                <h3 class="font-bold text-lg mb-4"><i class="fas fa-sliders-h text-teal-600 mr-2"></i> Filter Experts</h3>
+                
+                <!-- Search -->
+                <div class="mb-5">
+                    <label class="text-sm font-medium text-gray-700 block mb-2">Search</label>
+                    <input type="text" id="searchInput" placeholder="Name, qualification, or specialty..." class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-teal-400 outline-none">
+                </div>
+                
+                <!-- City Filter -->
+                <div class="mb-5">
+                    <label class="text-sm font-medium text-gray-700 block mb-2">City / Location</label>
+                    <select id="cityFilter" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-teal-400">
+                        <option value="all">All Cities</option>
+                        <option value="Chhindwara">Chhindwara</option>
+                        <option value="Nagpur">Nagpur</option>
+                        <option value="Bhopal">Bhopal</option>
+                        <option value="Indore">Indore</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Bangalore">Bangalore</option>
+                    </select>
+                </div>
+                
+                <!-- Specialty Filter -->
+                <div class="mb-5">
+                    <label class="text-sm font-medium text-gray-700 block mb-2">Specialization</label>
+                    <div class="space-y-2" id="specialtyFilter">
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Audiologist" class="specialty-checkbox rounded text-teal-600"> <span class="text-sm">Audiologist</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Speech Therapist" class="specialty-checkbox rounded text-teal-600"> <span class="text-sm">Speech Therapist</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Pediatric" class="specialty-checkbox rounded text-teal-600"> <span class="text-sm">Pediatric Specialist</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Autism" class="specialty-checkbox rounded text-teal-600"> <span class="text-sm">Autism Specialist</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" value="Tinnitus" class="specialty-checkbox rounded text-teal-600"> <span class="text-sm">Tinnitus Management</span></label>
+                    </div>
+                </div>
+                
+                <!-- Rating Filter -->
+                <div class="mb-5">
+                    <label class="text-sm font-medium text-gray-700 block mb-2">Minimum Rating</label>
+                    <select id="ratingFilter" class="w-full border border-gray-200 rounded-xl px-4 py-2.5">
+                        <option value="0">Any Rating</option>
+                        <option value="4">4+ Stars</option>
+                        <option value="4.5">4.5+ Stars</option>
+                        <option value="4.8">4.8+ Stars</option>
+                    </select>
+                </div>
+                
+                <!-- Distance Filter -->
+                <div class="mb-5">
+                    <label class="text-sm font-medium text-gray-700 block mb-2">Distance</label>
+                    <select id="distanceFilter" class="w-full border border-gray-200 rounded-xl px-4 py-2.5">
+                        <option value="any">Any Distance</option>
+                        <option value="1">Within 1 km</option>
+                        <option value="3">Within 3 km</option>
+                        <option value="5">Within 5 km</option>
+                        <option value="10">Within 10 km</option>
+                    </select>
+                </div>
+                
+                <!-- Availability -->
+                <div class="mb-5">
+                    <label class="text-sm font-medium text-gray-700 block mb-2">Availability</label>
+                    <div class="flex gap-2">
+                        <button id="todayBtn" class="flex-1 border rounded-xl py-2 text-sm hover:bg-gray-50 transition">Today</button>
+                        <button id="tomorrowBtn" class="flex-1 border rounded-xl py-2 text-sm hover:bg-gray-50 transition">Tomorrow</button>
+                        <button id="weekBtn" class="flex-1 border rounded-xl py-2 text-sm hover:bg-gray-50 transition">This Week</button>
+                    </div>
+                </div>
+                
+                <!-- Reset Button -->
+                <button id="resetFilters" class="w-full mt-4 border border-gray-300 text-gray-600 py-2.5 rounded-xl font-medium hover:bg-gray-50 transition">Reset All Filters</button>
+            </div>
+        </div>
+        
+        <!-- ======================== EXPERTS GRID ======================== -->
+        <div class="flex-1">
+            <!-- Results Count & Sort -->
+            <div class="flex justify-between items-center mb-6 flex-wrap gap-3">
+                <p id="resultsCount" class="text-gray-600">Showing <span id="countNumber">0</span> experts</p>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-500">Sort by:</span>
+                    <select id="sortBy" class="border border-gray-200 rounded-lg px-3 py-1.5 text-sm">
+                        <option value="rating">Highest Rated</option>
+                        <option value="distance">Nearest First</option>
+                        <option value="name">Name A-Z</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Experts Grid -->
+            <div id="expertsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamic content -->
+            </div>
+            
+            <!-- No Results -->
+            <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl">
+                <i class="fas fa-user-slash text-5xl text-gray-300 mb-4"></i>
+                <p class="text-gray-400 text-lg">No experts found matching your criteria</p>
+                <button onclick="resetAllFilters()" class="mt-4 text-teal-600 underline">Clear all filters</button>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="flex justify-center mt-8 gap-2" id="pagination">
+                <!-- dynamic -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== CTA SECTION ======================== -->
+<section class="bg-teal-50 py-12 mt-10">
+    <div class="max-w-4xl mx-auto text-center px-4">
+        <h2 class="text-2xl font-bold text-teal-800">Don't see the right match?</h2>
+        <p class="text-gray-600 mt-2 mb-5">We'll help you find the perfect specialist. Contact our care team.</p>
+        <button class="bg-teal-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-teal-700 transition"><i class="fas fa-headset mr-2"></i> Talk to Care Advisor</button>
+    </div>
+</section>
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="bg-gray-900 text-gray-400 py-10">
+    <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+        <p>© 2025 HEARING DIAGNOSTIC HUB — Multi-Vendor Marketplace. All rights reserved.</p>
+        <div class="flex justify-center gap-6 mt-3">
+            <a href="#" class="hover:text-white">Privacy Policy</a>
+            <a href="#" class="hover:text-white">Terms of Service</a>
+            <a href="#" class="hover:text-white">Contact Us</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    AOS.init({ duration: 600, once: true });
+
+    // ======================== EXPERTS DATABASE ========================
+    const expertsData = [
+        { id: 1, name: "Dr. Priya Mehta", qualification: "MASLP, PhD Scholar", specialty: "Audiologist", city: "Chhindwara", rating: 4.9, reviews: 128, distance: "0.8 km", experience: "12 years", languages: ["Hindi", "English"], avatar: "👩‍⚕️", availability: ["Today", "Tomorrow"], fee: 1200, image: "https://randomuser.me/api/portraits/women/68.jpg" },
+        { id: 2, name: "Dr. Amit Khare", qualification: "BASLP, Certified Audiologist", specialty: "Audiologist", city: "Nagpur", rating: 4.7, reviews: 94, distance: "2.3 km", experience: "8 years", languages: ["Hindi", "English", "Marathi"], avatar: "👨‍⚕️", availability: ["Today", "Friday"], fee: 1500, image: "https://randomuser.me/api/portraits/men/32.jpg" },
+        { id: 3, name: "Ms. Sonal Gupta", qualification: "MSLP, Autism Specialist", specialty: "Speech Therapist", city: "Bhopal", rating: 4.8, reviews: 156, distance: "1.2 km", experience: "10 years", languages: ["Hindi", "English"], avatar: "👩‍🏫", availability: ["Tomorrow", "Wednesday"], fee: 1000, image: "https://randomuser.me/api/portraits/women/44.jpg" },
+        { id: 4, name: "Dr. Rajesh Tiwari", qualification: "AuD, International Certified", specialty: "Audiologist", city: "Indore", rating: 5.0, reviews: 203, distance: "3.1 km", experience: "15 years", languages: ["Hindi", "English", "Sanskrit"], avatar: "👨‍⚕️", availability: ["Today", "Tomorrow"], fee: 2000, image: "https://randomuser.me/api/portraits/men/45.jpg" },
+        { id: 5, name: "Dr. Neha Verma", qualification: "MASLP, Pediatric Specialist", specialty: "Pediatric", city: "Bhopal", rating: 4.9, reviews: 89, distance: "0.5 km", experience: "7 years", languages: ["Hindi", "English"], avatar: "👩‍⚕️", availability: ["Today"], fee: 1100, image: "https://randomuser.me/api/portraits/women/22.jpg" },
+        { id: 6, name: "Dr. Sanjay Patil", qualification: "PhD, Tinnitus Specialist", specialty: "Tinnitus", city: "Nagpur", rating: 4.6, reviews: 67, distance: "1.8 km", experience: "11 years", languages: ["Hindi", "English", "Marathi"], avatar: "👨‍⚕️", availability: ["Tomorrow", "Friday"], fee: 1800, image: "https://randomuser.me/api/portraits/men/67.jpg" },
+        { id: 7, name: "Ms. Ritu Sharma", qualification: "BASLP, Certified Speech Therapist", specialty: "Speech Therapist", city: "Chhindwara", rating: 4.8, reviews: 112, distance: "1.1 km", experience: "6 years", languages: ["Hindi", "English"], avatar: "👩‍🏫", availability: ["Today", "Wednesday"], fee: 900, image: "https://randomuser.me/api/portraits/women/55.jpg" },
+        { id: 8, name: "Dr. Vikram Singh", qualification: "MASLP, Autism & ADHD Specialist", specialty: "Autism", city: "Indore", rating: 4.9, reviews: 178, distance: "2.5 km", experience: "14 years", languages: ["Hindi", "English"], avatar: "👨‍⚕️", availability: ["Today", "Tomorrow", "Friday"], fee: 1600, image: "https://randomuser.me/api/portraits/men/88.jpg" }
+    ];
+
+    let currentFilters = {
+        search: "",
+        city: "all",
+        specialties: [],
+        minRating: 0,
+        maxDistance: "any",
+        availability: ""
+    };
+    let currentSort = "rating";
+
+    // Helper functions
+    function filterExperts() {
+        let filtered = [...expertsData];
+        
+        // Search
+        if (currentFilters.search) {
+            const s = currentFilters.search.toLowerCase();
+            filtered = filtered.filter(e => 
+                e.name.toLowerCase().includes(s) || 
+                e.qualification.toLowerCase().includes(s) || 
+                e.specialty.toLowerCase().includes(s)
+            );
+        }
+        
+        // City
+        if (currentFilters.city !== "all") {
+            filtered = filtered.filter(e => e.city === currentFilters.city);
+        }
+        
+        // Specialties
+        if (currentFilters.specialties.length > 0) {
+            filtered = filtered.filter(e => currentFilters.specialties.includes(e.specialty));
+        }
+        
+        // Rating
+        if (currentFilters.minRating > 0) {
+            filtered = filtered.filter(e => e.rating >= currentFilters.minRating);
+        }
+        
+        // Distance
+        if (currentFilters.maxDistance !== "any") {
+            const maxDist = parseFloat(currentFilters.maxDistance);
+            filtered = filtered.filter(e => parseFloat(e.distance) <= maxDist);
+        }
+        
+        // Availability
+        if (currentFilters.availability) {
+            filtered = filtered.filter(e => e.availability.includes(currentFilters.availability));
+        }
+        
+        // Sort
+        if (currentSort === "rating") {
+            filtered.sort((a, b) => b.rating - a.rating);
+        } else if (currentSort === "distance") {
+            filtered.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+        } else if (currentSort === "name") {
+            filtered.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        
+        return filtered;
+    }
+    
+    function renderExperts() {
+        const filtered = filterExperts();
+        const grid = document.getElementById("expertsGrid");
+        const noResults = document.getElementById("noResults");
+        const countSpan = document.getElementById("countNumber");
+        
+        countSpan.innerText = filtered.length;
+        
+        if (filtered.length === 0) {
+            grid.innerHTML = "";
+            noResults.classList.remove("hidden");
+            return;
+        }
+        
+        noResults.classList.add("hidden");
+        
+        grid.innerHTML = filtered.map(expert => `
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden expert-card border border-gray-100" data-aos="fade-up">
+                <div class="flex p-5 gap-4">
+                    <div class="w-20 h-20 rounded-full bg-teal-100 flex items-center justify-center text-4xl flex-shrink-0">
+                        ${expert.avatar}
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">${expert.name}</h3>
+                                <p class="text-xs text-teal-600 font-medium">${expert.qualification}</p>
+                                <div class="flex items-center gap-1 mt-1">
+                                    <span class="star-rating">${"★".repeat(Math.floor(expert.rating))}${expert.rating % 1 ? "½" : ""}</span>
+                                    <span class="text-sm text-gray-500">(${expert.reviews} reviews)</span>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">${expert.availability[0]}</span>
+                        </div>
+                        <div class="flex flex-wrap gap-3 mt-3 text-sm text-gray-500">
+                            <span><i class="fas fa-map-marker-alt text-teal-500 mr-1"></i> ${expert.distance}</span>
+                            <span><i class="fas fa-briefcase text-teal-500 mr-1"></i> ${expert.experience}</span>
+                            <span><i class="fas fa-language text-teal-500 mr-1"></i> ${expert.languages.join(", ")}</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <div>
+                                <span class="text-xs text-gray-500">Consultation Fee</span>
+                                <p class="font-bold text-teal-700">₹${expert.fee}</p>
+                            </div>
+                            <button onclick="bookExpert(${expert.id})" class="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-700 transition flex items-center gap-1">
+                                <i class="fas fa-calendar-alt"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function resetAllFilters() {
+        currentFilters = {
+            search: "",
+            city: "all",
+            specialties: [],
+            minRating: 0,
+            maxDistance: "any",
+            availability: ""
+        };
+        currentSort = "rating";
+        
+        document.getElementById("searchInput").value = "";
+        document.getElementById("cityFilter").value = "all";
+        document.getElementById("ratingFilter").value = "0";
+        document.getElementById("distanceFilter").value = "any";
+        document.querySelectorAll(".specialty-checkbox").forEach(cb => cb.checked = false);
+        document.getElementById("sortBy").value = "rating";
+        
+        renderExperts();
+    }
+    
+    window.bookExpert = function(id) {
+        const expert = expertsData.find(e => e.id === id);
+        alert(`Appointment request sent to ${expert.name}!\nThey will contact you shortly.`);
+        showToast(`Appointment requested with ${expert.name}`, "📅");
+    };
+    
+    function showToast(msg, icon) {
+        // Simple alert for demo
+        console.log(msg);
+    }
+    
+    // Event listeners
+    function initFilters() {
+        const searchInput = document.getElementById("searchInput");
+        const cityFilter = document.getElementById("cityFilter");
+        const ratingFilter = document.getElementById("ratingFilter");
+        const distanceFilter = document.getElementById("distanceFilter");
+        const sortBy = document.getElementById("sortBy");
+        const specialtyCheckboxes = document.querySelectorAll(".specialty-checkbox");
+        const resetBtn = document.getElementById("resetFilters");
+        const todayBtn = document.getElementById("todayBtn");
+        const tomorrowBtn = document.getElementById("tomorrowBtn");
+        const weekBtn = document.getElementById("weekBtn");
+        
+        searchInput.addEventListener("input", (e) => {
+            currentFilters.search = e.target.value;
+            renderExperts();
+        });
+        
+        cityFilter.addEventListener("change", (e) => {
+            currentFilters.city = e.target.value;
+            renderExperts();
+        });
+        
+        ratingFilter.addEventListener("change", (e) => {
+            currentFilters.minRating = parseFloat(e.target.value);
+            renderExperts();
+        });
+        
+        distanceFilter.addEventListener("change", (e) => {
+            currentFilters.maxDistance = e.target.value;
+            renderExperts();
+        });
+        
+        sortBy.addEventListener("change", (e) => {
+            currentSort = e.target.value;
+            renderExperts();
+        });
+        
+        specialtyCheckboxes.forEach(cb => {
+            cb.addEventListener("change", () => {
+                currentFilters.specialties = Array.from(specialtyCheckboxes)
+                    .filter(c => c.checked)
+                    .map(c => c.value);
+                renderExperts();
+            });
+        });
+        
+        resetBtn.addEventListener("click", resetAllFilters);
+        
+        todayBtn.addEventListener("click", () => {
+            currentFilters.availability = currentFilters.availability === "Today" ? "" : "Today";
+            renderExperts();
+        });
+        
+        tomorrowBtn.addEventListener("click", () => {
+            currentFilters.availability = currentFilters.availability === "Tomorrow" ? "" : "Tomorrow";
+            renderExperts();
+        });
+        
+        weekBtn.addEventListener("click", () => {
+            currentFilters.availability = currentFilters.availability === "This Week" ? "" : "This Week";
+            renderExperts();
+        });
+    }
+    
+    // Initialize
+    initFilters();
+    renderExperts();
+</script>
+</body>
+</html>

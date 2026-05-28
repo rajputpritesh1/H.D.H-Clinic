@@ -2,472 +2,291 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEARING DIAGNOSTIC HUB (H.D.H.) | Premier Speech & Hearing Clinic</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Font Awesome for Icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>H.D.H. Marketplace | India's #1 Speech & Hearing Multi-Vendor Platform</title>
+    <!-- Tailwind CSS v4 -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <style>
-        /* Custom Tailwind Configuration (Optional, but helps for consistent look) */
-        :root {
-            --primary-color: #0d9488; /* Teal-700 */
-            --accent-color: #f97316; /* Orange-600 */
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            color: #1f2937; /* Dark Gray */
-            line-height: 1.6;
-        }
-        .section-header {
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        .section-subheader {
-            font-size: 1.125rem;
-            color: #6b7280;
-            margin-bottom: 2.5rem;
-        }
-        .cta-button {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            text-transform: uppercase;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-        }
-        .cta-button:hover {
-            background-color: #ea580c; /* Orange-700 */
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-        }
-        .card {
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s;
-        }
-        .card:hover {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transform: translateY(-3px);
-        }
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #fafcff; }
+        .premium-gradient { background: radial-gradient(circle at 10% 20%, rgba(13,148,136,0.08) 0%, rgba(249,115,22,0.03) 90%); }
+        .hero-glow { background: linear-gradient(125deg, #0A2E2B 0%, #115E59 40%, #1A7F76 100%); }
+        .hover-lift { transition: all 0.4s cubic-bezier(0.2, 0.95, 0.4, 1.05); }
+        .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 30px 40px -20px rgba(0,0,0,0.25); }
+        .city-chip.active { background: #0F766E; color: white; border-color: #0F766E; box-shadow: 0 8px 18px -6px rgba(15,118,110,0.4); }
+        .toast-message { position: fixed; bottom: 30px; right: 30px; background: #1E293B; backdrop-filter: blur(10px); color: white; padding: 14px 26px; border-radius: 50px; font-weight: 500; z-index: 1000; opacity: 0; transition: opacity 0.25s; pointer-events: none; }
+        .gradient-border-bottom { background: linear-gradient(90deg, #0D9488, #F97316, #0D9488); height: 2px; width: 80px; margin: 0 auto; }
+        .stat-card { background: white; border-radius: 2rem; box-shadow: 0 12px 28px -8px rgba(0,0,0,0.05); transition: all 0.3s; }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15); }
+        .btn-premium { background: linear-gradient(105deg, #0F766E 0%, #0D9488 100%); box-shadow: 0 8px 18px -6px rgba(13,148,136,0.4); }
+        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 15px 25px -8px rgba(13,148,136,0.5); }
+        .marquee { animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .partner-logo { filter: grayscale(1); transition: all 0.3s; opacity: 0.6; }
+        .partner-logo:hover { filter: grayscale(0); opacity: 1; }
+        .blog-card { border-radius: 1.5rem; overflow: hidden; }
+        .faq-item { transition: all 0.2s; }
+        .faq-question:hover { background: #f1f5f9; }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="premium-gradient">
 
-    <!-- 1. Header -->
-    <header id="header" class="sticky top-0 z-50 bg-white shadow-md">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
-            <div class="text-2xl font-bold text-teal-700 tracking-wider">
-                H.D.H. Clinic <span class="text-orange-500 text-sm block sm:inline">Speech & Hearing Hub</span>
-            </div>
-            <!-- Desktop Nav (Hidden on Mobile) -->
-            <nav class="hidden lg:flex space-x-6 items-center">
-                <a href="#expertise" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Expertise</a>
-                <a href="#services" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Services</a>
-                <a href="#specialist" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Specialists</a>
-                <a href="#products" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Products</a>
-                <a href="#gallery" class="text-gray-600 hover:text-teal-700 transition duration-300 font-medium">Gallery</a>
-                <a href="#cta" class="cta-button">Book Appointment</a>
-            </nav>
-            <!-- Mobile Menu Button (Visible on Mobile) -->
-            <button id="mobile-menu-button" class="lg:hidden p-2 text-2xl text-teal-700 focus:outline-none">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        
-        <!-- Mobile Navigation (Hidden by Default) -->
-        <nav id="mobile-menu" class="hidden lg:hidden bg-white shadow-lg border-t border-gray-100 pb-2">
-            <div class="flex flex-col space-y-2 px-4 py-2">
-                <a href="#expertise" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Expertise</a>
-                <a href="#services" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Services</a>
-                <a href="#specialist" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Specialists</a>
-                <a href="#products" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Products</a>
-                <a href="#gallery" class="py-2 text-gray-600 hover:text-teal-700 transition duration-300 font-medium border-b border-gray-100" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Gallery</a>
-                <a href="#cta" class="w-full text-center py-2 mt-2 cta-button" onclick="document.getElementById('mobile-menu').classList.add('hidden');">Book Appointment</a>
-            </div>
-        </nav>
-    </header>
+    <div id="toastMsg" class="toast-message"></div>
 
-    <!-- 2. Hero Section -->
-    <section id="hero" class="relative bg-gray-900 text-white min-h-[70vh] flex items-center overflow-hidden">
-        <!-- Background Image/Overlay -->
-        <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://placehold.co/1920x1080/0d9488/ffffff?text= -');"></div>
-        <div class="absolute inset-0 bg-teal-800 opacity-60"></div>
-        
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20 text-center">
-            <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
-                Achieve <span class="text-orange-400">Clarity</span> in Speech and Sound
-            </h1>
-            <p class="text-xl md:text-2xl font-light mb-8 max-w-3xl mx-auto">
-                HEARING DIAGNOSTIC HUB (H.D.H.) - Your trusted Speech & Hearing Specialist in Chhindwara, dedicated to personalized care and breakthrough communication.
-            </p>
-            <div class="space-y-4 sm:space-y-0 sm:space-x-6 flex flex-col sm:flex-row justify-center">
-                <a href="#cta" class="cta-button">
-                    <i class="fas fa-calendar-alt mr-2"></i> Request Consultation
-                </a>
-                <a href="tel:8100730040" class="inline-flex items-center justify-center px-8 py-3 border border-white text-base font-medium rounded-full text-white bg-transparent hover:bg-white hover:text-teal-700 transition duration-300">
-                    <i class="fas fa-phone mr-2"></i> Call Us Today
-                </a>
-            </div>
-            
-            <!-- Rating Badge -->
-            <div class="mt-8">
-                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white text-teal-700 shadow-lg">
-                    <span class="text-yellow-500 mr-2">⭐⭐⭐⭐⭐</span> 5.0 Rating (17 Reviews)
-                </span>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. Core Expertise -->
-    <section id="expertise" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="section-header">Pioneering Expertise in Communication Health</h2>
-            <p class="section-subheader">Our commitment is to accurate diagnosis and effective, patient-centered rehabilitation.</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
-                <!-- Item 1: Diagnostic Accuracy -->
-                <div class="p-6 bg-gray-50 card border-t-4 border-orange-500 hover:border-teal-700">
-                    <i class="fas fa-stethoscope text-5xl text-orange-500 mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Clinical Diagnostic Accuracy</h3>
-                    <p class="text-gray-600">Utilizing advanced, calibrated equipment for Pure Tone Audiometry, Tympanometry, and speech assessment to ensure reliable results.</p>
-                </div>
-                <!-- Item 2: Holistic Therapy -->
-                <div class="p-6 bg-gray-50 card border-t-4 border-orange-500 hover:border-teal-700">
-                    <i class="fas fa-brain text-5xl text-orange-500 mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Holistic & Functional Therapy</h3>
-                    <p class="text-gray-600">Beyond mechanics, we focus on functional communication, cognitive skills, and behavioral integration for lasting improvement.</p>
-                </div>
-                <!-- Item 3: Child-Focused Care -->
-                <div class="p-6 bg-gray-50 card border-t-4 border-orange-500 hover:border-teal-700">
-                    <i class="fas fa-child text-5xl text-orange-500 mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Specialized Pediatric Programs</h3>
-                    <p class="text-gray-600">Our clinic is equipped with dedicated resources and expertise for complex childhood conditions like Autism and ADHD-related communication challenges.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- 4. Specialized Services -->
-    <section id="services" class="py-16 md:py-24 bg-teal-50">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="section-header">Comprehensive Care Spectrum</h2>
-            <p class="section-subheader">Tailored treatment plans addressing the full range of speech, language, and hearing needs.</p>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-                
-                <!-- Service Card 1: Child Speech Therapy -->
-                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-comments text-3xl text-teal-700 mr-4"></i>
-                        <h3 class="text-xl font-semibold text-teal-700">Child Speech Therapy</h3>
+    <!-- ======================== NAVBAR ======================== -->
+    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100/80">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 lg:h-[72px]">
+                <div class="flex items-center gap-3">
+                    <div class="bg-gradient-to-br from-teal-700 to-teal-600 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-ear-listen text-white text-xl"></i>
                     </div>
-                    <p class="text-gray-600">Addressing articulation, phonological disorders, stuttering, voice issues, and developmental language delay (DLD).</p>
+                    <span class="font-extrabold text-2xl tracking-tight bg-gradient-to-r from-teal-900 to-teal-700 bg-clip-text text-transparent">H.D.H.<span class="text-orange-500 bg-none"> Marketplace</span></span>
                 </div>
-                
-                <!-- Service Card 2: Autism & Communication -->
-                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-puzzle-piece text-3xl text-teal-700 mr-4"></i>
-                        <h3 class="text-xl font-semibold text-teal-700">Autism Communication</h3>
-                    </div>
-                    <p class="text-gray-600">Specialized intervention for social-pragmatic language, non-verbal communication, and using Augmentative and Alternative Communication (AAC).</p>
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#vendorSection" class="text-gray-600 hover:text-teal-600 font-medium">Find Experts</a>
+                    <a href="#products" class="text-gray-600 hover:text-teal-600 font-medium">Products</a>
+                    <a href="#resources" class="text-gray-600 hover:text-teal-600 font-medium">Resources</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-teal-600 font-medium">Pricing</a>
                 </div>
-                
-                <!-- Service Card 3: ADHD / Hyperactivity -->
-                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-bolt text-3xl text-teal-700 mr-4"></i>
-                        <h3 class="text-xl font-semibold text-teal-700">ADHD/Hyperactivity Support</h3>
-                    </div>
-                    <p class="text-gray-600">Strategies to improve auditory processing, listening comprehension, and organizational communication skills related to ADHD.</p>
-                </div>
-
-                <!-- Service Card 4: Adult Hearing Loss -->
-                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-ear text-3xl text-teal-700 mr-4"></i>
-                        <h3 class="text-xl font-semibold text-teal-700">Adult Audiology & Hearing Loss</h3>
-                    </div>
-                    <p class="text-gray-600">Full range of audiological services, from routine hearing checks to diagnosing complex sensorineural issues.</p>
-                </div>
-
-                <!-- Service Card 5: Aphasia & Stroke Rehab -->
-                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-user-friends text-3xl text-teal-700 mr-4"></i>
-                        <h3 class="text-xl font-semibold text-teal-700">Adult Speech & Voice Rehab</h3>
-                    </div>
-                    <p class="text-gray-600">Rehabilitation for communication disorders (Aphasia, Dysarthria) and voice therapy (Dysphonia) following neurological events.</p>
-                </div>
-
-                <!-- Service Card 6: Tinnitus Management -->
-                <div class="bg-white p-6 card hover:ring-2 ring-orange-500 text-left">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-music text-3xl text-teal-700 mr-4"></i>
-                        <h3 class="text-xl font-semibold text-teal-700">Tinnitus Management</h3>
-                    </div>
-                    <p class="text-gray-600">Evidence-based programs for Tinnitus Retraining Therapy (TRT) to reduce the perceived severity of ringing in the ears.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. Meet the Specialist/Our Commitment -->
-    <section id="specialist" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="section-header text-center">Meet Our Dedicated Specialist</h2>
-            <p class="section-subheader text-center">Led by a certified Speech & Hearing Specialist, our team is committed to your well-being.</p>
-
-            <div class="flex flex-col lg:flex-row items-center lg:space-x-12 mt-10">
-                <!-- Specialist Image Placeholder -->
-                <div class="lg:w-1/3 mb-8 lg:mb-0">
-                    <div class="w-64 h-64 mx-auto lg:w-full lg:h-auto rounded-full overflow-hidden shadow-2xl border-8 border-teal-100">
-                        <img class="w-full h-full object-cover" src="https://placehold.co/400x400/0d9488/ffffff?text=Certified+Specialist" alt="H.D.H. Clinic Speech & Hearing Specialist">
+                <div class="flex items-center gap-5">
+                    <button id="cartIconBtn" class="relative p-2 rounded-full hover:bg-gray-100 transition">
+                        <i class="fas fa-shopping-bag text-gray-700 text-xl"></i>
+                        <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-orange-500 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    <div class="hidden md:flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full">
+                        <i class="fas fa-user-circle text-teal-600 text-lg"></i>
+                        <span id="userNameDisplay" class="text-sm font-medium">Guest</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </nav>
 
-                <!-- Commitment Text -->
-                <div class="lg:w-2/3 text-center lg:text-left">
-                    <h3 class="text-3xl font-bold mb-4 text-orange-600">Expertise, Empathy, and Excellence</h3>
-                    <p class="text-gray-700 mb-6 text-lg">
-                        At H.D.H., we believe that every individual deserves the chance to communicate clearly and connect fully with the world around them. Our specialist brings years of clinical experience, employing the latest research and compassionate care to achieve tangible, life-changing results for our patients in Chhindwara.
-                    </p>
-                    <ul class="space-y-3 text-gray-700">
-                        <li class="flex items-start">
-                            <i class="fas fa-certificate text-xl text-teal-700 mr-3 mt-1"></i>
-                            <span>**Certified Professionals:** Adherence to the highest national standards for Audiology and Speech-Language Pathology.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-heart text-xl text-teal-700 mr-3 mt-1"></i>
-                            <span>**Client-Centric Approach:** Tailoring every session to the unique profile, environment, and goals of the patient and family.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-location-dot text-xl text-teal-700 mr-3 mt-1"></i>
-                            <span>**Local Community Hub:** Conveniently located at Shop No. 17, 1-floor, complex-1, Chhindwara Main Road.</span>
-                        </li>
-                    </ul>
+    <!-- ======================== HERO SECTION ======================== -->
+    <section class="hero-glow text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 py-24 lg:py-32 relative z-10">
+            <div class="max-w-3xl" data-aos="fade-up">
+                <span class="inline-block bg-white/20 backdrop-blur-sm px-5 py-2 rounded-full text-sm font-semibold mb-6"><i class="fas fa-crown mr-2 text-yellow-300"></i> India's #1 Speech & Hearing Marketplace</span>
+                <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight">Find Trusted <span class="text-orange-300">Experts</span> Near You</h1>
+                <p class="text-xl text-teal-50/90 mt-6 mb-10">Compare verified audiologists, speech therapists — shop hearing aids, book appointments, all in one seamless ecosystem.</p>
+                <div class="flex flex-wrap gap-5">
+                    <a href="#vendorSection" class="bg-white text-teal-800 hover:bg-gray-100 px-8 py-4 rounded-full font-bold shadow-xl transition-all flex items-center gap-2"><i class="fas fa-store"></i> Explore Vendors</a>
+                    <a href="#howItWorks" class="bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/20 px-8 py-4 rounded-full font-semibold transition-all flex items-center gap-2"><i class="fas fa-play-circle"></i> How It Works</a>
                 </div>
+            </div>
+        </div>
+        <svg viewBox="0 0 1440 100" class="absolute bottom-0 w-full"><path fill="#fafcff" d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,100L1360,100C1280,100,1120,100,960,100C800,100,640,100,480,100C320,100,160,100,80,100L0,100Z"></path></svg>
+    </section>
+
+    <!-- ======================== STATS SECTION ======================== -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
+                <div class="stat-card p-6" data-aos="zoom-in"><div class="text-4xl font-black text-teal-700">50+</div><div class="text-gray-500 text-sm mt-1">Certified Vendors</div></div>
+                <div class="stat-card p-6" data-aos="zoom-in" data-aos-delay="80"><div class="text-4xl font-black text-teal-700">4.9</div><div class="text-gray-500 text-sm mt-1">Avg. Rating</div></div>
+                <div class="stat-card p-6" data-aos="zoom-in" data-aos-delay="160"><div class="text-4xl font-black text-teal-700">1.8k+</div><div class="text-gray-500 text-sm mt-1">Happy Patients</div></div>
+                <div class="stat-card p-6" data-aos="zoom-in" data-aos-delay="240"><div class="text-4xl font-black text-teal-700">20+</div><div class="text-gray-500 text-sm mt-1">Cities Covered</div></div>
+                <div class="stat-card p-6" data-aos="zoom-in" data-aos-delay="320"><div class="text-4xl font-black text-teal-700">98%</div><div class="text-gray-500 text-sm mt-1">Satisfaction Rate</div></div>
             </div>
         </div>
     </section>
 
-    <!-- 6. Products (Hearing Aids and Devices) -->
-    <section id="products" class="py-16 md:py-24 bg-teal-50">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="section-header">Next-Generation Hearing Solutions</h2>
-            <p class="section-subheader">Explore our curated selection of digital hearing aids and assistive listening devices (ALDs).</p>
+    <!-- ======================== TRUSTED PARTNERS MARQUEE ======================== -->
+    <section class="py-8 bg-white/50">
+        <div class="overflow-hidden">
+            <p class="text-center text-sm text-gray-500 mb-4">Trusted by leading healthcare institutions</p>
+            <div class="flex whitespace-nowrap animate-marquee" style="animation: marquee 25s linear infinite;">
+                <div class="flex gap-12 mx-8">
+                    <span class="text-2xl font-bold text-gray-300">🏥 Apollo Hospitals</span>
+                    <span class="text-2xl font-bold text-gray-300">🏨 Fortis Healthcare</span>
+                    <span class="text-2xl font-bold text-gray-300">🏛️ AIIMS</span>
+                    <span class="text-2xl font-bold text-gray-300">🩺 Max Healthcare</span>
+                    <span class="text-2xl font-bold text-gray-300">🏥 Columbia Asia</span>
+                    <span class="text-2xl font-bold text-gray-300">🏨 Manipal Hospitals</span>
+                </div>
+                <div class="flex gap-12 mx-8">
+                    <span class="text-2xl font-bold text-gray-300">🏥 Apollo Hospitals</span>
+                    <span class="text-2xl font-bold text-gray-300">🏨 Fortis Healthcare</span>
+                    <span class="text-2xl font-bold text-gray-300">🏛️ AIIMS</span>
+                    <span class="text-2xl font-bold text-gray-300">🩺 Max Healthcare</span>
+                    <span class="text-2xl font-bold text-gray-300">🏥 Columbia Asia</span>
+                    <span class="text-2xl font-bold text-gray-300">🏨 Manipal Hospitals</span>
+                </div>
+            </div>
+        </div>
+        <style>.animate-marquee { animation: marquee 25s linear infinite; } @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }</style>
+    </section>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-                
-                <!-- Product 1: Custom In-the-Ear (ITE) -->
-                <div class="bg-white p-6 card">
-                    <i class="fas fa-bullseye text-5xl text-orange-500 mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Custom ITE Hearing Aids</h3>
-                    <p class="text-gray-600 mb-4">Discreet, custom-molded devices that fit entirely within the ear canal, providing natural and comfortable listening.</p>
-                    <a href="#cta" class="text-sm font-semibold text-orange-600 hover:text-teal-700">View Models & Pricing</a>
-                </div>
-                
-                <!-- Product 2: Receiver-in-Canal (RIC) -->
-                <div class="bg-white p-6 card">
-                    <i class="fas fa-mobile-screen text-5xl text-orange-500 mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Bluetooth RIC Devices</h3>
-                    <p class="text-gray-600 mb-4">The most popular style: small, powerful, and connect seamlessly to your smartphone for streaming calls and music.</p>
-                    <a href="#cta" class="text-sm font-semibold text-orange-600 hover:text-teal-700">View Models & Pricing</a>
-                </div>
-                
-                <!-- Product 3: Assistive Listening Devices (ALDs) -->
-                <div class="bg-white p-6 card">
-                    <i class="fas fa-volume-down text-5xl text-orange-500 mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-3 text-teal-700">Assistive Listening Devices</h3>
-                    <p class="text-gray-600 mb-4">Special devices like TV listeners, captioned phones, and FM systems to help in specific challenging environments.</p>
-                    <a href="#cta" class="text-sm font-semibold text-orange-600 hover:text-teal-700">View Models & Pricing</a>
-                </div>
+    <!-- ======================== VENDOR MARKETPLACE ======================== -->
+    <section id="vendorSection" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900">Curated <span class="text-teal-700">Specialists</span> & Products</h2>
+            <div class="gradient-border-bottom mt-4"></div>
+            <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Compare qualifications, ratings, distance — book appointments or shop directly.</p>
+        </div>
+        <div class="flex flex-col lg:flex-row justify-between gap-6 mb-12">
+            <div class="flex flex-wrap gap-3" id="cityFilterContainer">
+                <button data-city="all" class="city-chip active px-6 py-2.5 rounded-full text-sm font-semibold bg-teal-700 text-white">🌍 All Cities</button>
+                <button data-city="Chhindwara" class="city-chip px-6 py-2.5 rounded-full text-sm font-medium border bg-white">Chhindwara</button>
+                <button data-city="Nagpur" class="city-chip px-6 py-2.5 rounded-full text-sm font-medium border bg-white">Nagpur</button>
+                <button data-city="Bhopal" class="city-chip px-6 py-2.5 rounded-full text-sm font-medium border bg-white">Bhopal</button>
+                <button data-city="Indore" class="city-chip px-6 py-2.5 rounded-full text-sm font-medium border bg-white">Indore</button>
+            </div>
+            <div class="relative w-full lg:w-80">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="searchInput" placeholder="Search vendor, product, service..." class="w-full pl-11 pr-5 py-3 border border-gray-200 rounded-full focus:ring-2 focus:ring-teal-400 outline-none shadow-sm">
+            </div>
+        </div>
+        <div id="vendorsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        <div id="noResultsMsg" class="hidden text-center py-20 bg-white/60 rounded-3xl mt-6 text-gray-400"><i class="fas fa-store-slash text-4xl mb-3"></i><p>No vendors found. Adjust your filters.</p></div>
+    </section>
+
+    <!-- ======================== FEATURED PRODUCTS SECTION (NEW) ======================== -->
+    <section id="products" class="bg-white py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-900">🔥 <span class="text-teal-700">Bestselling</span> Hearing Devices</h2>
+                <div class="gradient-border-bottom mt-3"></div>
+                <p class="text-gray-500 mt-3">Premium hearing aids & assistive devices at best prices</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="bg-gray-50 rounded-2xl p-5 text-center hover-lift" data-aos="fade-up"><div class="text-5xl mb-3">🦻</div><h3 class="font-bold">Phonak Lumity</h3><p class="text-teal-700 font-bold mt-2">₹49,999</p><button class="mt-3 bg-teal-600 text-white px-4 py-2 rounded-full text-sm">Add to Cart</button></div>
+                <div class="bg-gray-50 rounded-2xl p-5 text-center hover-lift" data-aos="fade-up" data-aos-delay="100"><div class="text-5xl mb-3">🔊</div><h3 class="font-bold">Signia Pure Charge&Go</h3><p class="text-teal-700 font-bold mt-2">₹59,999</p><button class="mt-3 bg-teal-600 text-white px-4 py-2 rounded-full text-sm">Add to Cart</button></div>
+                <div class="bg-gray-50 rounded-2xl p-5 text-center hover-lift" data-aos="fade-up" data-aos-delay="200"><div class="text-5xl mb-3">🎧</div><h3 class="font-bold">Widex Moment</h3><p class="text-teal-700 font-bold mt-2">₹44,999</p><button class="mt-3 bg-teal-600 text-white px-4 py-2 rounded-full text-sm">Add to Cart</button></div>
+                <div class="bg-gray-50 rounded-2xl p-5 text-center hover-lift" data-aos="fade-up" data-aos-delay="300"><div class="text-5xl mb-3">🔋</div><h3 class="font-bold">ReSound One</h3><p class="text-teal-700 font-bold mt-2">₹54,999</p><button class="mt-3 bg-teal-600 text-white px-4 py-2 rounded-full text-sm">Add to Cart</button></div>
             </div>
         </div>
     </section>
 
-    <!-- 7. Patient Testimonials -->
-    <section id="testimonials" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="section-header">What Our Patients Say</h2>
-            <p class="section-subheader">Trusted by 17+ families and individuals in the Chhindwara area and beyond.</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-                <!-- Testimonial 1 (Speech) -->
-                <div class="bg-gray-50 p-6 card text-left">
-                    <div class="text-yellow-500 mb-3">⭐⭐⭐⭐⭐</div>
-                    <p class="italic text-gray-700 mb-4">"The team at H.D.H. truly changed my child's life. We saw a dramatic improvement in his social communication skills after the Autism program. The specialist is professional and deeply caring."</p>
-                    <p class="font-semibold text-teal-700">- Mrs. S. Kumar (Parent of patient with ASD)</p>
-                </div>
-                <!-- Testimonial 2 (Hearing) -->
-                <div class="bg-gray-50 p-6 card text-left">
-                    <div class="text-yellow-500 mb-3">⭐⭐⭐⭐⭐</div>
-                    <p class="italic text-gray-700 mb-4">"After my fitting, the world sounds clear again. The selection process was easy, and the follow-up support is excellent. Best hearing clinic experience I've had."</p>
-                    <p class="font-semibold text-teal-700">- Mr. R. Varma (Hearing Aid User)</p>
-                </div>
-                <!-- Testimonial 3 (ADHD/Pediatric) -->
-                <div class="bg-gray-50 p-6 card text-left">
-                    <div class="text-yellow-500 mb-3">⭐⭐⭐⭐⭐</div>
-                    <p class="italic text-gray-700 mb-4">"Our daughter's teachers noticed the difference immediately. Her ability to focus and process verbal instructions has increased significantly. Thank you, H.D.H. Clinic!"</p>
-                    <p class="font-semibold text-teal-700">- Anonymous Verified Patient</p>
-                </div>
-            </div>
-            <a href="#" class="inline-block mt-8 text-lg font-semibold text-orange-600 hover:text-teal-700 transition duration-300">
-                Read All 17+ Google Reviews <i class="fas fa-external-link-alt ml-1 text-sm"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- 8. FAQ -->
-    <section id="faq" class="py-16 md:py-24 bg-teal-50">
-        <div class="container mx-auto px-4">
-            <h2 class="section-header text-center">Frequently Asked Questions</h2>
-            <p class="section-subheader text-center">Find quick answers about our services, appointments, and care philosophy.</p>
-            
-            <div class="max-w-4xl mx-auto space-y-4 text-left">
-                <!-- FAQ Item 1 -->
-                <div class="bg-white p-5 rounded-lg shadow-md border-l-4 border-orange-500">
-                    <h4 class="text-lg font-semibold text-teal-700 mb-2">Do you treat speech delay or only hearing loss?</h4>
-                    <p class="text-gray-600">We are a fully integrated **Speech & Hearing Clinic**. We treat a comprehensive range of speech-language pathologies, including developmental delays, stuttering, voice disorders, and communication challenges related to conditions like Autism and ADHD, alongside our audiology services.</p>
-                </div>
-                <!-- FAQ Item 2 -->
-                <div class="bg-white p-5 rounded-lg shadow-md border-l-4 border-orange-500">
-                    <h4 class="text-lg font-semibold text-teal-700 mb-2">How long does a first diagnostic session take?</h4>
-                    <p class="text-gray-600">The initial comprehensive diagnostic session typically lasts between 60 to 90 minutes. This allows for a detailed evaluation of your or your child's communication profile and a discussion of preliminary findings.</p>
-                </div>
-                <!-- FAQ Item 3 -->
-                <div class="bg-white p-5 rounded-lg shadow-md border-l-4 border-orange-500">
-                    <h4 class="text-lg font-semibold text-teal-700 mb-2">Are your services covered by insurance?</h4>
-                    <p class="text-gray-600">Coverage varies widely depending on your health plan. We recommend contacting your provider directly to confirm coverage for "Speech-Language Pathology" and "Audiology Services." We will provide all necessary documentation for reimbursement.</p>
-                </div>
+    <!-- ======================== WHY PREMIUM ======================== -->
+    <section class="py-20 bg-teal-50/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-14" data-aos="fade-up"><h2 class="text-4xl font-bold text-gray-900">The <span class="text-teal-700">H.D.H. Advantage</span></h2><div class="gradient-border-bottom mt-3"></div></div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl bg-white hover:shadow-xl transition" data-aos="flip-left"><div class="bg-teal-100 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl text-teal-700"><i class="fas fa-id-card"></i></div><h3 class="font-bold text-xl mt-5">Verified Credentials</h3><p class="text-gray-500 mt-2">Every vendor undergoes rigorous verification of RCI license & clinical experience.</p></div>
+                <div class="p-8 rounded-2xl bg-white hover:shadow-xl transition" data-aos="flip-left" data-aos-delay="100"><div class="bg-teal-100 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl text-teal-700"><i class="fas fa-chart-line"></i></div><h3 class="font-bold text-xl mt-5">Transparent Ratings</h3><p class="text-gray-500 mt-2">Real patient feedback, distance-based ranking, and authentic reviews.</p></div>
+                <div class="p-8 rounded-2xl bg-white hover:shadow-xl transition" data-aos="flip-left" data-aos-delay="200"><div class="bg-teal-100 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl text-teal-700"><i class="fas fa-cart-shopping"></i></div><h3 class="font-bold text-xl mt-5">Seamless Checkout</h3><p class="text-gray-500 mt-2">Add products to cart, book appointments, track orders — all in one dashboard.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- 9. CTA (Secondary) -->
-    <section id="cta" class="py-16 bg-teal-700 text-white">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl font-extrabold mb-4">Ready to Hear Clearly and Speak Confidently?</h2>
-            <p class="text-xl font-light mb-8 max-w-3xl mx-auto">
-                Take the first step towards better communication health. Contact us today to schedule your confidential consultation.
-            </p>
-            <a href="#header" class="cta-button bg-white text-teal-700 hover:bg-gray-200">
-                <i class="fas fa-hand-pointer mr-2"></i> Schedule My Visit Now
-            </a>
-            
-            <!-- Quick Contact Information -->
-            <div class="mt-8 text-lg font-medium">
-                <p>Or Call Us Directly: <span class="text-orange-400 font-bold">81007 30040</span></p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- 10. Gallery -->
-    <section id="gallery" class="py-16 md:py-24 bg-white">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="section-header">A Look Inside Our Clinic</h2>
-            <p class="section-subheader">Experience the modern, comfortable, and professional environment of H.D.H.</p>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
-                <!-- Gallery Item 1 -->
-                <div class="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
-                    <img class="w-full h-48 object-cover transform hover:scale-105 transition duration-500" src="https://placehold.co/600x400/004d40/ffffff?text=Reception+Area" alt="Clinic Reception Area">
-                </div>
-                <!-- Gallery Item 2 -->
-                <div class="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
-                    <img class="w-full h-48 object-cover transform hover:scale-105 transition duration-500" src="https://placehold.co/600x400/004d40/ffffff?text=Sound+Proof+Booth" alt="Audiometry Sound Booth">
-                </div>
-                <!-- Gallery Item 3 -->
-                <div class="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
-                    <img class="w-full h-48 object-cover transform hover:scale-105 transition duration-500" src="https://placehold.co/600x400/004d40/ffffff?text=Therapy+Room" alt="Speech Therapy Room">
-                </div>
-                <!-- Gallery Item 4 -->
-                <div class="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition duration-300">
-                    <img class="w-full h-48 object-cover transform hover:scale-105 transition duration-500" src="https://placehold.co/600x400/004d40/ffffff?text=Waiting+Lounge" alt="Comfortable Waiting Lounge">
-                </div>
+    <!-- ======================== HOW IT WORKS ======================== -->
+    <section id="howItWorks" class="py-20">
+        <div class="max-w-7xl mx-auto px-6 text-center" data-aos="fade-up">
+            <h2 class="text-4xl font-bold text-gray-900">Simple & Elegant <span class="text-teal-700">3-Step Journey</span></h2>
+            <div class="gradient-border-bottom mt-3"></div>
+            <div class="grid md:grid-cols-3 gap-12 mt-16">
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover-lift"><div class="bg-orange-100 w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-orange-600 mx-auto">1</div><h3 class="font-bold text-xl mt-5">Discover & Filter</h3><p class="text-gray-500">Filter by city, qualification, rating, or service type.</p></div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover-lift"><div class="bg-orange-100 w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-orange-600 mx-auto">2</div><h3 class="font-bold text-xl mt-5">Add to Cart / Book</h3><p class="text-gray-500">Purchase devices or schedule a consultation instantly.</p></div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover-lift"><div class="bg-orange-100 w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-orange-600 mx-auto">3</div><h3 class="font-bold text-xl mt-5">Track & Transform</h3><p class="text-gray-500">Monitor orders, manage appointments from your dashboard.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- 11. Footer -->
-    <footer id="footer" class="bg-gray-800 text-gray-300 pt-12 pb-6">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 border-b border-gray-700 pb-8">
-                
-                <!-- Col 1: Clinic Info -->
-                <div>
-                    <h4 class="text-xl font-semibold mb-4 text-orange-400">H.D.H. Clinic</h4>
-                    <p class="text-sm mb-4">Premier Speech & Hearing Specialist in Chhindwara, providing comprehensive care for all ages.</p>
-                    <div class="flex space-x-4 text-lg">
-                        <a href="#" class="hover:text-white transition duration-300"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="hover:text-white transition duration-300"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                
-                <!-- Col 2: Services -->
-                <div>
-                    <h4 class="text-xl font-semibold mb-4 text-orange-400">Our Focus</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#services" class="hover:text-white transition duration-300">Pediatric Therapy</a></li>
-                        <li><a href="#services" class="hover:text-white transition duration-300">Autism Communication</a></li>
-                        <li><a href="#services" class="hover:text-white transition duration-300">Audiology & Diagnostics</a></li>
-                        <li><a href="#products" class="hover:text-white transition duration-300">Hearing Aids</a></li>
-                    </ul>
-                </div>
-
-                <!-- Col 3: Location & Hours -->
-                <div>
-                    <h4 class="text-xl font-semibold mb-4 text-orange-400">Visit Us</h4>
-                    <p class="text-sm mb-2">Shop No. 17, 1-floor, complex-1, HEARING Diagnostic Hub, Cure Speech & Hearing Clinic, Chhindwara Main Road (Parasi...)</p>
-                    <p class="text-sm font-bold mt-4">Opening Hours:</p>
-                    <p class="text-sm">Mon - Sat: 9:00 AM - 6:00 PM</p>
-                    <p class="text-sm">Sunday: Closed</p>
-                </div>
-                
-                <!-- Col 4: Contact -->
-                <div>
-                    <h4 class="text-xl font-semibold mb-4 text-orange-400">Get in Touch</h4>
-                    <p class="text-sm mb-2"><i class="fas fa-phone mr-2"></i> 81007 30040</p>
-                    <p class="text-sm mb-2"><i class="fas fa-envelope mr-2"></i> neurospeechandhearing@gmail.com</p>
-                    <p class="text-sm mb-2"><i class="fas fa-comment-dots mr-2"></i> 84819 44731</p>
-                </div>
-            </div>
-            
-            <div class="text-center text-sm pt-6 border-t border-gray-700 mt-6">
-                &copy; 2025 HEARING DIAGNOSTIC HUB (H.D.H.). All Rights Reserved. | Designed by Bonix Solutions
+    <!-- ======================== PRICING PLANS (NEW) ======================== -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-gray-900">Simple, <span class="text-teal-700">Transparent Pricing</span></h2>
+            <div class="gradient-border-bottom mt-3"></div>
+            <p class="text-gray-500 mt-3 mb-12">Choose the plan that works for you</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="border rounded-2xl p-8 hover:shadow-xl transition"><h3 class="text-xl font-bold">Basic</h3><div class="text-4xl font-bold text-teal-700 mt-4">Free</div><p class="text-gray-500 text-sm">For patients</p><ul class="mt-6 space-y-3 text-left"><li><i class="fas fa-check text-teal-600 mr-2"></i> Browse vendors</li><li><i class="fas fa-check text-teal-600 mr-2"></i> Compare ratings</li><li><i class="fas fa-check text-teal-600 mr-2"></i> Book appointments</li></ul><button class="mt-6 w-full border border-teal-600 text-teal-600 py-2 rounded-full">Get Started</button></div>
+                <div class="border-2 border-teal-600 rounded-2xl p-8 shadow-xl relative"><div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-3 py-1 rounded-full text-xs">Popular</div><h3 class="text-xl font-bold">Premium</h3><div class="text-4xl font-bold text-teal-700 mt-4">₹499<span class="text-sm">/month</span></div><p class="text-gray-500 text-sm">For frequent users</p><ul class="mt-6 space-y-3 text-left"><li><i class="fas fa-check text-teal-600 mr-2"></i> Everything in Basic</li><li><i class="fas fa-check text-teal-600 mr-2"></i> Priority support</li><li><i class="fas fa-check text-teal-600 mr-2"></i> Discount on services</li></ul><button class="mt-6 w-full bg-teal-600 text-white py-2 rounded-full">Subscribe Now</button></div>
+                <div class="border rounded-2xl p-8 hover:shadow-xl transition"><h3 class="text-xl font-bold">Enterprise</h3><div class="text-4xl font-bold text-teal-700 mt-4">Custom</div><p class="text-gray-500 text-sm">For clinics/hospitals</p><ul class="mt-6 space-y-3 text-left"><li><i class="fas fa-check text-teal-600 mr-2"></i> Everything in Premium</li><li><i class="fas fa-check text-teal-600 mr-2"></i> Dedicated account manager</li><li><i class="fas fa-check text-teal-600 mr-2"></i> API access</li></ul><button class="mt-6 w-full border border-teal-600 text-teal-600 py-2 rounded-full">Contact Sales</button></div>
             </div>
         </div>
-    </footer>
+    </section>
+
+    <!-- ======================== RESOURCES / BLOG SECTION (NEW) ======================== -->
+    <section id="resources" class="py-20 bg-teal-50/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-900">📚 <span class="text-teal-700">Health Resources</span> & Guides</h2>
+                <div class="gradient-border-bottom mt-3"></div>
+                <p class="text-gray-500 mt-3">Expert articles, tips, and latest research</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift"><img src="https://placehold.co/600x300/0D9488/white?text=Hearing+Health" class="w-full h-48 object-cover"><div class="p-5"><span class="text-xs text-teal-600 font-semibold">Hearing Care</span><h3 class="font-bold text-lg mt-2">10 Signs You Need a Hearing Test</h3><p class="text-gray-500 text-sm mt-2">Learn about early warning signs of hearing loss...</p><a href="#" class="text-teal-600 text-sm mt-3 inline-block">Read More →</a></div></div>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift"><img src="https://placehold.co/600x300/F97316/white?text=Speech+Therapy" class="w-full h-48 object-cover"><div class="p-5"><span class="text-xs text-teal-600 font-semibold">Speech Therapy</span><h3 class="font-bold text-lg mt-2">Speech Delay in Children: When to Seek Help</h3><p class="text-gray-500 text-sm mt-2">Milestones and intervention strategies for parents...</p><a href="#" class="text-teal-600 text-sm mt-3 inline-block">Read More →</a></div></div>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift"><img src="https://placehold.co/600x300/0D9488/white?text=Technology" class="w-full h-48 object-cover"><div class="p-5"><span class="text-xs text-teal-600 font-semibold">Technology</span><h3 class="font-bold text-lg mt-2">Bluetooth Hearing Aids: Buyer's Guide</h3><p class="text-gray-500 text-sm mt-2">Everything you need to know about modern hearing aids...</p><a href="#" class="text-teal-600 text-sm mt-3 inline-block">Read More →</a></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================== TESTIMONIALS ======================== -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6"><div class="text-center mb-12"><h2 class="text-4xl font-bold text-gray-900">Trusted by <span class="text-teal-700">1,800+ Families</span></h2><div class="gradient-border-bottom mt-3"></div></div><div class="grid md:grid-cols-3 gap-6"><div class="bg-white p-7 rounded-2xl shadow-sm" data-aos="fade-right"><div class="flex text-yellow-400 mb-3">★★★★★</div><p class="text-gray-600 italic">“Finally a platform where I could compare specialists! Found a top-rated audiologist near me.”</p><p class="font-bold mt-5 text-teal-800">— Anjali Sharma</p></div><div class="bg-white p-7 rounded-2xl shadow-sm" data-aos="fade-up"><div class="flex text-yellow-400 mb-3">★★★★★</div><p class="text-gray-600 italic">“The vendor qualifications are verified, and the booking process was effortless.”</p><p class="font-bold mt-5 text-teal-800">— Rajesh Mehra</p></div><div class="bg-white p-7 rounded-2xl shadow-sm" data-aos="fade-left"><div class="flex text-yellow-400 mb-3">★★★★★</div><p class="text-gray-600 italic">“Ordered a digital hearing aid and got professional after-sale support. 10/10 experience.”</p><p class="font-bold mt-5 text-teal-800">— Sunil Gupta</p></div></div></div>
+    </section>
+
+    <!-- ======================== FAQ SECTION (NEW) ======================== -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-12"><h2 class="text-4xl font-bold text-gray-900">Frequently Asked <span class="text-teal-700">Questions</span></h2><div class="gradient-border-bottom mt-3"></div></div>
+            <div class="space-y-4">
+                <div class="border rounded-xl p-5"><button class="faq-question w-full text-left font-semibold flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">How do I find a specialist near me? <i class="fas fa-chevron-down"></i></button><div class="hidden mt-3 text-gray-500">Use our city filter or search by location to find verified specialists in your area with ratings and distance information.</div></div>
+                <div class="border rounded-xl p-5"><button class="faq-question w-full text-left font-semibold flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">Are the vendors verified? <i class="fas fa-chevron-down"></i></button><div class="hidden mt-3 text-gray-500">Yes, every vendor undergoes a strict verification process including RCI license validation and credential checks.</div></div>
+                <div class="border rounded-xl p-5"><button class="faq-question w-full text-left font-semibold flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">Can I cancel my appointment? <i class="fas fa-chevron-down"></i></button><div class="hidden mt-3 text-gray-500">Yes, appointments can be cancelled up to 24 hours before the scheduled time with full refund.</div></div>
+                <div class="border rounded-xl p-5"><button class="faq-question w-full text-left font-semibold flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">Do you offer warranty on hearing aids? <i class="fas fa-chevron-down"></i></button><div class="hidden mt-3 text-gray-500">All hearing aids come with manufacturer warranty ranging from 1-3 years depending on the brand.</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================== NEWSLETTER SECTION (NEW) ======================== -->
+    <section class="py-20 bg-gradient-to-r from-teal-800 to-teal-700 text-white">
+        <div class="max-w-3xl mx-auto text-center px-6">
+            <i class="fas fa-envelope-open-text text-4xl mb-4 opacity-80"></i>
+            <h2 class="text-3xl font-bold">Stay Updated with Health Tips</h2>
+            <p class="text-teal-100 mt-2 mb-6">Subscribe to our newsletter for expert advice, new vendor updates, and special offers.</p>
+            <div class="flex flex-wrap gap-3 justify-center">
+                <input type="email" placeholder="Your email address" class="px-6 py-3 rounded-full w-80 text-gray-800 outline-none">
+                <button class="bg-orange-500 hover:bg-orange-600 px-6 py-3 rounded-full font-semibold transition">Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================== CTA SECTION ======================== -->
+    <section class="py-20 bg-teal-900 text-white">
+        <div class="max-w-4xl mx-auto text-center px-6"><h2 class="text-4xl font-bold">Start Your Journey to <span class="text-orange-300">Better Hearing & Speech</span></h2><p class="text-teal-100 text-lg mt-4 mb-8">Join India's most trusted multi-vendor marketplace for speech & hearing care.</p><a href="#vendorSection" class="inline-flex items-center gap-2 bg-white text-teal-800 px-8 py-4 rounded-full font-bold shadow-xl hover:bg-gray-100 transition-all"><i class="fas fa-arrow-right"></i> Find a Specialist Now</a></div>
+    </section>
+
+    <!-- ======================== FOOTER ======================== -->
+    <footer class="bg-gray-900 text-gray-400 py-12"><div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-8"><div><i class="fas fa-ear-listen text-teal-400 text-xl"></i><span class="font-bold text-white text-xl ml-2">H.D.H. Marketplace</span><p class="text-sm mt-3">India's premium ecosystem for certified speech & hearing professionals.</p></div><div><h4 class="font-semibold text-white mb-3">Quick Links</h4><ul class="space-y-2 text-sm"><li><a href="#vendorSection" class="hover:text-teal-300">Find Experts</a></li><li><a href="#pricing" class="hover:text-teal-300">Pricing</a></li><li><a href="#" class="hover:text-teal-300">Become a Vendor</a></li></ul></div><div><h4 class="font-semibold text-white mb-3">Contact</h4><ul class="space-y-2 text-sm"><li><i class="fas fa-phone mr-2"></i> +91 81007 30040</li><li><i class="fas fa-envelope mr-2"></i> care@hdhmarket.com</li><li><i class="fab fa-whatsapp mr-2"></i> +91 84819 44731</li></ul></div><div><h4 class="font-semibold text-white mb-3">Download App</h4><div class="flex gap-3"><button class="bg-gray-800 px-4 py-2 rounded-lg"><i class="fab fa-google-play mr-2"></i> Play Store</button><button class="bg-gray-800 px-4 py-2 rounded-lg"><i class="fab fa-apple mr-2"></i> App Store</button></div></div></div><div class="border-t border-gray-800 mt-8 pt-6 text-center text-xs">© 2025 HEARING DIAGNOSTIC HUB — Multi-Vendor Marketplace. Premium Edition.</div></footer>
+
+    <!-- CART DRAWER -->
+    <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col"><div class="p-6 border-b bg-gray-50 flex justify-between"><h2 class="text-2xl font-bold"><i class="fas fa-shopping-bag text-teal-600 mr-2"></i>Your Bag</h2><button id="closeCartBtn" class="text-2xl text-gray-400">&times;</button></div><div id="cartItemsList" class="flex-1 overflow-y-auto p-5"></div><div class="p-6 border-t"><div class="flex justify-between font-bold text-xl mb-4"><span>Total</span><span id="cartTotalAmount">₹0</span></div><button id="checkoutBtn" class="w-full btn-premium text-white py-3.5 rounded-full font-bold">Checkout →</button></div></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            if (menuButton && mobileMenu) {
-                // Toggle the mobile menu visibility on button click
-                menuButton.addEventListener('click', function() {
-                    mobileMenu.classList.toggle('hidden');
-                });
-
-                // Hide the mobile menu after clicking any link (smooth UX for single-page sites)
-                mobileMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        // Small delay to allow smooth scrolling before hiding
-                        setTimeout(() => {
-                            mobileMenu.classList.add('hidden');
-                        }, 300);
-                    });
-                });
-            }
-        });
+        AOS.init({ duration: 800, once: true, offset: 30 });
+        const vendorsData = [
+            { id: "v1", name: "Chhindwara Speech & Hearing Centre", city: "Chhindwara", qualification: "MASLP, PhD Scholar", rating: 4.9, distance: "0.8 km", avatar: "🏥", products: [{ id: "p1", name: "Phonak Digital Hearing Aid", price: 24999, image: "🦻" }, { id: "p2", name: "Speech Therapy Kit", price: 1899, image: "📚" }], services: [{ id: "sv1", name: "Audiometry Assessment", price: 1200 }, { id: "sv2", name: "Pediatric Speech Therapy", price: 800 }] },
+            { id: "v2", name: "Nagpur Audiology Hub", city: "Nagpur", qualification: "BASLP, Certified Audiologist", rating: 4.7, distance: "2.3 km", avatar: "🎧", products: [{ id: "p3", name: "Signia Silk Nx", price: 35999, image: "🔊" }, { id: "p4", name: "Tinnitus Relief Earbuds", price: 4999, image: "🎵" }], services: [{ id: "sv3", name: "Tinnitus Management", price: 1500 }, { id: "sv4", name: "Hearing Aid Fitting", price: 2000 }] },
+            { id: "v3", name: "Bhopal Speech & Language Clinic", city: "Bhopal", qualification: "MSLP, Autism Specialist", rating: 4.8, distance: "1.2 km", avatar: "🗣️", products: [{ id: "p5", name: "AAC Communication Board", price: 4500, image: "📱" }, { id: "p6", name: "Voice Amplifier", price: 3299, image: "🔈" }], services: [{ id: "sv5", name: "AAC Evaluation", price: 1800 }, { id: "sv6", name: "Stuttering Therapy", price: 1000 }] },
+            { id: "v4", name: "Indore Hearing Solutions", city: "Indore", qualification: "AuD, International Cert.", rating: 5.0, distance: "3.1 km", avatar: "👂", products: [{ id: "p7", name: "Rechargeable Hearing Aid", price: 19999, image: "🔋" }], services: [{ id: "sv7", name: "Industrial Screening", price: 900 }] }
+        ];
+        let currentUser = { name: "Guest", cart: [], orders: [], appointments: [] };
+        function loadUser() { const s = localStorage.getItem("hdh_premium_user"); if(s) { const p = JSON.parse(s); currentUser.cart = p.cart || []; } updateCartUI(); }
+        function saveUser() { localStorage.setItem("hdh_premium_user", JSON.stringify({ cart: currentUser.cart })); }
+        function showToast(msg, icon="✨") { const t = document.getElementById("toastMsg"); t.innerHTML = `${icon} ${msg}`; t.style.opacity = "1"; setTimeout(() => t.style.opacity = "0", 2200); }
+        function addToCart(item, type, vendorId, price, name, image) { let existing = currentUser.cart.find(i => i.type === type && i.refId === item.id); if(existing) existing.quantity += 1; else currentUser.cart.push({ id: `${type}_${item.id}_${Date.now()}`, type, refId: item.id, vendorId, name, price, image, quantity: 1 }); saveUser(); updateCartUI(); showToast(`${name} added to bag`, "🛍️"); }
+        function bookAppointment(service, vendor) { currentUser.appointments = currentUser.appointments || []; currentUser.appointments.unshift({ id: "apt"+Date.now(), serviceName: service.name, vendorName: vendor.name, price: service.price, date: new Date().toLocaleDateString() }); saveUser(); showToast(`Appointment booked with ${vendor.name}`, "📅"); }
+        function updateCartUI() { const list = document.getElementById("cartItemsList"); const totalSpan = document.getElementById("cartTotalAmount"); const badge = document.getElementById("cartCountBadge"); let total = 0, count = 0; if(list) { if(currentUser.cart.length===0) list.innerHTML = `<div class="text-center text-gray-400 py-12">Your bag is empty</div>`; else { list.innerHTML = currentUser.cart.map(item => { total += item.price * item.quantity; count += item.quantity; return `<div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl"><div class="flex gap-2"><span class="text-2xl">${item.image||"📦"}</span><div><p class="font-semibold">${item.name}</p><p class="text-sm text-teal-700">₹${item.price}</p></div></div><div class="flex items-center gap-2"><span class="font-medium">x${item.quantity}</span><button onclick="updateQuantity('${item.id}',-1)" class="bg-gray-200 w-7 h-7 rounded-full">−</button><button onclick="updateQuantity('${item.id}',1)" class="bg-gray-200 w-7 h-7 rounded-full">+</button><button onclick="removeCartItem('${item.id}')" class="text-red-500"><i class="fas fa-trash"></i></button></div></div>`; }).join(''); } totalSpan.innerText = `₹${total}`; badge.innerText = count; } }
+        window.updateQuantity = function(id, delta) { let idx = currentUser.cart.findIndex(i=>i.id===id); if(idx!==-1) { let q = currentUser.cart[idx].quantity+delta; if(q<=0) currentUser.cart.splice(idx,1); else currentUser.cart[idx].quantity = q; saveUser(); updateCartUI(); } };
+        window.removeCartItem = (id) => { currentUser.cart = currentUser.cart.filter(i=>i.id!==id); saveUser(); updateCartUI(); showToast("Item removed","🗑️"); };
+        function checkout() { if(currentUser.cart.length===0){showToast("Cart empty","⚠️");return;} let order = { id:"ORD"+Date.now(), items:[...currentUser.cart], total:currentUser.cart.reduce((s,i)=>s+(i.price*i.quantity),0), date:new Date().toLocaleString() }; currentUser.orders = currentUser.orders || []; currentUser.orders.unshift(order); currentUser.cart = []; saveUser(); updateCartUI(); showToast(`Order placed! ID: ${order.id}`, "🎉"); document.getElementById("cartDrawer").classList.add("translate-x-full"); }
+        let currentCity="all", currentSearch="";
+        function renderVendors() { let filtered = [...vendorsData]; if(currentCity!=="all") filtered = filtered.filter(v=>v.city===currentCity); if(currentSearch.trim()) { let s=currentSearch.toLowerCase(); filtered = filtered.filter(v=>v.name.toLowerCase().includes(s) || v.products.some(p=>p.name.toLowerCase().includes(s)) || v.services.some(ser=>ser.name.toLowerCase().includes(s))); } const grid = document.getElementById("vendorsGrid"), noRes = document.getElementById("noResultsMsg"); if(filtered.length===0){grid.innerHTML=""; noRes.classList.remove("hidden"); return;} noRes.classList.add("hidden"); grid.innerHTML = filtered.map(v=>`<div class="bg-white rounded-2xl shadow-xl overflow-hidden hover-lift"><div class="p-6 bg-gradient-to-r from-teal-50/30 to-white"><div class="flex justify-between"><div><span class="text-4xl">${v.avatar}</span><h3 class="font-bold text-xl mt-1">${v.name}</h3><p class="text-xs text-gray-500 mt-1"><i class="fas fa-map-marker-alt"></i> ${v.city} • ${v.distance}</p></div><div><div class="bg-white px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1"><span class="text-yellow-500">⭐</span><span class="font-bold">${v.rating}</span></div><p class="text-xs text-gray-500 mt-2 max-w-[150px]">${v.qualification}</p></div></div></div><div class="p-5"><p class="font-semibold text-gray-700 text-sm mb-2"><i class="fas fa-box-open text-teal-600"></i> Products</p><div class="flex flex-wrap gap-2 mb-5">${v.products.map(p=>`<button onclick='addToCart(${JSON.stringify(p)},"product","${v.id}",${p.price},"${p.name.replace(/'/g,"\\'")}","${p.image}")' class="bg-gray-100 hover:bg-teal-100 px-3 py-1.5 rounded-full text-xs flex items-center gap-1"><span>${p.image}</span> ${p.name} <span class="font-bold">₹${p.price}</span> <i class="fas fa-cart-plus ml-1"></i></button>`).join('')}</div><p class="font-semibold text-gray-700 text-sm mb-2"><i class="fas fa-calendar-check text-orange-500"></i> Services</p><div class="flex flex-wrap gap-2">${v.services.map(s=>`<button onclick='bookService("${v.id}","${s.name.replace(/'/g,"\\'")}",${s.price})' class="bg-orange-50 hover:bg-orange-100 border border-orange-200 px-3 py-1.5 rounded-full text-xs font-medium"><i class="fas fa-stethoscope"></i> ${s.name} (₹${s.price})</button>`).join('')}</div></div></div>`).join(''); }
+        window.bookService = (vendorId, name, price) => { let vendor = vendorsData.find(v=>v.id===vendorId); if(vendor){ let service = vendor.services.find(s=>s.name===name && s.price===price); if(service) bookAppointment(service, vendor); } };
+        window.addToCart = addToCart;
+        function init() { loadUser(); renderVendors(); document.querySelectorAll(".city-chip").forEach(btn=>{ btn.addEventListener("click",()=>{ document.querySelectorAll(".city-chip").forEach(b=>{b.classList.remove("active","bg-teal-700","text-white");b.classList.add("bg-white","text-gray-700");}); btn.classList.add("active","bg-teal-700","text-white"); currentCity=btn.getAttribute("data-city"); renderVendors(); }); }); document.getElementById("searchInput").addEventListener("input",e=>{currentSearch=e.target.value;renderVendors();}); const cartBtn=document.getElementById("cartIconBtn"), closeCart=document.getElementById("closeCartBtn"), drawer=document.getElementById("cartDrawer"), checkoutBtn=document.getElementById("checkoutBtn"); cartBtn.onclick=()=>drawer.classList.remove("translate-x-full"); closeCart.onclick=()=>drawer.classList.add("translate-x-full"); checkoutBtn.onclick=()=>{checkout();drawer.classList.add("translate-x-full");}; document.getElementById("userNameDisplay").innerText=currentUser.name; }
+        init();
     </script>
 </body>
 </html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Admin Dashboard | H.D.H. Marketplace - Platform Management</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #f1f5f9; }
+        .sidebar-item { transition: all 0.2s ease; cursor: pointer; }
+        .sidebar-item:hover { background: #1e293b; }
+        .sidebar-item.active { background: #0f766e; }
+        .stat-card { transition: all 0.3s ease; }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1); }
+        .modal-backdrop { background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); }
+        .toast-message { position: fixed; bottom: 30px; right: 30px; background: #1e293b; color: white; padding: 12px 24px; border-radius: 50px; z-index: 1000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<div id="toastMsg" class="toast-message"></div>
+
+<div class="flex min-h-screen">
+    <!-- ======================== SIDEBAR ======================== -->
+    <aside class="w-72 bg-gray-900 text-white flex-shrink-0 fixed h-full overflow-y-auto">
+        <div class="p-5 border-b border-gray-800">
+            <div class="flex items-center gap-2">
+                <div class="bg-teal-600 w-9 h-9 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-ear-listen text-white text-lg"></i>
+                </div>
+                <span class="font-bold text-xl">H.D.H. Admin</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">Platform Management Console</p>
+        </div>
+        
+        <nav class="p-4 space-y-1">
+            <div data-page="overview" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-tachometer-alt w-5"></i> <span>Dashboard Overview</span>
+            </div>
+            <div data-page="vendors" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-store w-5"></i> <span>Vendors</span> <span id="pendingVendorBadge" class="ml-auto bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full hidden">0</span>
+            </div>
+            <div data-page="products" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-box w-5"></i> <span>Products</span>
+            </div>
+            <div data-page="orders" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-shopping-cart w-5"></i> <span>Orders</span>
+            </div>
+            <div data-page="users" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-users w-5"></i> <span>Users</span>
+            </div>
+            <div data-page="appointments" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-calendar-check w-5"></i> <span>Appointments</span>
+            </div>
+            <div data-page="reports" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-chart-line w-5"></i> <span>Reports & Analytics</span>
+            </div>
+            <div data-page="settings" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-cog w-5"></i> <span>Settings</span>
+            </div>
+        </nav>
+        
+        <div class="absolute bottom-0 w-full p-4 border-t border-gray-800">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-user-circle text-2xl text-gray-400"></i>
+                <div><p class="text-sm font-medium">Admin User</p><p class="text-xs text-gray-400">admin@hdhmarket.com</p></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ======================== MAIN CONTENT ======================== -->
+    <main class="ml-72 flex-1">
+        <!-- Top Bar -->
+        <div class="bg-white shadow-sm px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+            <h1 id="pageTitle" class="text-xl font-bold text-gray-800">Dashboard Overview</h1>
+            <div class="flex items-center gap-4">
+                <button onclick="showToast('Notification feature coming soon', '🔔')" class="relative p-2 hover:bg-gray-100 rounded-full">
+                    <i class="fas fa-bell text-gray-500"></i>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+                <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
+                    <i class="fas fa-user-shield text-teal-600"></i>
+                    <span class="text-sm font-medium">Super Admin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Page Content -->
+        <div id="pageContent" class="p-6">
+            <!-- Content loads here -->
+        </div>
+    </main>
+</div>
+
+<!-- ======================== MODALS ======================== -->
+<!-- Add/Edit Vendor Modal -->
+<div id="vendorModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-lg w-full mx-4 p-6 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+            <h3 id="vendorModalTitle" class="text-xl font-bold text-gray-800">Add New Vendor</h3>
+            <button onclick="closeVendorModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+        </div>
+        <div class="space-y-4">
+            <div><label class="block text-sm font-medium mb-1">Vendor Name</label><input type="text" id="vendorName" class="w-full border rounded-lg px-4 py-2"></div>
+            <div><label class="block text-sm font-medium mb-1">Owner Name</label><input type="text" id="vendorOwner" class="w-full border rounded-lg px-4 py-2"></div>
+            <div><label class="block text-sm font-medium mb-1">City</label><input type="text" id="vendorCity" class="w-full border rounded-lg px-4 py-2"></div>
+            <div><label class="block text-sm font-medium mb-1">Qualification</label><input type="text" id="vendorQualification" class="w-full border rounded-lg px-4 py-2"></div>
+            <div><label class="block text-sm font-medium mb-1">Phone</label><input type="text" id="vendorPhone" class="w-full border rounded-lg px-4 py-2"></div>
+            <div><label class="block text-sm font-medium mb-1">Email</label><input type="email" id="vendorEmail" class="w-full border rounded-lg px-4 py-2"></div>
+            <div class="flex gap-3 pt-3"><button onclick="saveVendor()" class="flex-1 bg-teal-600 text-white py-2 rounded-lg font-semibold">Save Vendor</button><button onclick="closeVendorModal()" class="flex-1 border border-gray-300 py-2 rounded-lg">Cancel</button></div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6 text-center">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i></div>
+        <h3 class="text-xl font-bold mb-2">Confirm Delete</h3>
+        <p class="text-gray-500 mb-4">Are you sure you want to delete this item? This action cannot be undone.</p>
+        <div class="flex gap-3"><button id="confirmDeleteBtn" class="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold">Delete</button><button onclick="closeDeleteModal()" class="flex-1 border border-gray-300 py-2 rounded-lg">Cancel</button></div>
+    </div>
+</div>
+
+<script>
+    // ======================== MOCK DATABASE ========================
+    let vendors = [
+        { id: 1, name: "Chhindwara Speech & Hearing Centre", owner: "Dr. Priya Mehta", city: "Chhindwara", qualification: "MASLP, PhD", phone: "9876543210", email: "contact@chhindwara.com", status: "active", rating: 4.9, totalOrders: 156, revenue: 245000, joined: "Jan 2024" },
+        { id: 2, name: "Nagpur Audiology Hub", owner: "Dr. Amit Khare", city: "Nagpur", qualification: "BASLP, Certified", phone: "9876543211", email: "nagpur@audiology.com", status: "active", rating: 4.7, totalOrders: 98, revenue: 189000, joined: "Feb 2024" },
+        { id: 3, name: "Bhopal Speech & Language Clinic", owner: "Ms. Sonal Gupta", city: "Bhopal", qualification: "MSLP, Autism Specialist", phone: "9876543212", email: "bhopal@speech.com", status: "active", rating: 4.8, totalOrders: 124, revenue: 167000, joined: "Mar 2024" },
+        { id: 4, name: "Indore Hearing Solutions", owner: "Dr. Rajesh Tiwari", city: "Indore", qualification: "AuD, International Cert.", phone: "9876543213", email: "indore@hearing.com", status: "active", rating: 5.0, totalOrders: 203, revenue: 456000, joined: "Jan 2024" }
+    ];
+    
+    let pendingVendors = [
+        { id: 101, name: "Jabalpur Speech Clinic", owner: "Dr. Sonal Gupta", city: "Jabalpur", qualification: "MSLP", phone: "9876543214", email: "jabalpur@speech.com", appliedDate: "Dec 10, 2024" },
+        { id: 102, name: "Raipur Hearing Aid Center", owner: "Mr. Vikram Singh", city: "Raipur", qualification: "BASLP", phone: "9876543215", email: "raipur@hearing.com", appliedDate: "Dec 12, 2024" }
+    ];
+    
+    let products = [
+        { id: 1, name: "Phonak Audéo Lumity", vendor: "Chhindwara Speech Centre", price: 49999, stock: 15, category: "Hearing Aid", status: "active" },
+        { id: 2, name: "Speech Therapy Kit", vendor: "Chhindwara Speech Centre", price: 1899, stock: 45, category: "Therapy Kit", status: "active" },
+        { id: 3, name: "Signia Silk X", vendor: "Nagpur Audiology Hub", price: 35999, stock: 8, category: "Hearing Aid", status: "active" }
+    ];
+    
+    let orders = [
+        { id: "HDH-001", customer: "Rajesh Sharma", vendor: "Chhindwara Speech Centre", amount: 56898, status: "delivered", date: "Dec 15, 2024" },
+        { id: "HDH-002", customer: "Priya Patel", vendor: "Indore Hearing Solutions", amount: 54999, status: "shipped", date: "Dec 14, 2024" },
+        { id: "HDH-003", customer: "Amit Kumar", vendor: "Nagpur Audiology Hub", amount: 1299, status: "processing", date: "Dec 16, 2024" }
+    ];
+    
+    let users = [
+        { id: 1, name: "Rajesh Sharma", email: "rajesh@example.com", phone: "9876543210", role: "customer", joined: "Nov 2024", orders: 5 },
+        { id: 2, name: "Priya Patel", email: "priya@example.com", phone: "9876543211", role: "customer", joined: "Oct 2024", orders: 3 },
+        { id: 3, name: "Dr. Priya Mehta", email: "priya@chhindwara.com", phone: "9876543212", role: "vendor", joined: "Jan 2024", orders: 156 }
+    ];
+    
+    let appointments = [
+        { id: 1, customer: "Rajesh Sharma", vendor: "Dr. Priya Mehta", service: "Audiometry Assessment", date: "Dec 18, 2024", time: "10:00 AM", status: "confirmed" },
+        { id: 2, customer: "Neha Verma", vendor: "Ms. Sonal Gupta", service: "Pediatric Speech Therapy", date: "Dec 19, 2024", time: "2:00 PM", status: "pending" }
+    ];
+    
+    let currentPage = "overview";
+    let deleteCallback = null;
+    
+    function showToast(msg, icon = "✓") {
+        const toast = document.getElementById('toastMsg');
+        toast.innerHTML = `${icon} ${msg}`;
+        toast.style.opacity = "1";
+        setTimeout(() => toast.style.opacity = "0", 2500);
+    }
+    
+    function updateStats() {
+        const totalRevenue = vendors.reduce((sum, v) => sum + v.revenue, 0);
+        const totalOrders = vendors.reduce((sum, v) => sum + v.totalOrders, 0);
+        const totalProducts = products.length;
+        const pendingApprovals = pendingVendors.length;
+        
+        document.getElementById('pendingVendorBadge').innerText = pendingApprovals;
+        document.getElementById('pendingVendorBadge').classList.toggle('hidden', pendingApprovals === 0);
+        
+        return { totalRevenue, totalOrders, totalProducts, pendingApprovals, totalVendors: vendors.length, totalUsers: users.length };
+    }
+    
+    function renderOverview() {
+        const stats = updateStats();
+        const html = `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                <div class="stat-card bg-white rounded-xl p-5"><div class="flex justify-between"><i class="fas fa-store text-3xl text-teal-600"></i><span class="text-2xl font-bold">${stats.totalVendors}</span></div><p class="text-gray-500 mt-2">Total Vendors</p><p class="text-xs text-green-600">+2 this month</p></div>
+                <div class="stat-card bg-white rounded-xl p-5"><div class="flex justify-between"><i class="fas fa-users text-3xl text-blue-600"></i><span class="text-2xl font-bold">${stats.totalUsers}</span></div><p class="text-gray-500 mt-2">Total Users</p><p class="text-xs text-green-600">+18% growth</p></div>
+                <div class="stat-card bg-white rounded-xl p-5"><div class="flex justify-between"><i class="fas fa-rupee-sign text-3xl text-green-600"></i><span class="text-2xl font-bold">₹${(stats.totalRevenue / 1000).toFixed(0)}K</span></div><p class="text-gray-500 mt-2">Platform Revenue</p><p class="text-xs text-green-600">↑ 12% vs last month</p></div>
+                <div class="stat-card bg-white rounded-xl p-5"><div class="flex justify-between"><i class="fas fa-shopping-cart text-3xl text-orange-600"></i><span class="text-2xl font-bold">${stats.totalOrders}</span></div><p class="text-gray-500 mt-2">Total Orders</p><p class="text-xs text-green-600">+45 this week</p></div>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Revenue Trend</h3><canvas id="revenueChart" height="200"></canvas></div>
+                <div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Recent Orders</h3><div class="space-y-3">${orders.slice(0,5).map(o => `<div class="flex justify-between items-center border-b pb-2"><div><p class="font-medium">${o.id}</p><p class="text-xs text-gray-500">${o.customer}</p></div><span class="status-badge px-2 py-1 rounded-full text-xs ${o.status === 'delivered' ? 'bg-green-100 text-green-700' : o.status === 'shipped' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'}">${o.status}</span><span class="font-semibold">₹${o.amount.toLocaleString()}</span></div>`).join('')}</div></div>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-6 mt-6">
+                <div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Top Performing Vendors</h3><div class="space-y-3">${vendors.sort((a,b)=>b.revenue-a.revenue).slice(0,3).map(v => `<div class="flex justify-between items-center"><div><p class="font-medium">${v.name}</p><p class="text-xs text-gray-500">⭐ ${v.rating}</p></div><div><span class="font-bold text-teal-600">₹${(v.revenue/1000).toFixed(0)}K</span><p class="text-xs text-gray-400">${v.totalOrders} orders</p></div></div>`).join('')}</div></div>
+                <div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Pending Approvals</h3>${pendingVendors.length > 0 ? pendingVendors.map(v => `<div class="border-b pb-3 mb-3"><div class="flex justify-between"><p class="font-medium">${v.name}</p><span class="text-xs text-orange-500">Pending</span></div><p class="text-xs text-gray-500">${v.owner} • Applied: ${v.appliedDate}</p><div class="flex gap-2 mt-2"><button onclick="approveVendor(${v.id})" class="bg-green-600 text-white text-xs px-3 py-1 rounded">Approve</button><button onclick="rejectVendor(${v.id})" class="border border-red-500 text-red-500 text-xs px-3 py-1 rounded">Reject</button></div></div>`).join('') : '<p class="text-gray-400 text-center py-4">No pending approvals</p>'}</div>
+            </div>
+        `;
+        document.getElementById('pageContent').innerHTML = html;
+        
+        // Initialize chart
+        const ctx = document.getElementById('revenueChart')?.getContext('2d');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'line',
+                data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [{ label: 'Revenue (₹)', data: [185000, 210000, 245000, 298000, 345000, 412000], borderColor: '#0d9488', tension: 0.3, fill: true, backgroundColor: 'rgba(13,148,136,0.1)' }] },
+                options: { responsive: true, maintainAspectRatio: true }
+            });
+        }
+    }
+    
+    function renderVendors() {
+        const stats = updateStats();
+        const html = `
+            <div class="bg-white rounded-xl p-5"><div class="flex justify-between items-center mb-4"><h2 class="text-xl font-bold">All Vendors</h2><button onclick="openAddVendorModal()" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium"><i class="fas fa-plus mr-1"></i> Add Vendor</button></div>
+            <div class="overflow-x-auto"><table class="w-full"><thead><tr class="border-b"><th class="text-left py-3">Vendor</th><th class="text-left">Owner</th><th class="text-left">City</th><th class="text-left">Rating</th><th class="text-left">Revenue</th><th class="text-left">Status</th><th class="text-left">Actions</th></tr></thead><tbody>
+            ${vendors.map(v => `<tr class="border-b"><td class="py-3"><p class="font-medium">${v.name}</p><p class="text-xs text-gray-500">${v.email}</p></td><td>${v.owner}</td><td>${v.city}</td><td>⭐ ${v.rating}</td><td>₹${(v.revenue/1000).toFixed(0)}K</td><td><span class="status-badge px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">Active</span></td><td><button onclick="editVendor(${v.id})" class="text-blue-600 mr-2"><i class="fas fa-edit"></i></button><button onclick="deleteVendor(${v.id})" class="text-red-600"><i class="fas fa-trash"></i></button></td></tr>`).join('')}
+            </tbody></table></div></div>
+        `;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderProducts() {
+        const html = `<div class="bg-white rounded-xl p-5"><h2 class="text-xl font-bold mb-4">All Products</h2><div class="overflow-x-auto"><table class="w-full"><thead><tr class="border-b"><th class="text-left py-3">Product</th><th class="text-left">Vendor</th><th class="text-left">Category</th><th class="text-left">Price</th><th class="text-left">Stock</th><th class="text-left">Status</th><th class="text-left">Actions</th></tr></thead><tbody>${products.map(p => `<tr class="border-b"><td class="py-3">${p.name}</td><td>${p.vendor}</td><td>${p.category}</td><td>₹${p.price.toLocaleString()}</td><td>${p.stock}</td><td><span class="status-badge px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">${p.status}</span></td><td><button onclick="showToast('Edit product feature', '✏️')" class="text-blue-600 mr-2"><i class="fas fa-edit"></i></button><button onclick="showToast('Delete product', '🗑️')" class="text-red-600"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div></div>`;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderOrders() {
+        const html = `<div class="bg-white rounded-xl p-5"><h2 class="text-xl font-bold mb-4">All Orders</h2><div class="overflow-x-auto"><table class="w-full"><thead><tr class="border-b"><th class="text-left py-3">Order ID</th><th class="text-left">Customer</th><th class="text-left">Vendor</th><th class="text-left">Amount</th><th class="text-left">Date</th><th class="text-left">Status</th><th class="text-left">Actions</th></tr></thead><tbody>${orders.map(o => `<tr class="border-b"><td class="py-3 font-mono text-sm">${o.id}</td><td>${o.customer}</td><td>${o.vendor}</td><td>₹${o.amount.toLocaleString()}</td><td>${o.date}</td><td><span class="status-badge px-2 py-1 rounded-full text-xs ${o.status === 'delivered' ? 'bg-green-100 text-green-700' : o.status === 'shipped' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'}">${o.status}</span></td><td><button onclick="showToast('View order details', '📦')" class="text-teal-600"><i class="fas fa-eye"></i></button></td></tr>`).join('')}</tbody></table></div></div>`;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderUsers() {
+        const html = `<div class="bg-white rounded-xl p-5"><h2 class="text-xl font-bold mb-4">Platform Users</h2><div class="overflow-x-auto"><table class="w-full"><thead><tr class="border-b"><th class="text-left py-3">Name</th><th class="text-left">Email</th><th class="text-left">Phone</th><th class="text-left">Role</th><th class="text-left">Joined</th><th class="text-left">Orders</th><th class="text-left">Status</th></tr></thead><tbody>${users.map(u => `<tr class="border-b"><td class="py-3">${u.name}</td><td>${u.email}</td><td>${u.phone}</td><td><span class="px-2 py-1 rounded-full text-xs ${u.role === 'vendor' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'}">${u.role}</span></td><td>${u.joined}</td><td>${u.orders}</td><td><span class="status-badge px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">Active</span></td></tr>`).join('')}</tbody></table></div></div>`;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderAppointments() {
+        const html = `<div class="bg-white rounded-xl p-5"><h2 class="text-xl font-bold mb-4">All Appointments</h2><div class="overflow-x-auto"><table class="w-full"><thead><tr class="border-b"><th class="text-left py-3">Customer</th><th class="text-left">Vendor</th><th class="text-left">Service</th><th class="text-left">Date</th><th class="text-left">Time</th><th class="text-left">Status</th><th class="text-left">Actions</th></tr></thead><tbody>${appointments.map(a => `<tr class="border-b"><td class="py-3">${a.customer}</td><td>${a.vendor}</td><td>${a.service}</td><td>${a.date}</td><td>${a.time}</td><td><span class="status-badge px-2 py-1 rounded-full text-xs ${a.status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">${a.status}</span></td><td><button onclick="showToast('Manage appointment', '📅')" class="text-teal-600"><i class="fas fa-edit"></i></button></td></tr>`).join('')}</tbody></table></div></div>`;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderReports() {
+        const stats = updateStats();
+        const html = `<div class="grid lg:grid-cols-2 gap-6"><div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Revenue by Vendor</h3><canvas id="vendorRevenueChart" height="250"></canvas></div><div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Orders by Category</h3><canvas id="categoryChart" height="250"></canvas></div><div class="bg-white rounded-xl p-5 col-span-2"><h3 class="font-bold text-lg mb-3">Monthly Performance</h3><canvas id="monthlyChart" height="200"></canvas></div></div><script>
+            new Chart(document.getElementById('vendorRevenueChart'), { type: 'bar', data: { labels: ${JSON.stringify(vendors.map(v => v.name))}, datasets: [{ label: 'Revenue (₹)', data: ${JSON.stringify(vendors.map(v => v.revenue))}, backgroundColor: '#0d9488' }] } });
+            new Chart(document.getElementById('categoryChart'), { type: 'doughnut', data: { labels: ['Hearing Aids', 'Therapy Kits', 'Devices'], datasets: [{ data: [65, 25, 10], backgroundColor: ['#0d9488', '#f97316', '#6366f1'] }] } });
+            new Chart(document.getElementById('monthlyChart'), { type: 'line', data: { labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], datasets: [{ label: 'Orders', data: [42, 58, 73, 89, 112, 145], borderColor: '#0d9488' }, { label: 'Revenue (₹K)', data: [185, 210, 245, 298, 345, 412], borderColor: '#f97316' }] } });
+        <\/script>`;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderSettings() {
+        const html = `<div class="bg-white rounded-xl p-5"><h2 class="text-xl font-bold mb-4">Platform Settings</h2><div class="space-y-4"><div class="border-b pb-4"><label class="flex items-center justify-between"><span class="font-medium">Commission Rate</span><div><input type="number" value="10" class="border rounded-lg px-3 py-1 w-20"> <span class="text-sm">%</span></div></label></div><div class="border-b pb-4"><label class="flex items-center justify-between"><span class="font-medium">Minimum Order Amount for Free Shipping</span><input type="number" value="2000" class="border rounded-lg px-3 py-1 w-32"></label></div><div class="border-b pb-4"><label class="flex items-center justify-between"><span class="font-medium">Maintenance Mode</span><button class="bg-gray-200 px-4 py-1 rounded-full text-sm">Disabled</button></label></div><button onclick="showToast('Settings saved', '⚙️')" class="bg-teal-600 text-white px-6 py-2 rounded-lg font-semibold mt-4">Save Settings</button></div></div>`;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    // Vendor management functions
+    function openAddVendorModal() { document.getElementById('vendorModalTitle').innerText = 'Add New Vendor'; document.getElementById('vendorModal').classList.remove('hidden'); }
+    function closeVendorModal() { document.getElementById('vendorModal').classList.add('hidden'); }
+    function saveVendor() { showToast('Vendor added successfully', '✓'); closeVendorModal(); renderVendors(); }
+    function editVendor(id) { showToast('Edit vendor feature', '✏️'); }
+    function deleteVendor(id) { deleteCallback = () => { vendors = vendors.filter(v => v.id !== id); showToast('Vendor deleted', '🗑️'); renderVendors(); updateStats(); }; document.getElementById('deleteModal').classList.remove('hidden'); }
+    function approveVendor(id) { pendingVendors = pendingVendors.filter(v => v.id !== id); showToast('Vendor approved', '✓'); renderOverview(); updateStats(); }
+    function rejectVendor(id) { pendingVendors = pendingVendors.filter(v => v.id !== id); showToast('Vendor rejected', '✗'); renderOverview(); updateStats(); }
+    function closeDeleteModal() { document.getElementById('deleteModal').classList.add('hidden'); deleteCallback = null; }
+    document.getElementById('confirmDeleteBtn')?.addEventListener('click', () => { if (deleteCallback) deleteCallback(); closeDeleteModal(); });
+    
+    // Page routing
+    function loadPage(page) {
+        currentPage = page;
+        document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+        document.querySelector(`[data-page="${page}"]`).classList.add('active');
+        const titles = { overview: 'Dashboard Overview', vendors: 'Vendor Management', products: 'Product Catalog', orders: 'Order Management', users: 'User Management', appointments: 'Appointment Management', reports: 'Reports & Analytics', settings: 'Platform Settings' };
+        document.getElementById('pageTitle').innerText = titles[page];
+        if (page === 'overview') renderOverview();
+        else if (page === 'vendors') renderVendors();
+        else if (page === 'products') renderProducts();
+        else if (page === 'orders') renderOrders();
+        else if (page === 'users') renderUsers();
+        else if (page === 'appointments') renderAppointments();
+        else if (page === 'reports') renderReports();
+        else if (page === 'settings') renderSettings();
+    }
+    
+    document.querySelectorAll('.sidebar-item').forEach(item => { item.addEventListener('click', () => loadPage(item.getAttribute('data-page'))); });
+    loadPage('overview');
+</script>
+</body>
+</html>

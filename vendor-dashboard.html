@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Vendor Dashboard | H.D.H. Marketplace - Seller Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #f1f5f9; }
+        .sidebar-item { transition: all 0.2s ease; cursor: pointer; }
+        .sidebar-item:hover { background: #1e293b; }
+        .sidebar-item.active { background: #0f766e; }
+        .stat-card { transition: all 0.3s ease; }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1); }
+        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-block; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-processing { background: #dbeafe; color: #1e40af; }
+        .status-shipped { background: #e0f2fe; color: #0369a1; }
+        .status-delivered { background: #dcfce7; color: #166534; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+        .modal-backdrop { background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); }
+        .toast-message { position: fixed; bottom: 30px; right: 30px; background: #1e293b; color: white; padding: 12px 24px; border-radius: 50px; z-index: 1000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .product-card { transition: all 0.3s ease; }
+        .product-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -8px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+<div id="toastMsg" class="toast-message"></div>
+
+<div class="flex min-h-screen">
+    <!-- ======================== SIDEBAR ======================== -->
+    <aside class="w-72 bg-gray-900 text-white flex-shrink-0 fixed h-full overflow-y-auto">
+        <div class="p-5 border-b border-gray-800">
+            <div class="flex items-center gap-2">
+                <div class="bg-teal-600 w-9 h-9 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-store text-white text-lg"></i>
+                </div>
+                <span class="font-bold text-xl">Vendor Portal</span>
+            </div>
+            <div class="mt-3 p-3 bg-gray-800 rounded-lg">
+                <p class="text-sm font-medium text-white">Chhindwara Speech Centre</p>
+                <p class="text-xs text-gray-400">ID: VND-001 • Since Jan 2024</p>
+            </div>
+        </div>
+        
+        <nav class="p-4 space-y-1">
+            <div data-page="overview" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-tachometer-alt w-5"></i> <span>Dashboard Overview</span>
+            </div>
+            <div data-page="products" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-box w-5"></i> <span>Products</span>
+            </div>
+            <div data-page="orders" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-shopping-cart w-5"></i> <span>Orders</span>
+            </div>
+            <div data-page="appointments" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-calendar-check w-5"></i> <span>Appointments</span>
+            </div>
+            <div data-page="earnings" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-rupee-sign w-5"></i> <span>Earnings</span>
+            </div>
+            <div data-page="reviews" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-star w-5"></i> <span>Reviews & Ratings</span>
+            </div>
+            <div data-page="settings" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300">
+                <i class="fas fa-cog w-5"></i> <span>Store Settings</span>
+            </div>
+        </nav>
+        
+        <div class="absolute bottom-0 w-full p-4 border-t border-gray-800">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-user-circle text-2xl text-gray-400"></i>
+                <div><p class="text-sm font-medium">Dr. Priya Mehta</p><p class="text-xs text-gray-400">priya@chhindwara.com</p></div>
+            </div>
+            <button onclick="showToast('Logged out', '🔓')" class="w-full mt-3 bg-gray-800 text-gray-300 py-2 rounded-lg text-sm hover:bg-gray-700 transition">Logout</button>
+        </div>
+    </aside>
+
+    <!-- ======================== MAIN CONTENT ======================== -->
+    <main class="ml-72 flex-1">
+        <div class="bg-white shadow-sm px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+            <h1 id="pageTitle" class="text-xl font-bold text-gray-800">Dashboard Overview</h1>
+            <div class="flex items-center gap-3">
+                <span class="text-sm text-gray-500"><i class="fas fa-store mr-1"></i> Store Status: <span class="text-green-600 font-medium">Active</span></span>
+            </div>
+        </div>
+
+        <div id="pageContent" class="p-6">
+            <!-- Dynamic content loads here -->
+        </div>
+    </main>
+</div>
+
+<!-- ======================== MODALS ======================== -->
+<!-- Add/Edit Product Modal -->
+<div id="productModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-lg w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 id="productModalTitle" class="text-xl font-bold text-gray-800">Add New Product</h3>
+            <button onclick="closeProductModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+        </div>
+        <div class="space-y-4">
+            <div><label class="block text-sm font-medium mb-1">Product Name</label><input type="text" id="productName" class="w-full border rounded-lg px-4 py-2"></div>
+            <div><label class="block text-sm font-medium mb-1">Category</label><select id="productCategory" class="w-full border rounded-lg px-4 py-2"><option>Hearing Aid</option><option>Therapy Kit</option><option>Assistive Device</option><option>Accessory</option></select></div>
+            <div><label class="block text-sm font-medium mb-1">Price (₹)</label><input type="number" id="productPrice" class="w-full border rounded-lg px-4 py-2"></div>
+            <div><label class="block text-sm font-medium mb-1">Stock Quantity</label><input type="number" id="productStock" class="w-full border rounded-lg px-4 py-2"></div>
+            <div><label class="block text-sm font-medium mb-1">Description</label><textarea id="productDesc" rows="3" class="w-full border rounded-lg px-4 py-2"></textarea></div>
+            <div class="flex gap-3 pt-3"><button onclick="saveProduct()" class="flex-1 bg-teal-600 text-white py-2 rounded-lg font-semibold">Save Product</button><button onclick="closeProductModal()" class="flex-1 border border-gray-300 py-2 rounded-lg">Cancel</button></div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Update Modal -->
+<div id="orderModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4"><h3 class="text-xl font-bold">Update Order Status</h3><button onclick="closeOrderModal()" class="text-2xl text-gray-400">&times;</button></div>
+        <div><label class="block text-sm font-medium mb-1">Order ID</label><input type="text" id="orderIdField" class="w-full border rounded-lg px-4 py-2 bg-gray-50" readonly></div>
+        <div class="mt-3"><label class="block text-sm font-medium mb-1">Status</label><select id="orderStatusSelect" class="w-full border rounded-lg px-4 py-2"><option value="processing">Processing</option><option value="shipped">Shipped</option><option value="out-for-delivery">Out for Delivery</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select></div>
+        <div class="flex gap-3 mt-5"><button onclick="updateOrderStatus()" class="flex-1 bg-teal-600 text-white py-2 rounded-lg font-semibold">Update</button><button onclick="closeOrderModal()" class="flex-1 border border-gray-300 py-2 rounded-lg">Cancel</button></div>
+    </div>
+</div>
+
+<!-- Appointment Update Modal -->
+<div id="appointmentModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4"><h3 class="text-xl font-bold">Manage Appointment</h3><button onclick="closeAppointmentModal()" class="text-2xl text-gray-400">&times;</button></div>
+        <div><label class="block text-sm font-medium mb-1">Customer</label><input type="text" id="apptCustomer" class="w-full border rounded-lg px-4 py-2 bg-gray-50" readonly></div>
+        <div class="mt-3"><label class="block text-sm font-medium mb-1">Service</label><input type="text" id="apptService" class="w-full border rounded-lg px-4 py-2 bg-gray-50" readonly></div>
+        <div class="mt-3"><label class="block text-sm font-medium mb-1">Status</label><select id="apptStatusSelect" class="w-full border rounded-lg px-4 py-2"><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
+        <div class="flex gap-3 mt-5"><button onclick="updateAppointmentStatus()" class="flex-1 bg-teal-600 text-white py-2 rounded-lg font-semibold">Update</button><button onclick="closeAppointmentModal()" class="flex-1 border border-gray-300 py-2 rounded-lg">Cancel</button></div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6 text-center">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i></div>
+        <h3 class="text-xl font-bold mb-2">Confirm Delete</h3>
+        <p class="text-gray-500 mb-4">Are you sure you want to delete this item? This action cannot be undone.</p>
+        <div class="flex gap-3"><button id="confirmDeleteBtn" class="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold">Delete</button><button onclick="closeDeleteModal()" class="flex-1 border border-gray-300 py-2 rounded-lg">Cancel</button></div>
+    </div>
+</div>
+
+<!-- Withdraw Modal -->
+<div id="withdrawModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4"><h3 class="text-xl font-bold">Request Withdrawal</h3><button onclick="closeWithdrawModal()" class="text-2xl text-gray-400">&times;</button></div>
+        <div><label class="block text-sm font-medium mb-1">Withdrawal Amount</label><input type="number" id="withdrawAmount" class="w-full border rounded-lg px-4 py-2" placeholder="Enter amount"></div>
+        <div class="mt-3"><label class="block text-sm font-medium mb-1">Bank Account</label><select class="w-full border rounded-lg px-4 py-2"><option>HDFC Bank ****1234</option><option>SBI ****5678</option></select></div>
+        <div class="flex gap-3 mt-5"><button onclick="requestWithdrawal()" class="flex-1 bg-teal-600 text-white py-2 rounded-lg font-semibold">Request Withdrawal</button><button onclick="closeWithdrawModal()" class="flex-1 border border-gray-300 py-2 rounded-lg">Cancel</button></div>
+    </div>
+</div>
+
+<script>
+    // ======================== VENDOR DATA ========================
+    const vendorData = {
+        id: "VND-001",
+        name: "Chhindwara Speech & Hearing Centre",
+        owner: "Dr. Priya Mehta",
+        email: "priya@chhindwara.com",
+        phone: "9876543210",
+        rating: 4.9,
+        totalReviews: 128,
+        joined: "January 2024",
+        status: "active"
+    };
+    
+    let products = [
+        { id: 1, name: "Phonak Audéo Lumity", category: "Hearing Aid", price: 49999, stock: 15, sold: 42, image: "🦻", status: "active", description: "Premium Bluetooth hearing aid with rechargeable battery" },
+        { id: 2, name: "Speech Therapy Kit - Complete Set", category: "Therapy Kit", price: 1899, stock: 45, sold: 128, image: "📚", status: "active", description: "Flash cards, workbook, and articulation tools" },
+        { id: 3, name: "Voice Amplifier for Teachers", category: "Assistive Device", price: 3299, stock: 8, sold: 23, image: "🔈", status: "active", description: "10W output, 8hr battery life" },
+        { id: 4, name: "Articulation Therapy Cards", category: "Therapy Kit", price: 799, stock: 32, sold: 89, image: "🃏", status: "active", description: "120 cards with multiple sounds" }
+    ];
+    
+    let orders = [
+        { id: "HDH-001", customer: "Rajesh Sharma", items: [{ name: "Phonak Audéo Lumity", qty: 1, price: 49999 }], amount: 49999, status: "delivered", date: "Dec 15, 2024", payment: "UPI" },
+        { id: "HDH-002", customer: "Neha Verma", items: [{ name: "Speech Therapy Kit", qty: 2, price: 1899 }], amount: 3798, status: "shipped", date: "Dec 14, 2024", payment: "Card" },
+        { id: "HDH-003", customer: "Amit Kumar", items: [{ name: "Voice Amplifier", qty: 1, price: 3299 }], amount: 3299, status: "processing", date: "Dec 16, 2024", payment: "COD" },
+        { id: "HDH-004", customer: "Sunita Patil", items: [{ name: "Articulation Cards", qty: 1, price: 799 }], amount: 799, status: "delivered", date: "Dec 10, 2024", payment: "UPI" }
+    ];
+    
+    let appointments = [
+        { id: 1, customer: "Rajesh Sharma", phone: "9876543210", service: "Audiometry Assessment", date: "Dec 18, 2024", time: "10:00 AM", status: "confirmed", fee: 1200 },
+        { id: 2, customer: "Neha Verma", phone: "9876543211", service: "Pediatric Speech Therapy", date: "Dec 19, 2024", time: "2:00 PM", status: "pending", fee: 800 },
+        { id: 3, customer: "Amit Patel", phone: "9876543212", service: "Hearing Aid Fitting", date: "Dec 20, 2024", time: "11:30 AM", status: "confirmed", fee: 2000 },
+        { id: 4, customer: "Priya Singh", phone: "9876543213", service: "Tinnitus Management", date: "Dec 17, 2024", time: "3:00 PM", status: "completed", fee: 1500 }
+    ];
+    
+    let reviews = [
+        { id: 1, customer: "Rajesh Sharma", rating: 5, comment: "Excellent service! Dr. Priya is very knowledgeable.", date: "Dec 16, 2024", product: "Phonak Audéo Lumity" },
+        { id: 2, customer: "Neha Verma", rating: 4, comment: "Good quality therapy kit. My son loves it.", date: "Dec 14, 2024", product: "Speech Therapy Kit" },
+        { id: 3, customer: "Sunita Patil", rating: 5, comment: "Very helpful product for my daughter's speech delay.", date: "Dec 12, 2024", product: "Articulation Cards" }
+    ];
+    
+    let earnings = {
+        total: 489996,
+        pending: 3299,
+        thisMonth: 45799,
+        lastMonth: 63200,
+        commissionRate: 10,
+        transactions: [
+            { id: "WTH-001", date: "Dec 1, 2024", amount: 25000, status: "completed" },
+            { id: "WTH-002", date: "Nov 1, 2024", amount: 30000, status: "completed" }
+        ]
+    };
+    
+    let currentPage = "overview";
+    let deleteCallback = null;
+    let currentOrderId = null;
+    let currentAppointmentId = null;
+    
+    function showToast(msg, icon = "✓") {
+        const toast = document.getElementById('toastMsg');
+        toast.innerHTML = `${icon} ${msg}`;
+        toast.style.opacity = "1";
+        setTimeout(() => toast.style.opacity = "0", 2500);
+    }
+    
+    function getStatusBadge(status) {
+        const classes = { 'pending': 'status-pending', 'processing': 'status-processing', 'shipped': 'status-shipped', 'delivered': 'status-delivered', 'cancelled': 'status-cancelled', 'confirmed': 'status-processing', 'completed': 'status-delivered' };
+        return `<span class="status-badge ${classes[status] || 'status-pending'}">${status.charAt(0).toUpperCase() + status.slice(1)}</span>`;
+    }
+    
+    function updateStats() {
+        const totalProducts = products.length;
+        const outOfStock = products.filter(p => p.stock === 0).length;
+        const totalOrders = orders.length;
+        const pendingOrders = orders.filter(o => o.status === 'processing' || o.status === 'shipped').length;
+        const pendingAppointments = appointments.filter(a => a.status === 'pending').length;
+        const totalEarnings = earnings.total;
+        
+        return { totalProducts, outOfStock, totalOrders, pendingOrders, pendingAppointments, totalEarnings };
+    }
+    
+    function renderOverview() {
+        const stats = updateStats();
+        const totalRevenue = orders.reduce((sum, o) => sum + o.amount, 0);
+        const monthlyData = [45200, 48900, 52300, 58700, 63200, 45799];
+        const months = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        
+        const html = `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                <div class="stat-card bg-white rounded-xl p-5"><div class="flex justify-between"><i class="fas fa-box text-3xl text-teal-600"></i><span class="text-2xl font-bold">${stats.totalProducts}</span></div><p class="text-gray-500 mt-2">Total Products</p><p class="text-xs ${stats.outOfStock > 0 ? 'text-red-500' : 'text-green-500'}">${stats.outOfStock} out of stock</p></div>
+                <div class="stat-card bg-white rounded-xl p-5"><div class="flex justify-between"><i class="fas fa-shopping-cart text-3xl text-blue-600"></i><span class="text-2xl font-bold">${stats.totalOrders}</span></div><p class="text-gray-500 mt-2">Total Orders</p><p class="text-xs text-orange-500">${stats.pendingOrders} pending</p></div>
+                <div class="stat-card bg-white rounded-xl p-5"><div class="flex justify-between"><i class="fas fa-rupee-sign text-3xl text-green-600"></i><span class="text-2xl font-bold">₹${(stats.totalEarnings / 1000).toFixed(0)}K</span></div><p class="text-gray-500 mt-2">Total Earnings</p><p class="text-xs text-green-500">This month: ₹${earnings.thisMonth.toLocaleString()}</p></div>
+                <div class="stat-card bg-white rounded-xl p-5"><div class="flex justify-between"><i class="fas fa-calendar text-3xl text-orange-600"></i><span class="text-2xl font-bold">${appointments.length}</span></div><p class="text-gray-500 mt-2">Appointments</p><p class="text-xs text-orange-500">${stats.pendingAppointments} pending</p></div>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Revenue Trend (Last 6 months)</h3><canvas id="revenueChart" height="200"></canvas></div>
+                <div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Recent Orders</h3><div class="space-y-3">${orders.slice(0,5).map(o => `<div class="flex justify-between items-center border-b pb-2"><div><p class="font-medium">${o.id}</p><p class="text-xs text-gray-500">${o.customer}</p></div>${getStatusBadge(o.status)}<span class="font-semibold">₹${o.amount.toLocaleString()}</span></div>`).join('')}</div></div>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-6 mt-6">
+                <div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Top Selling Products</h3><div class="space-y-3">${products.sort((a,b)=>b.sold - a.sold).slice(0,3).map(p => `<div class="flex justify-between items-center"><div><p class="font-medium">${p.name}</p><p class="text-xs text-gray-500">${p.sold} units sold</p></div><span class="font-bold text-teal-600">₹${p.price.toLocaleString()}</span></div>`).join('')}</div></div>
+                <div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Upcoming Appointments</h3><div class="space-y-3">${appointments.filter(a => a.status !== 'completed').slice(0,3).map(a => `<div class="flex justify-between items-center border-b pb-2"><div><p class="font-medium">${a.customer}</p><p class="text-xs text-gray-500">${a.service} • ${a.date} ${a.time}</p></div>${getStatusBadge(a.status)}</div>`).join('')}</div></div>
+            </div>
+        `;
+        document.getElementById('pageContent').innerHTML = html;
+        
+        const ctx = document.getElementById('revenueChart')?.getContext('2d');
+        if (ctx) new Chart(ctx, { type: 'line', data: { labels: months, datasets: [{ label: 'Revenue (₹)', data: monthlyData, borderColor: '#0d9488', tension: 0.3, fill: true, backgroundColor: 'rgba(13,148,136,0.1)' }] }, options: { responsive: true } });
+    }
+    
+    function renderProducts() {
+        const stats = updateStats();
+        const html = `
+            <div class="bg-white rounded-xl p-5"><div class="flex justify-between items-center mb-4"><h2 class="text-xl font-bold">My Products</h2><button onclick="openAddProductModal()" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium"><i class="fas fa-plus mr-1"></i> Add Product</button></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${products.map(p => `<div class="product-card border rounded-xl p-4"><div class="flex justify-between"><span class="text-4xl">${p.image}</span><span class="status-badge ${p.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${p.stock > 0 ? 'In Stock' : 'Out of Stock'}</span></div><h3 class="font-bold text-lg mt-2">${p.name}</h3><p class="text-xs text-gray-500">${p.category}</p><p class="text-xl font-bold text-teal-600 mt-2">₹${p.price.toLocaleString()}</p><p class="text-xs text-gray-500">Stock: ${p.stock} units | Sold: ${p.sold}</p><div class="flex gap-2 mt-3"><button onclick="editProduct(${p.id})" class="flex-1 border border-teal-600 text-teal-600 py-1.5 rounded-lg text-sm">Edit</button><button onclick="deleteProduct(${p.id})" class="flex-1 border border-red-500 text-red-500 py-1.5 rounded-lg text-sm">Delete</button></div></div>`).join('')}</div></div>
+        `;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderOrders() {
+        const html = `<div class="bg-white rounded-xl p-5"><h2 class="text-xl font-bold mb-4">Orders</h2><div class="overflow-x-auto"><table class="w-full"><thead><tr class="border-b"><th class="text-left py-3">Order ID</th><th class="text-left">Customer</th><th class="text-left">Items</th><th class="text-left">Amount</th><th class="text-left">Date</th><th class="text-left">Payment</th><th class="text-left">Status</th><th class="text-left">Actions</th></tr></thead><tbody>${orders.map(o => `<tr class="border-b"><td class="py-3 font-mono text-sm">${o.id}</td><td>${o.customer}</td><td class="text-sm">${o.items.map(i => `${i.name} x${i.qty}`).join(', ')}</td><td class="font-semibold">₹${o.amount.toLocaleString()}</td><td class="text-sm">${o.date}</td><td class="text-sm">${o.payment}</td><td>${getStatusBadge(o.status)}</td><td><button onclick="openOrderModal('${o.id}')" class="text-teal-600"><i class="fas fa-edit"></i></button></td></tr>`).join('')}</tbody></table></div></div>`;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderAppointments() {
+        const html = `<div class="bg-white rounded-xl p-5"><h2 class="text-xl font-bold mb-4">Appointments</h2><div class="overflow-x-auto"><table class="w-full"><thead><tr class="border-b"><th class="text-left py-3">Customer</th><th class="text-left">Service</th><th class="text-left">Date</th><th class="text-left">Time</th><th class="text-left">Fee</th><th class="text-left">Status</th><th class="text-left">Actions</th></tr></thead><tbody>${appointments.map(a => `<tr class="border-b"><td class="py-3"><p class="font-medium">${a.customer}</p><p class="text-xs text-gray-500">${a.phone}</p></td><td>${a.service}</td><td>${a.date}</td><td>${a.time}</td><td>₹${a.fee}</td><td>${getStatusBadge(a.status)}</td><td><button onclick="openAppointmentModal(${a.id})" class="text-teal-600"><i class="fas fa-edit"></i></button></td></tr>`).join('')}</tbody></table></div></div>`;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderEarnings() {
+        const stats = updateStats();
+        const html = `
+            <div class="grid lg:grid-cols-3 gap-6 mb-6">
+                <div class="bg-gradient-to-r from-teal-600 to-teal-500 text-white rounded-xl p-6"><p class="text-sm opacity-90">Total Earnings</p><p class="text-4xl font-bold">₹${stats.totalEarnings.toLocaleString()}</p><p class="text-xs opacity-80 mt-2">Platform fee: ${earnings.commissionRate}%</p></div>
+                <div class="bg-white rounded-xl p-6"><p class="text-gray-500 text-sm">Pending Settlement</p><p class="text-3xl font-bold text-orange-600">₹${earnings.pending.toLocaleString()}</p><button onclick="openWithdrawModal()" class="mt-3 bg-orange-500 text-white px-4 py-2 rounded-lg text-sm">Request Withdrawal</button></div>
+                <div class="bg-white rounded-xl p-6"><p class="text-gray-500 text-sm">This Month</p><p class="text-3xl font-bold text-green-600">₹${earnings.thisMonth.toLocaleString()}</p><p class="text-xs ${earnings.thisMonth > earnings.lastMonth ? 'text-green-500' : 'text-red-500'} mt-1">${earnings.thisMonth > earnings.lastMonth ? '↑' : '↓'} ${Math.abs(((earnings.thisMonth - earnings.lastMonth) / earnings.lastMonth * 100)).toFixed(0)}% vs last month</p></div>
+            </div>
+            <div class="bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Withdrawal History</h3><div class="space-y-3">${earnings.transactions.map(t => `<div class="flex justify-between items-center border-b pb-2"><div><p class="font-medium">${t.id}</p><p class="text-xs text-gray-500">${t.date}</p></div><span class="font-semibold">₹${t.amount.toLocaleString()}</span>${getStatusBadge(t.status)}</div>`).join('')}</div></div>
+        `;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderReviews() {
+        const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
+        const html = `
+            <div class="grid lg:grid-cols-2 gap-6"><div class="bg-white rounded-xl p-6 text-center"><div class="text-5xl font-bold text-teal-600">${avgRating}</div><div class="star-rating text-yellow-400 text-xl">${'★'.repeat(Math.floor(avgRating))}${avgRating % 1 ? '½' : ''}</div><p class="text-gray-500">Based on ${reviews.length} reviews</p></div>
+            <div class="bg-white rounded-xl p-6"><h3 class="font-bold mb-3">Rating Distribution</h3><div class="space-y-2">${[5,4,3,2,1].map(r => { const count = reviews.filter(rev => rev.rating === r).length; const percentage = (count / reviews.length * 100) || 0; return `<div class="flex items-center gap-2"><span class="w-8">${r}★</span><div class="flex-1 bg-gray-200 rounded-full h-2"><div class="bg-yellow-400 rounded-full h-2" style="width: ${percentage}%"></div></div><span class="w-8 text-sm">${percentage.toFixed(0)}%</span></div>`; }).join('')}</div></div>
+            <div class="lg:col-span-2 bg-white rounded-xl p-5"><h3 class="font-bold text-lg mb-3">Customer Reviews</h3><div class="space-y-4">${reviews.map(r => `<div class="border-b pb-3"><div class="flex justify-between"><div><p class="font-medium">${r.customer}</p><div class="text-yellow-400 text-sm">${'★'.repeat(r.rating)}</div></div><span class="text-xs text-gray-400">${r.date}</span></div><p class="text-sm text-gray-600 mt-1">“${r.comment}”</p><p class="text-xs text-gray-400 mt-1">Product: ${r.product}</p></div>`).join('')}</div></div></div>
+        `;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    function renderSettings() {
+        const html = `<div class="bg-white rounded-xl p-5 max-w-2xl"><h2 class="text-xl font-bold mb-4">Store Settings</h2><div class="space-y-4"><div><label class="block text-sm font-medium mb-1">Store Name</label><input type="text" value="${vendorData.name}" class="w-full border rounded-lg px-4 py-2"></div><div><label class="block text-sm font-medium mb-1">Owner Name</label><input type="text" value="${vendorData.owner}" class="w-full border rounded-lg px-4 py-2"></div><div><label class="block text-sm font-medium mb-1">Phone</label><input type="text" value="${vendorData.phone}" class="w-full border rounded-lg px-4 py-2"></div><div><label class="block text-sm font-medium mb-1">Email</label><input type="email" value="${vendorData.email}" class="w-full border rounded-lg px-4 py-2"></div><div><label class="block text-sm font-medium mb-1">Store Description</label><textarea rows="4" class="w-full border rounded-lg px-4 py-2">Leading speech and hearing clinic in Chhindwara, providing quality care since 2020.</textarea></div><button onclick="showToast('Settings saved', '⚙️')" class="bg-teal-600 text-white px-6 py-2 rounded-lg font-semibold">Save Changes</button></div></div>`;
+        document.getElementById('pageContent').innerHTML = html;
+    }
+    
+    // Product functions
+    function openAddProductModal() { document.getElementById('productModalTitle').innerText = 'Add New Product'; document.getElementById('productModal').classList.remove('hidden'); }
+    function closeProductModal() { document.getElementById('productModal').classList.add('hidden'); }
+    function saveProduct() { showToast('Product added successfully', '✓'); closeProductModal(); renderProducts(); }
+    function editProduct(id) { showToast('Edit product feature', '✏️'); }
+    function deleteProduct(id) { deleteCallback = () => { products = products.filter(p => p.id !== id); showToast('Product deleted', '🗑️'); renderProducts(); }; document.getElementById('deleteModal').classList.remove('hidden'); }
+    
+    // Order functions
+    function openOrderModal(orderId) { currentOrderId = orderId; const order = orders.find(o => o.id === orderId); document.getElementById('orderIdField').value = orderId; document.getElementById('orderStatusSelect').value = order.status; document.getElementById('orderModal').classList.remove('hidden'); }
+    function updateOrderStatus() { const newStatus = document.getElementById('orderStatusSelect').value; const order = orders.find(o => o.id === currentOrderId); if (order) { order.status = newStatus; showToast(`Order ${currentOrderId} updated to ${newStatus}`, '✓'); } closeOrderModal(); renderOrders(); renderOverview(); }
+    function closeOrderModal() { document.getElementById('orderModal').classList.add('hidden'); currentOrderId = null; }
+    
+    // Appointment functions
+    function openAppointmentModal(id) { currentAppointmentId = id; const apt = appointments.find(a => a.id === id); document.getElementById('apptCustomer').value = apt.customer; document.getElementById('apptService').value = apt.service; document.getElementById('apptStatusSelect').value = apt.status; document.getElementById('appointmentModal').classList.remove('hidden'); }
+    function updateAppointmentStatus() { const newStatus = document.getElementById('apptStatusSelect').value; const apt = appointments.find(a => a.id === currentAppointmentId); if (apt) { apt.status = newStatus; showToast(`Appointment updated to ${newStatus}`, '✓'); } closeAppointmentModal(); renderAppointments(); renderOverview(); }
+    function closeAppointmentModal() { document.getElementById('appointmentModal').classList.add('hidden'); currentAppointmentId = null; }
+    
+    // Withdrawal functions
+    function openWithdrawModal() { document.getElementById('withdrawModal').classList.remove('hidden'); }
+    function closeWithdrawModal() { document.getElementById('withdrawModal').classList.add('hidden'); }
+    function requestWithdrawal() { showToast('Withdrawal request submitted', '💰'); closeWithdrawModal(); }
+    
+    function closeDeleteModal() { document.getElementById('deleteModal').classList.add('hidden'); deleteCallback = null; }
+    document.getElementById('confirmDeleteBtn')?.addEventListener('click', () => { if (deleteCallback) deleteCallback(); closeDeleteModal(); });
+    
+    // Page routing
+    function loadPage(page) {
+        currentPage = page;
+        document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+        document.querySelector(`[data-page="${page}"]`).classList.add('active');
+        const titles = { overview: 'Dashboard Overview', products: 'My Products', orders: 'Orders', appointments: 'Appointments', earnings: 'Earnings', reviews: 'Reviews & Ratings', settings: 'Store Settings' };
+        document.getElementById('pageTitle').innerText = titles[page];
+        if (page === 'overview') renderOverview();
+        else if (page === 'products') renderProducts();
+        else if (page === 'orders') renderOrders();
+        else if (page === 'appointments') renderAppointments();
+        else if (page === 'earnings') renderEarnings();
+        else if (page === 'reviews') renderReviews();
+        else if (page === 'settings') renderSettings();
+    }
+    
+    document.querySelectorAll('.sidebar-item').forEach(item => { item.addEventListener('click', () => loadPage(item.getAttribute('data-page'))); });
+    loadPage('overview');
+</script>
+</body>
+</html>

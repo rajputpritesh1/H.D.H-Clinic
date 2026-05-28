@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>My Orders | H.D.H. Marketplace - Order History</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #f8fafc; }
+        .order-card { transition: all 0.3s ease; }
+        .order-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1); }
+        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-processing { background: #dbeafe; color: #1e40af; }
+        .status-shipped { background: #e0f2fe; color: #0369a1; }
+        .status-out-for-delivery { background: #fef3c7; color: #92400e; }
+        .status-delivered { background: #dcfce7; color: #166534; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+        .status-refunded { background: #f3e8ff; color: #6b21a5; }
+        .filter-chip { transition: all 0.2s ease; cursor: pointer; }
+        .filter-chip.active { background: #0f766e; color: white; border-color: #0f766e; }
+        .toast-message { position: fixed; bottom: 30px; right: 30px; background: #1e293b; color: white; padding: 12px 24px; border-radius: 50px; z-index: 1000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .modal-backdrop { background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); }
+    </style>
+</head>
+<body>
+
+<div id="toastMsg" class="toast-message"></div>
+
+<!-- ======================== NAVBAR ======================== -->
+<nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <div class="bg-teal-700 w-9 h-9 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-ear-listen text-white text-lg"></i>
+                </div>
+                <span class="font-bold text-xl text-teal-800">H.D.H.<span class="text-orange-500"> Marketplace</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#" class="text-gray-600 hover:text-teal-600">Home</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">Products</a>
+                <a href="#" class="text-teal-700 font-semibold border-b-2 border-teal-700 pb-1">My Orders</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">Track Order</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
+                    <i class="fas fa-user-circle text-teal-600 text-lg"></i>
+                    <span class="text-sm font-medium">Rajesh Sharma</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================== PAGE HEADER ======================== -->
+<section class="bg-gradient-to-r from-teal-700 to-teal-600 text-white py-10">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold">My Orders</h1>
+                <p class="text-teal-100 mt-1">View and manage all your purchases</p>
+            </div>
+            <a href="#" class="mt-3 md:mt-0 bg-white text-teal-700 px-5 py-2.5 rounded-full font-semibold hover:bg-gray-100 transition flex items-center gap-2">
+                <i class="fas fa-shopping-bag"></i> Continue Shopping
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ======================== MAIN CONTENT ======================== -->
+<div class="max-w-7xl mx-auto px-4 py-8">
+    
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+        <div class="bg-white rounded-xl p-4 text-center shadow-sm">
+            <i class="fas fa-box text-teal-600 text-xl"></i>
+            <p class="text-2xl font-bold mt-1" id="totalOrders">0</p>
+            <p class="text-xs text-gray-500">Total Orders</p>
+        </div>
+        <div class="bg-white rounded-xl p-4 text-center shadow-sm">
+            <i class="fas fa-truck text-blue-600 text-xl"></i>
+            <p class="text-2xl font-bold mt-1" id="deliveredCount">0</p>
+            <p class="text-xs text-gray-500">Delivered</p>
+        </div>
+        <div class="bg-white rounded-xl p-4 text-center shadow-sm">
+            <i class="fas fa-hourglass-half text-orange-600 text-xl"></i>
+            <p class="text-2xl font-bold mt-1" id="pendingCount">0</p>
+            <p class="text-xs text-gray-500">In Progress</p>
+        </div>
+        <div class="bg-white rounded-xl p-4 text-center shadow-sm">
+            <i class="fas fa-times-circle text-red-600 text-xl"></i>
+            <p class="text-2xl font-bold mt-1" id="cancelledCount">0</p>
+            <p class="text-xs text-gray-500">Cancelled</p>
+        </div>
+        <div class="bg-white rounded-xl p-4 text-center shadow-sm">
+            <i class="fas fa-rupee-sign text-green-600 text-xl"></i>
+            <p class="text-2xl font-bold mt-1" id="totalSpent">0</p>
+            <p class="text-xs text-gray-500">Total Spent</p>
+        </div>
+    </div>
+    
+    <!-- Filter Tabs -->
+    <div class="flex flex-wrap gap-2 mb-6">
+        <button data-filter="all" class="filter-chip active px-4 py-2 rounded-full text-sm font-medium border border-gray-200 bg-teal-600 text-white">All Orders</button>
+        <button data-filter="pending" class="filter-chip px-4 py-2 rounded-full text-sm font-medium border border-gray-200 bg-white text-gray-700 hover:border-teal-300">Pending</button>
+        <button data-filter="processing" class="filter-chip px-4 py-2 rounded-full text-sm font-medium border border-gray-200 bg-white text-gray-700 hover:border-teal-300">Processing</button>
+        <button data-filter="shipped" class="filter-chip px-4 py-2 rounded-full text-sm font-medium border border-gray-200 bg-white text-gray-700 hover:border-teal-300">Shipped</button>
+        <button data-filter="out-for-delivery" class="filter-chip px-4 py-2 rounded-full text-sm font-medium border border-gray-200 bg-white text-gray-700 hover:border-teal-300">Out for Delivery</button>
+        <button data-filter="delivered" class="filter-chip px-4 py-2 rounded-full text-sm font-medium border border-gray-200 bg-white text-gray-700 hover:border-teal-300">Delivered</button>
+        <button data-filter="cancelled" class="filter-chip px-4 py-2 rounded-full text-sm font-medium border border-gray-200 bg-white text-gray-700 hover:border-teal-300">Cancelled</button>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="mb-6">
+        <div class="relative max-w-md">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input type="text" id="searchOrders" placeholder="Search by Order ID or Product name..." class="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-400 outline-none">
+        </div>
+    </div>
+    
+    <!-- Orders List -->
+    <div id="ordersList" class="space-y-4">
+        <!-- Dynamic orders will appear here -->
+    </div>
+    
+    <!-- No Orders Message -->
+    <div id="noOrders" class="hidden text-center py-16 bg-white rounded-2xl">
+        <i class="fas fa-inbox text-5xl text-gray-300 mb-4"></i>
+        <p class="text-gray-400 text-lg">No orders found</p>
+        <a href="#" class="inline-block mt-3 text-teal-600 font-semibold">Start Shopping →</a>
+    </div>
+</div>
+
+<!-- ======================== ORDER DETAILS MODAL ======================== -->
+<div id="orderModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-3xl w-full mx-4 max-h-[85vh] overflow-y-auto">
+        <div class="sticky top-0 bg-white border-b p-5 flex justify-between items-center">
+            <h3 class="text-xl font-bold text-gray-800">Order Details</h3>
+            <button onclick="closeOrderModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+        </div>
+        <div id="orderModalContent" class="p-5">
+            <!-- Dynamic order details -->
+        </div>
+    </div>
+</div>
+
+<!-- ======================== RETURN/REFUND MODAL ======================== -->
+<div id="returnModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-gray-800">Request Return</h3>
+            <button onclick="closeReturnModal()" class="text-2xl text-gray-400 hover:text-gray-600">&times;</button>
+        </div>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Reason for Return</label>
+                <select id="returnReason" class="w-full border border-gray-300 rounded-lg px-4 py-2.5">
+                    <option>Damaged product</option>
+                    <option>Wrong product received</option>
+                    <option>Product not working</option>
+                    <option>Changed my mind</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Additional Comments</label>
+                <textarea id="returnComments" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2.5" placeholder="Please provide more details..."></textarea>
+            </div>
+        </div>
+        <div class="flex gap-3 mt-5">
+            <button onclick="submitReturn()" class="flex-1 bg-teal-600 text-white py-2.5 rounded-lg font-semibold">Submit Request</button>
+            <button onclick="closeReturnModal()" class="flex-1 border border-gray-300 text-gray-600 py-2.5 rounded-lg font-semibold">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== CANCELLATION MODAL ======================== -->
+<div id="cancelModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6 text-center">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Cancel Order?</h3>
+        <p class="text-gray-500 mb-4">Are you sure you want to cancel this order? This action cannot be undone.</p>
+        <div class="flex gap-3">
+            <button onclick="confirmCancelOrder()" class="flex-1 bg-red-600 text-white py-2.5 rounded-lg font-semibold">Yes, Cancel</button>
+            <button onclick="closeCancelModal()" class="flex-1 border border-gray-300 text-gray-600 py-2.5 rounded-lg font-semibold">No, Go Back</button>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="bg-gray-900 text-gray-400 py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+        <p>© 2025 HEARING DIAGNOSTIC HUB — Multi-Vendor Marketplace. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // Mock orders database
+    let orders = [
+        {
+            id: "HDH-20241215-001",
+            trackingNumber: "TRK123456789",
+            date: "December 15, 2024",
+            dateISO: "2024-12-15",
+            status: "shipped",
+            total: 56898,
+            subtotal: 56799,
+            shipping: 99,
+            discount: 0,
+            paymentMethod: "UPI",
+            items: [
+                { id: 1, name: "Phonak Audéo Lumity", price: 49999, quantity: 1, image: "🦻", vendor: "Chhindwara Speech Centre", vendorId: "v1" },
+                { id: 2, name: "Speech Therapy Kit", price: 1899, quantity: 2, image: "📚", vendor: "Chhindwara Speech Centre", vendorId: "v1" }
+            ],
+            deliveryAddress: {
+                name: "Rajesh Sharma",
+                phone: "9876543210",
+                address: "Shop No. 17, Complex-1, Chhindwara Main Road",
+                city: "Chhindwara",
+                pincode: "480001"
+            },
+            timeline: [
+                { status: "Order Placed", date: "Dec 15, 2024 10:30 AM", completed: true },
+                { status: "Order Processed", date: "Dec 15, 2024 2:00 PM", completed: true },
+                { status: "Shipped", date: "Dec 16, 2024 9:15 AM", completed: true },
+                { status: "Out for Delivery", date: "Expected Dec 18, 2024", completed: false },
+                { status: "Delivered", date: "", completed: false }
+            ],
+            estimatedDelivery: "December 18-20, 2024",
+            trackingLink: "https://track.delhivery.com/TRK123456789"
+        },
+        {
+            id: "HDH-20241210-002",
+            trackingNumber: "TRK987654321",
+            date: "December 10, 2024",
+            dateISO: "2024-12-10",
+            status: "delivered",
+            total: 54999,
+            subtotal: 54999,
+            shipping: 0,
+            discount: 0,
+            paymentMethod: "Credit Card",
+            items: [
+                { id: 5, name: "ReSound Omnia 9", price: 54999, quantity: 1, image: "🔋", vendor: "Indore Hearing Solutions", vendorId: "v4" }
+            ],
+            deliveryAddress: {
+                name: "Rajesh Sharma",
+                phone: "9876543210",
+                address: "Shop No. 17, Complex-1, Chhindwara Main Road",
+                city: "Chhindwara",
+                pincode: "480001"
+            },
+            timeline: [
+                { status: "Order Placed", date: "Dec 10, 2024 11:20 AM", completed: true },
+                { status: "Order Processed", date: "Dec 10, 2024 3:30 PM", completed: true },
+                { status: "Shipped", date: "Dec 11, 2024 10:00 AM", completed: true },
+                { status: "Out for Delivery", date: "Dec 13, 2024 9:30 AM", completed: true },
+                { status: "Delivered", date: "Dec 13, 2024 4:15 PM", completed: true }
+            ],
+            estimatedDelivery: "Delivered on Dec 13, 2024",
+            trackingLink: "https://track.bluedart.com/TRK987654321"
+        },
+        {
+            id: "HDH-20241205-003",
+            trackingNumber: "TRK456789123",
+            date: "December 5, 2024",
+            dateISO: "2024-12-05",
+            status: "out-for-delivery",
+            total: 1299,
+            subtotal: 1299,
+            shipping: 0,
+            discount: 0,
+            paymentMethod: "COD",
+            items: [
+                { id: 10, name: "Hearing Aid Dryer & Cleaner Kit", price: 1299, quantity: 1, image: "🧼", vendor: "Nagpur Audiology Hub", vendorId: "v2" }
+            ],
+            deliveryAddress: {
+                name: "Rajesh Sharma",
+                phone: "9876543210",
+                address: "Shop No. 17, Complex-1, Chhindwara Main Road",
+                city: "Chhindwara",
+                pincode: "480001"
+            },
+            timeline: [
+                { status: "Order Placed", date: "Dec 5, 2024 2:15 PM", completed: true },
+                { status: "Order Processed", date: "Dec 5, 2024 5:00 PM", completed: true },
+                { status: "Shipped", date: "Dec 6, 2024 11:30 AM", completed: true },
+                { status: "Out for Delivery", date: "Today, Dec 17, 2024 9:00 AM", completed: true },
+                { status: "Delivered", date: "", completed: false }
+            ],
+            estimatedDelivery: "Today, December 17, 2024",
+            trackingLink: "https://track.delhivery.com/TRK456789123"
+        },
+        {
+            id: "HDH-20241128-004",
+            trackingNumber: "TRK111222333",
+            date: "November 28, 2024",
+            dateISO: "2024-11-28",
+            status: "cancelled",
+            total: 24999,
+            subtotal: 24999,
+            shipping: 0,
+            discount: 0,
+            paymentMethod: "UPI",
+            items: [
+                { id: 1, name: "Phonak Audéo Lumity", price: 24999, quantity: 1, image: "🦻", vendor: "Chhindwara Speech Centre", vendorId: "v1" }
+            ],
+            deliveryAddress: {
+                name: "Rajesh Sharma",
+                phone: "9876543210",
+                address: "Shop No. 17, Complex-1, Chhindwara Main Road",
+                city: "Chhindwara",
+                pincode: "480001"
+            },
+            timeline: [
+                { status: "Order Placed", date: "Nov 28, 2024 9:00 AM", completed: true },
+                { status: "Order Processed", date: "Nov 28, 2024 11:30 AM", completed: true },
+                { status: "Cancelled", date: "Nov 28, 2024 2:00 PM", completed: true }
+            ],
+            estimatedDelivery: "Cancelled",
+            cancellationReason: "Changed mind"
+        },
+        {
+            id: "HDH-20241120-005",
+            trackingNumber: "TRK444555666",
+            date: "November 20, 2024",
+            dateISO: "2024-11-20",
+            status: "pending",
+            total: 800,
+            subtotal: 800,
+            shipping: 0,
+            discount: 0,
+            paymentMethod: "UPI",
+            items: [
+                { id: 0, name: "Pediatric Speech Therapy Session", price: 800, quantity: 1, image: "🗣️", vendor: "Bhopal Speech Clinic", vendorId: "v3", isService: true }
+            ],
+            deliveryAddress: {
+                name: "Rajesh Sharma",
+                phone: "9876543210",
+                address: "Shop No. 17, Complex-1, Chhindwara Main Road",
+                city: "Chhindwara",
+                pincode: "480001"
+            },
+            timeline: [
+                { status: "Order Placed", date: "Nov 20, 2024 4:00 PM", completed: true },
+                { status: "Awaiting Confirmation", date: "", completed: false }
+            ],
+            estimatedDelivery: "Vendor will confirm within 24 hours"
+        }
+    ];
+    
+    let currentFilter = "all";
+    let currentSearch = "";
+    let selectedOrderId = null;
+    
+    function getStatusLabel(status) {
+        const labels = {
+            'pending': 'Pending',
+            'processing': 'Processing',
+            'shipped': 'Shipped',
+            'out-for-delivery': 'Out for Delivery',
+            'delivered': 'Delivered',
+            'cancelled': 'Cancelled',
+            'refunded': 'Refunded'
+        };
+        return labels[status] || status;
+    }
+    
+    function getStatusClass(status) {
+        const classes = {
+            'pending': 'status-pending',
+            'processing': 'status-processing',
+            'shipped': 'status-shipped',
+            'out-for-delivery': 'status-out-for-delivery',
+            'delivered': 'status-delivered',
+            'cancelled': 'status-cancelled',
+            'refunded': 'status-refunded'
+        };
+        return classes[status] || 'status-pending';
+    }
+    
+    function updateStats() {
+        const total = orders.length;
+        const delivered = orders.filter(o => o.status === 'delivered').length;
+        const inProgress = orders.filter(o => ['pending', 'processing', 'shipped', 'out-for-delivery'].includes(o.status)).length;
+        const cancelled = orders.filter(o => o.status === 'cancelled').length;
+        const totalSpent = orders.filter(o => o.status === 'delivered').reduce((sum, o) => sum + o.total, 0);
+        
+        document.getElementById('totalOrders').innerText = total;
+        document.getElementById('deliveredCount').innerText = delivered;
+        document.getElementById('pendingCount').innerText = inProgress;
+        document.getElementById('cancelledCount').innerText = cancelled;
+        document.getElementById('totalSpent').innerText = `₹${totalSpent.toLocaleString()}`;
+    }
+    
+    function filterOrders() {
+        let filtered = [...orders];
+        
+        if (currentFilter !== 'all') {
+            filtered = filtered.filter(o => o.status === currentFilter);
+        }
+        
+        if (currentSearch) {
+            const search = currentSearch.toLowerCase();
+            filtered = filtered.filter(o => 
+                o.id.toLowerCase().includes(search) || 
+                o.items.some(i => i.name.toLowerCase().includes(search))
+            );
+        }
+        
+        return filtered;
+    }
+    
+    function renderOrders() {
+        const filtered = filterOrders();
+        const container = document.getElementById('ordersList');
+        const noOrders = document.getElementById('noOrders');
+        
+        if (filtered.length === 0) {
+            container.innerHTML = '';
+            noOrders.classList.remove('hidden');
+            return;
+        }
+        
+        noOrders.classList.add('hidden');
+        
+        container.innerHTML = filtered.map(order => `
+            <div class="order-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-5">
+                    <div class="flex flex-wrap justify-between items-start gap-3">
+                        <div>
+                            <p class="font-mono text-sm font-semibold text-gray-700">${order.id}</p>
+                            <p class="text-xs text-gray-400">Placed on ${order.date}</p>
+                        </div>
+                        <span class="status-badge ${getStatusClass(order.status)}">${getStatusLabel(order.status)}</span>
+                    </div>
+                    
+                    <div class="border-t my-3"></div>
+                    
+                    <div class="space-y-2">
+                        ${order.items.slice(0, 2).map(item => `
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl">${item.image}</span>
+                                <div class="flex-1">
+                                    <p class="font-medium text-sm">${item.name}</p>
+                                    <p class="text-xs text-gray-500">Qty: ${item.quantity} × ₹${item.price.toLocaleString()}</p>
+                                </div>
+                                <p class="font-semibold text-sm">₹${(item.price * item.quantity).toLocaleString()}</p>
+                            </div>
+                        `).join('')}
+                        ${order.items.length > 2 ? `<p class="text-xs text-teal-600">+${order.items.length - 2} more items</p>` : ''}
+                    </div>
+                    
+                    <div class="border-t my-3"></div>
+                    
+                    <div class="flex flex-wrap justify-between items-center gap-3">
+                        <div>
+                            <p class="text-sm text-gray-500">Total Amount</p>
+                            <p class="text-xl font-bold text-teal-700">₹${order.total.toLocaleString()}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            ${order.status !== 'cancelled' ? `<button onclick="trackOrder('${order.id}')" class="px-4 py-2 border border-teal-600 text-teal-600 rounded-lg text-sm font-medium hover:bg-teal-50 transition">Track Order</button>` : ''}
+                            <button onclick="viewOrderDetails('${order.id}')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition">View Details</button>
+                            ${order.status === 'delivered' ? `<button onclick="reorder('${order.id}')" class="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition">Buy Again</button>` : ''}
+                            ${order.status === 'pending' ? `<button onclick="openCancelModal('${order.id}')" class="px-4 py-2 text-red-600 border border-red-200 rounded-lg text-sm font-medium hover:bg-red-50 transition">Cancel</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function viewOrderDetails(orderId) {
+        const order = orders.find(o => o.id === orderId);
+        if (order) {
+            const modalContent = document.getElementById('orderModalContent');
+            modalContent.innerHTML = `
+                <div class="space-y-4">
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <div class="flex justify-between flex-wrap gap-2">
+                            <div><p class="text-xs text-gray-500">Order ID</p><p class="font-mono font-semibold">${order.id}</p></div>
+                            <div><p class="text-xs text-gray-500">Placed On</p><p class="font-medium">${order.date}</p></div>
+                            <div><p class="text-xs text-gray-500">Payment Method</p><p class="font-medium">${order.paymentMethod}</p></div>
+                            <div><p class="text-xs text-gray-500">Status</p><span class="status-badge ${getStatusClass(order.status)}">${getStatusLabel(order.status)}</span></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Order Items</h4>
+                        <div class="space-y-2">
+                            ${order.items.map(item => `
+                                <div class="flex justify-between items-center border-b pb-2">
+                                    <div class="flex gap-2">
+                                        <span class="text-2xl">${item.image}</span>
+                                        <div><p class="font-medium">${item.name}</p><p class="text-xs text-gray-500">${item.vendor}</p></div>
+                                    </div>
+                                    <div class="text-right"><p class="font-semibold">₹${(item.price * item.quantity).toLocaleString()}</p><p class="text-xs text-gray-400">Qty: ${item.quantity}</p></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <h4 class="font-semibold text-gray-800 mb-2">Price Summary</h4>
+                        <div class="space-y-1 text-sm">
+                            <div class="flex justify-between"><span>Subtotal</span><span>₹${order.subtotal.toLocaleString()}</span></div>
+                            ${order.discount > 0 ? `<div class="flex justify-between text-green-600"><span>Discount</span><span>-₹${order.discount}</span></div>` : ''}
+                            <div class="flex justify-between"><span>Shipping</span><span>${order.shipping === 0 ? 'Free' : '₹' + order.shipping}</span></div>
+                            <div class="border-t pt-1 mt-1"><div class="flex justify-between font-bold"><span>Total</span><span>₹${order.total.toLocaleString()}</span></div></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Delivery Address</h4>
+                        <div class="bg-gray-50 rounded-xl p-3 text-sm">
+                            <p class="font-medium">${order.deliveryAddress.name}</p>
+                            <p>${order.deliveryAddress.phone}</p>
+                            <p>${order.deliveryAddress.address}</p>
+                            <p>${order.deliveryAddress.city} - ${order.deliveryAddress.pincode}</p>
+                        </div>
+                    </div>
+                    
+                    ${order.status === 'delivered' ? `
+                        <button onclick="openReturnModal('${order.id}')" class="w-full border border-teal-600 text-teal-600 py-2.5 rounded-xl font-medium hover:bg-teal-50 transition">Request Return / Refund</button>
+                    ` : ''}
+                </div>
+            `;
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+    }
+    
+    function trackOrder(orderId) {
+        window.location.href = `order-tracking.html?order=${orderId}`;
+    }
+    
+    function reorder(orderId) {
+        showToast("Items added to cart! Redirecting to checkout...", "🛒");
+        setTimeout(() => { window.location.href = "checkout.html"; }, 1500);
+    }
+    
+    function openCancelModal(orderId) {
+        selectedOrderId = orderId;
+        document.getElementById('cancelModal').classList.remove('hidden');
+    }
+    
+    function confirmCancelOrder() {
+        if (selectedOrderId) {
+            const order = orders.find(o => o.id === selectedOrderId);
+            if (order) {
+                order.status = 'cancelled';
+                order.cancellationReason = "Cancelled by customer";
+                showToast(`Order ${selectedOrderId} has been cancelled`, "✓");
+                renderOrders();
+                updateStats();
+            }
+        }
+        closeCancelModal();
+    }
+    
+    function openReturnModal(orderId) {
+        selectedOrderId = orderId;
+        document.getElementById('returnModal').classList.remove('hidden');
+    }
+    
+    function submitReturn() {
+        const reason = document.getElementById('returnReason').value;
+        const comments = document.getElementById('returnComments').value;
+        showToast(`Return request submitted for ${selectedOrderId}. We'll process within 3-5 days.`, "📦");
+        closeReturnModal();
+    }
+    
+    function closeOrderModal() { document.getElementById('orderModal').classList.add('hidden'); }
+    function closeCancelModal() { document.getElementById('cancelModal').classList.add('hidden'); selectedOrderId = null; }
+    function closeReturnModal() { document.getElementById('returnModal').classList.add('hidden'); selectedOrderId = null; }
+    
+    function showToast(msg, icon) {
+        const toast = document.getElementById('toastMsg');
+        toast.innerHTML = `${icon} ${msg}`;
+        toast.style.opacity = "1";
+        setTimeout(() => toast.style.opacity = "0", 2500);
+    }
+    
+    // Event listeners
+    function init() {
+        updateStats();
+        renderOrders();
+        
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.filter-chip').forEach(c => {
+                    c.classList.remove('active', 'bg-teal-600', 'text-white');
+                    c.classList.add('bg-white', 'text-gray-700');
+                });
+                chip.classList.add('active', 'bg-teal-600', 'text-white');
+                chip.classList.remove('bg-white', 'text-gray-700');
+                currentFilter = chip.getAttribute('data-filter');
+                renderOrders();
+            });
+        });
+        
+        document.getElementById('searchOrders').addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderOrders();
+        });
+    }
+    
+    window.viewOrderDetails = viewOrderDetails;
+    window.trackOrder = trackOrder;
+    window.reorder = reorder;
+    window.openCancelModal = openCancelModal;
+    window.confirmCancelOrder = confirmCancelOrder;
+    window.openReturnModal = openReturnModal;
+    window.submitReturn = submitReturn;
+    window.closeOrderModal = closeOrderModal;
+    window.closeCancelModal = closeCancelModal;
+    window.closeReturnModal = closeReturnModal;
+    
+    init();
+</script>
+</body>
+</html>

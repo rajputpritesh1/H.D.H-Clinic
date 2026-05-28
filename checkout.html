@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Checkout | H.D.H. Marketplace - Secure Payment</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #f8fafc; }
+        .step-active { background: #0d9488; color: white; border-color: #0d9488; }
+        .step-completed { background: #10b981; color: white; border-color: #10b981; }
+        .payment-method { transition: all 0.2s ease; cursor: pointer; }
+        .payment-method.selected { border-color: #0d9488; background: #f0fdfa; }
+        .order-item { transition: all 0.2s; }
+        .toast-message { position: fixed; bottom: 30px; right: 30px; background: #1e293b; color: white; padding: 12px 24px; border-radius: 50px; z-index: 1000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<div id="toastMsg" class="toast-message"></div>
+
+<!-- ======================== NAVBAR ======================== -->
+<nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <div class="bg-teal-700 w-9 h-9 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-ear-listen text-white text-lg"></i>
+                </div>
+                <span class="font-bold text-xl text-teal-800">H.D.H.<span class="text-orange-500"> Marketplace</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#" class="text-gray-600 hover:text-teal-600">Home</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">Products</a>
+                <a href="#" class="text-teal-700 font-semibold border-b-2 border-teal-700 pb-1">Checkout</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
+                    <i class="fas fa-user-circle text-teal-600 text-lg"></i>
+                    <span class="text-sm font-medium">Rajesh Sharma</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================== PAGE HEADER ======================== -->
+<section class="bg-gradient-to-r from-teal-700 to-teal-600 text-white py-8">
+    <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-3xl md:text-4xl font-bold">Secure Checkout</h1>
+        <p class="text-teal-100 mt-1">Complete your purchase with confidence</p>
+    </div>
+</section>
+
+<!-- ======================== CHECKOUT STEPS ======================== -->
+<div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="flex justify-between items-center max-w-3xl mx-auto mb-8">
+        <div class="flex flex-col items-center">
+            <div id="step1Circle" class="w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold border-2 border-teal-600">1</div>
+            <span class="text-xs mt-2 text-gray-600">Cart Review</span>
+        </div>
+        <div class="flex-1 h-0.5 bg-teal-600 mx-2"></div>
+        <div class="flex flex-col items-center">
+            <div id="step2Circle" class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-bold border-2 border-gray-200">2</div>
+            <span class="text-xs mt-2 text-gray-600">Address</span>
+        </div>
+        <div class="flex-1 h-0.5 bg-gray-200 mx-2"></div>
+        <div class="flex flex-col items-center">
+            <div id="step3Circle" class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-bold border-2 border-gray-200">3</div>
+            <span class="text-xs mt-2 text-gray-600">Payment</span>
+        </div>
+        <div class="flex-1 h-0.5 bg-gray-200 mx-2"></div>
+        <div class="flex flex-col items-center">
+            <div id="step4Circle" class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-bold border-2 border-gray-200">4</div>
+            <span class="text-xs mt-2 text-gray-600">Confirmation</span>
+        </div>
+    </div>
+
+    <!-- Step 1: Cart Review -->
+    <div id="step1" class="step-content">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-sm p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Review Your Items</h2>
+                    <div id="cartItemsReview" class="space-y-3">
+                        <!-- Cart items will be populated -->
+                    </div>
+                    <div class="mt-4 text-right">
+                        <a href="#" class="text-teal-600 text-sm"><i class="fas fa-arrow-left mr-1"></i> Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-sm p-6 sticky top-24">
+                    <h3 class="font-bold text-lg mb-3">Order Summary</h3>
+                    <div id="orderSummaryStep1" class="space-y-2 text-sm">
+                        <!-- Dynamic summary -->
+                    </div>
+                    <button id="nextStep1Btn" class="w-full mt-5 bg-teal-600 text-white py-3 rounded-xl font-semibold hover:bg-teal-700 transition">Proceed to Address →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Address -->
+    <div id="step2" class="step-content hidden">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-sm p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Delivery Address</h2>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                        <input type="text" id="fullName" value="Rajesh Sharma" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                        <input type="tel" id="phone" value="9876543210" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                        <input type="email" id="email" value="rajesh@example.com" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Address Line *</label>
+                        <input type="text" id="address" value="Shop No. 17, Complex-1, Chhindwara Main Road" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">City *</label>
+                            <input type="text" id="city" value="Chhindwara" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">PIN Code *</label>
+                            <input type="text" id="pincode" value="480001" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-teal-400">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="flex items-center gap-2">
+                            <input type="checkbox" id="saveAddress" class="rounded text-teal-600">
+                            <span class="text-sm text-gray-600">Save this address for future orders</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-sm p-6 sticky top-24">
+                    <h3 class="font-bold text-lg mb-3">Order Summary</h3>
+                    <div id="orderSummaryStep2" class="space-y-2 text-sm"></div>
+                    <div class="flex gap-3 mt-5">
+                        <button id="backStep2Btn" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-xl font-semibold hover:bg-gray-50 transition">Back</button>
+                        <button id="nextStep2Btn" class="flex-1 bg-teal-600 text-white py-3 rounded-xl font-semibold hover:bg-teal-700 transition">Proceed to Payment →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 3: Payment -->
+    <div id="step3" class="step-content hidden">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-sm p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Select Payment Method</h2>
+                    
+                    <!-- Payment Methods -->
+                    <div class="space-y-3">
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4 cursor-pointer" data-method="card">
+                            <div class="flex items-center gap-3">
+                                <i class="fab fa-cc-visa text-2xl text-blue-600"></i>
+                                <i class="fab fa-cc-mastercard text-2xl text-red-600"></i>
+                                <i class="fab fa-cc-amex text-2xl text-blue-400"></i>
+                                <span class="font-medium">Credit / Debit Card</span>
+                                <span class="ml-auto text-xs text-gray-400">Secure</span>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4 cursor-pointer" data-method="upi">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-mobile-alt text-2xl text-teal-600"></i>
+                                <span class="font-medium">UPI / Google Pay / PhonePe</span>
+                                <span class="ml-auto text-xs text-gray-400">Instant</span>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4 cursor-pointer" data-method="netbanking">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-university text-2xl text-gray-600"></i>
+                                <span class="font-medium">Net Banking</span>
+                                <span class="ml-auto text-xs text-gray-400">All Banks</span>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4 cursor-pointer" data-method="cod">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-rupee-sign text-2xl text-green-600"></i>
+                                <span class="font-medium">Cash on Delivery</span>
+                                <span class="ml-auto text-xs text-gray-400">Pay at delivery</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card Details (hidden by default) -->
+                    <div id="cardDetails" class="mt-5 hidden">
+                        <div class="border-t pt-4">
+                            <div class="grid grid-cols-2 gap-4 mb-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                                    <input type="text" placeholder="1234 5678 9012 3456" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                                    <input type="password" placeholder="123" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Cardholder Name</label>
+                                    <input type="text" placeholder="Name on card" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- UPI Details -->
+                    <div id="upiDetails" class="mt-5 hidden">
+                        <div class="border-t pt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">UPI ID</label>
+                            <input type="text" placeholder="username@oksbi" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                            <p class="text-xs text-gray-400 mt-2">Or scan QR code on next page</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Net Banking Details -->
+                    <div id="netbankingDetails" class="mt-5 hidden">
+                        <div class="border-t pt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Select Bank</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                                <option>SBI - State Bank of India</option>
+                                <option>HDFC Bank</option>
+                                <option>ICICI Bank</option>
+                                <option>Axis Bank</option>
+                                <option>Yes Bank</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-sm p-6 sticky top-24">
+                    <h3 class="font-bold text-lg mb-3">Order Summary</h3>
+                    <div id="orderSummaryStep3" class="space-y-2 text-sm"></div>
+                    <div class="flex gap-3 mt-5">
+                        <button id="backStep3Btn" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-xl font-semibold hover:bg-gray-50 transition">Back</button>
+                        <button id="placeOrderBtn" class="flex-1 bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition">Place Order</button>
+                    </div>
+                    <p class="text-xs text-center text-gray-400 mt-3"><i class="fas fa-lock mr-1"></i> Secure payment gateway</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 4: Confirmation -->
+    <div id="step4" class="step-content hidden">
+        <div class="max-w-2xl mx-auto text-center">
+            <div class="bg-white rounded-2xl shadow-sm p-8">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check-circle text-green-600 text-4xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Order Confirmed!</h2>
+                <p class="text-gray-500 mb-4">Thank you for shopping with H.D.H. Marketplace</p>
+                
+                <div class="bg-gray-50 rounded-xl p-4 text-left mb-6">
+                    <p class="text-sm"><strong>Order ID:</strong> <span id="orderId">HDH-2024-12345</span></p>
+                    <p class="text-sm mt-1"><strong>Estimated Delivery:</strong> <span id="estimatedDelivery">3-5 business days</span></p>
+                    <p class="text-sm mt-1"><strong>Confirmation sent to:</strong> <span id="confirmationEmail">rajesh@example.com</span></p>
+                </div>
+                
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <a href="#" class="bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-700 transition">Track Order</a>
+                    <a href="#" class="border border-teal-600 text-teal-600 px-6 py-3 rounded-xl font-semibold hover:bg-teal-50 transition">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="bg-gray-900 text-gray-400 py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+        <p>© 2025 HEARING DIAGNOSTIC HUB — Multi-Vendor Marketplace. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // Mock cart data (would come from previous page/localStorage)
+    let cartItems = [
+        { id: 1, name: "Phonak Audéo Lumity", price: 49999, quantity: 1, image: "🦻", vendor: "Chhindwara Speech Centre" },
+        { id: 2, name: "Speech Therapy Kit - Complete Set", price: 1899, quantity: 2, image: "📚", vendor: "Chhindwara Speech Centre" },
+        { id: 5, name: "ReSound Omnia 9", price: 54999, quantity: 1, image: "🔋", vendor: "Indore Hearing Solutions" }
+    ];
+    
+    let currentStep = 1;
+    let selectedPaymentMethod = null;
+    let orderPlaced = false;
+    
+    // Load cart from localStorage
+    function loadCart() {
+        const saved = localStorage.getItem('hdh_product_cart');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed.length > 0) cartItems = parsed;
+        }
+        updateOrderSummaries();
+    }
+    
+    function getSubtotal() {
+        return cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+    
+    function getShipping() {
+        const subtotal = getSubtotal();
+        if (subtotal > 2000) return 0;
+        return 99;
+    }
+    
+    function getTotal() {
+        return getSubtotal() + getShipping();
+    }
+    
+    function updateOrderSummaries() {
+        const subtotal = getSubtotal();
+        const shipping = getShipping();
+        const total = getTotal();
+        
+        const summaryHtml = `
+            <div class="flex justify-between"><span>Subtotal</span><span>₹${subtotal.toLocaleString()}</span></div>
+            <div class="flex justify-between"><span>Shipping</span><span>${shipping === 0 ? 'Free' : '₹' + shipping}</span></div>
+            <div class="border-t pt-2 mt-2"><div class="flex justify-between font-bold"><span>Total</span><span>₹${total.toLocaleString()}</span></div></div>
+        `;
+        
+        document.getElementById('orderSummaryStep1').innerHTML = summaryHtml;
+        document.getElementById('orderSummaryStep2').innerHTML = summaryHtml;
+        document.getElementById('orderSummaryStep3').innerHTML = summaryHtml;
+        
+        // Render cart items
+        renderCartItems();
+    }
+    
+    function renderCartItems() {
+        const container = document.getElementById('cartItemsReview');
+        if (container) {
+            container.innerHTML = cartItems.map(item => `
+                <div class="order-item flex justify-between items-center border-b pb-3">
+                    <div class="flex gap-3">
+                        <span class="text-3xl">${item.image}</span>
+                        <div>
+                            <p class="font-medium">${item.name}</p>
+                            <p class="text-xs text-gray-500">${item.vendor}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-semibold">₹${(item.price * item.quantity).toLocaleString()}</p>
+                        <p class="text-xs text-gray-400">Qty: ${item.quantity}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+    
+    function updateSteps() {
+        for (let i = 1; i <= 4; i++) {
+            const circle = document.getElementById(`step${i}Circle`);
+            if (i < currentStep) {
+                circle.classList.remove('bg-gray-200', 'text-gray-500', 'bg-teal-600');
+                circle.classList.add('bg-green-500', 'text-white');
+                circle.innerHTML = '<i class="fas fa-check text-xs"></i>';
+            } else if (i === currentStep) {
+                circle.classList.remove('bg-gray-200', 'text-gray-500', 'bg-green-500');
+                circle.classList.add('bg-teal-600', 'text-white');
+                circle.innerHTML = i;
+            } else {
+                circle.classList.remove('bg-teal-600', 'bg-green-500', 'text-white');
+                circle.classList.add('bg-gray-200', 'text-gray-500');
+                circle.innerHTML = i;
+            }
+        }
+    }
+    
+    function showStep(step) {
+        document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+        document.getElementById(`step${step}`).classList.remove('hidden');
+        currentStep = step;
+        updateSteps();
+    }
+    
+    function showToast(msg, icon = "✓") {
+        const toast = document.getElementById('toastMsg');
+        toast.innerHTML = `${icon} ${msg}`;
+        toast.style.opacity = "1";
+        setTimeout(() => toast.style.opacity = "0", 2500);
+    }
+    
+    // Payment method selection
+    function initPaymentMethods() {
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', () => {
+                document.querySelectorAll('.payment-method').forEach(m => {
+                    m.classList.remove('selected', 'border-teal-600', 'bg-teal-50');
+                    m.classList.add('border-gray-200');
+                });
+                method.classList.remove('border-gray-200');
+                method.classList.add('selected', 'border-teal-600', 'bg-teal-50');
+                
+                selectedPaymentMethod = method.getAttribute('data-method');
+                
+                // Show/hide details
+                document.getElementById('cardDetails').classList.add('hidden');
+                document.getElementById('upiDetails').classList.add('hidden');
+                document.getElementById('netbankingDetails').classList.add('hidden');
+                
+                if (selectedPaymentMethod === 'card') {
+                    document.getElementById('cardDetails').classList.remove('hidden');
+                } else if (selectedPaymentMethod === 'upi') {
+                    document.getElementById('upiDetails').classList.remove('hidden');
+                } else if (selectedPaymentMethod === 'netbanking') {
+                    document.getElementById('netbankingDetails').classList.remove('hidden');
+                }
+            });
+        });
+    }
+    
+    // Place order
+    function placeOrder() {
+        if (!selectedPaymentMethod) {
+            showToast("Please select a payment method", "⚠️");
+            return;
+        }
+        
+        const name = document.getElementById('fullName')?.value;
+        const phone = document.getElementById('phone')?.value;
+        const address = document.getElementById('address')?.value;
+        
+        if (!name || !phone || !address) {
+            showToast("Please fill in all address details", "⚠️");
+            return;
+        }
+        
+        // Generate order ID
+        const orderId = 'HDH-' + Date.now().toString().slice(-8);
+        document.getElementById('orderId').innerText = orderId;
+        document.getElementById('confirmationEmail').innerText = document.getElementById('email')?.value || 'customer@example.com';
+        
+        // Save order to localStorage
+        const order = {
+            id: orderId,
+            items: cartItems,
+            subtotal: getSubtotal(),
+            shipping: getShipping(),
+            total: getTotal(),
+            customer: {
+                name: name,
+                phone: phone,
+                email: document.getElementById('email')?.value,
+                address: address,
+                city: document.getElementById('city')?.value,
+                pincode: document.getElementById('pincode')?.value
+            },
+            paymentMethod: selectedPaymentMethod,
+            status: 'Processing',
+            orderDate: new Date().toISOString(),
+            estimatedDelivery: '3-5 business days'
+        };
+        
+        let orders = JSON.parse(localStorage.getItem('hdh_orders') || '[]');
+        orders.unshift(order);
+        localStorage.setItem('hdh_orders', JSON.stringify(orders));
+        
+        // Clear cart
+        localStorage.removeItem('hdh_product_cart');
+        cartItems = [];
+        
+        showToast("Order placed successfully!", "🎉");
+        showStep(4);
+    }
+    
+    // Navigation
+    document.getElementById('nextStep1Btn')?.addEventListener('click', () => {
+        if (cartItems.length === 0) {
+            showToast("Your cart is empty", "⚠️");
+            return;
+        }
+        showStep(2);
+    });
+    
+    document.getElementById('backStep2Btn')?.addEventListener('click', () => showStep(1));
+    document.getElementById('nextStep2Btn')?.addEventListener('click', () => {
+        const name = document.getElementById('fullName')?.value;
+        const phone = document.getElementById('phone')?.value;
+        const address = document.getElementById('address')?.value;
+        
+        if (!name || !phone || !address) {
+            showToast("Please fill in all required address fields", "⚠️");
+            return;
+        }
+        showStep(3);
+    });
+    
+    document.getElementById('backStep3Btn')?.addEventListener('click', () => showStep(2));
+    document.getElementById('placeOrderBtn')?.addEventListener('click', placeOrder);
+    
+    // Initialize
+    loadCart();
+    initPaymentMethods();
+    showStep(1);
+</script>
+</body>
+</html>

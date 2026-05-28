@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Expert Overview | Dr. Priya Mehta - Speech & Hearing Specialist | H.D.H. Marketplace</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { background: #f8fafc; }
+        .star-rating { color: #fbbf24; }
+        .service-card, .review-card { transition: all 0.3s ease; }
+        .service-card:hover, .review-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -8px rgba(0,0,0,0.1); }
+        .availability-badge { background: #dcfce7; color: #166534; }
+        .unavailable-badge { background: #fee2e2; color: #991b1b; }
+        .tab-active { border-bottom: 2px solid #0d9488; color: #0d9488; }
+        .rating-progress-bar { background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+        .rating-progress-fill { background: #fbbf24; height: 8px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<!-- ======================== NAVBAR ======================== -->
+<nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <div class="bg-teal-700 w-9 h-9 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-ear-listen text-white text-lg"></i>
+                </div>
+                <span class="font-bold text-xl text-teal-800">H.D.H.<span class="text-orange-500"> Marketplace</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#" class="text-gray-600 hover:text-teal-600">Home</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">Find Experts</a>
+                <a href="#" class="text-gray-600 hover:text-teal-600">Products</a>
+                <a href="#" class="text-teal-700 font-semibold border-b-2 border-teal-700 pb-1">Expert Overview</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-700 transition">Sign In</button>
+                <button class="border border-teal-600 text-teal-600 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-50 transition">Register</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ======================== EXPERT HEADER SECTION ======================== -->
+<div class="bg-gradient-to-r from-teal-700 to-teal-600 text-white py-8">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
+            <div class="w-32 h-32 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-6xl border-4 border-white">
+                👩‍⚕️
+            </div>
+            <div class="text-center md:text-left flex-1">
+                <h1 class="text-3xl md:text-4xl font-bold">Dr. Priya Mehta</h1>
+                <p class="text-teal-100 text-lg mt-1">MASLP, PhD Scholar | Senior Audiologist & Speech Therapist</p>
+                <div class="flex flex-wrap gap-4 mt-3 justify-center md:justify-start">
+                    <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt"></i> Chhindwara, MP</span>
+                    <span class="flex items-center gap-1"><i class="fas fa-briefcase"></i> 12+ Years Experience</span>
+                    <span class="flex items-center gap-1"><i class="fas fa-star text-yellow-300"></i> 4.9 (128 reviews)</span>
+                    <span class="flex items-center gap-1"><i class="fas fa-check-circle"></i> RCI Certified</span>
+                </div>
+            </div>
+            <div class="text-center md:text-right">
+                <div class="bg-white/20 backdrop-blur rounded-2xl p-4">
+                    <p class="text-sm">Consultation Fee</p>
+                    <p class="text-3xl font-bold">₹1,200</p>
+                    <button class="mt-2 bg-orange-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-orange-600 transition flex items-center gap-2 mx-auto md:mx-0"><i class="fas fa-calendar-check"></i> Book Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== MAIN CONTENT ======================== -->
+<div class="max-w-7xl mx-auto px-4 py-10">
+    <div class="flex flex-col lg:flex-row gap-8">
+        
+        <!-- LEFT COLUMN - Main Info -->
+        <div class="flex-1">
+            <!-- Tabs -->
+            <div class="flex gap-6 border-b mb-6">
+                <button class="tab-btn pb-3 px-2 font-semibold text-gray-600 tab-active" data-tab="about">About</button>
+                <button class="tab-btn pb-3 px-2 font-semibold text-gray-600" data-tab="services">Services & Fees</button>
+                <button class="tab-btn pb-3 px-2 font-semibold text-gray-600" data-tab="reviews">Reviews (128)</button>
+                <button class="tab-btn pb-3 px-2 font-semibold text-gray-600" data-tab="availability">Availability</button>
+            </div>
+            
+            <!-- About Tab -->
+            <div id="tab-about" class="tab-content">
+                <div class="bg-white rounded-2xl shadow-sm p-6" data-aos="fade-up">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">About Dr. Priya Mehta</h2>
+                    <p class="text-gray-600 leading-relaxed">Dr. Priya Mehta is a renowned Audiologist and Speech-Language Pathologist with over 12 years of clinical experience. She holds a Master's degree in Audiology and Speech-Language Pathology (MASLP) and is currently pursuing her PhD in Pediatric Audiology.</p>
+                    <p class="text-gray-600 leading-relaxed mt-3">She specializes in diagnosing and treating hearing disorders, speech delays, and communication challenges in both children and adults. Dr. Mehta is known for her patient-centric approach and has successfully helped over 2,000 patients regain their confidence in communication.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-4 mt-6">
+                        <div class="bg-gray-50 rounded-xl p-4"><i class="fas fa-graduation-cap text-teal-600 text-xl"></i><p class="font-semibold mt-2">Education</p><p class="text-sm text-gray-500">MASLP - All India Institute of Speech & Hearing<br>PhD (Pursuing) - RGUHS</p></div>
+                        <div class="bg-gray-50 rounded-xl p-4"><i class="fas fa-certificate text-teal-600 text-xl"></i><p class="font-semibold mt-2">Certifications</p><p class="text-sm text-gray-500">RCI Certified (A59032)<br>Advanced Tinnitus Management</p></div>
+                        <div class="bg-gray-50 rounded-xl p-4"><i class="fas fa-language text-teal-600 text-xl"></i><p class="font-semibold mt-2">Languages</p><p class="text-sm text-gray-500">English, Hindi, Marathi</p></div>
+                        <div class="bg-gray-50 rounded-xl p-4"><i class="fas fa-trophy text-teal-600 text-xl"></i><p class="font-semibold mt-2">Awards</p><p class="text-sm text-gray-500">Best Audiologist Award - 2022<br>Excellence in Speech Therapy - 2020</p></div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-sm p-6 mt-6" data-aos="fade-up" data-aos-delay="100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Clinic Location</h2>
+                    <div class="bg-gray-200 rounded-xl h-64 flex items-center justify-center">
+                        <i class="fas fa-map-marked-alt text-4xl text-gray-400"></i>
+                        <span class="ml-2 text-gray-500">Map View - Shop No. 17, Complex-1, Chhindwara Main Road</span>
+                    </div>
+                    <p class="mt-3 text-gray-600"><i class="fas fa-location-dot text-teal-600"></i> Shop No. 17, 1st Floor, Complex-1, Chhindwara Main Road, Chhindwara, MP - 480001</p>
+                </div>
+            </div>
+            
+            <!-- Services Tab -->
+            <div id="tab-services" class="tab-content hidden">
+                <div class="bg-white rounded-2xl shadow-sm p-6" data-aos="fade-up">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Services Offered</h2>
+                    <div class="space-y-3">
+                        <div class="service-card bg-gray-50 rounded-xl p-4 flex justify-between items-center flex-wrap gap-3">
+                            <div><i class="fas fa-ear-listen text-teal-600 text-xl mr-3"></i><span class="font-medium">Audiometry Assessment</span><p class="text-sm text-gray-500 mt-1">Complete hearing evaluation using advanced equipment</p></div>
+                            <div class="text-right"><span class="font-bold text-teal-700">₹1,200</span><br><span class="text-xs text-gray-400">45 min</span></div>
+                        </div>
+                        <div class="service-card bg-gray-50 rounded-xl p-4 flex justify-between items-center flex-wrap gap-3">
+                            <div><i class="fas fa-comments text-teal-600 text-xl mr-3"></i><span class="font-medium">Pediatric Speech Therapy</span><p class="text-sm text-gray-500 mt-1">Speech delay, articulation, and language development</p></div>
+                            <div class="text-right"><span class="font-bold text-teal-700">₹800</span><br><span class="text-xs text-gray-400">1 hour</span></div>
+                        </div>
+                        <div class="service-card bg-gray-50 rounded-xl p-4 flex justify-between items-center flex-wrap gap-3">
+                            <div><i class="fas fa-puzzle-piece text-teal-600 text-xl mr-3"></i><span class="font-medium">Autism Communication Therapy</span><p class="text-sm text-gray-500 mt-1">AAC, social skills, and behavioral communication</p></div>
+                            <div class="text-right"><span class="font-bold text-teal-700">₹1,000</span><br><span class="text-xs text-gray-400">1 hour</span></div>
+                        </div>
+                        <div class="service-card bg-gray-50 rounded-xl p-4 flex justify-between items-center flex-wrap gap-3">
+                            <div><i class="fas fa-microphone-alt text-teal-600 text-xl mr-3"></i><span class="font-medium">Hearing Aid Fitting & Trial</span><p class="text-sm text-gray-500 mt-1">Digital hearing aid selection, fitting, and follow-up</p></div>
+                            <div class="text-right"><span class="font-bold text-teal-700">₹2,000</span><br><span class="text-xs text-gray-400">1.5 hours</span></div>
+                        </div>
+                        <div class="service-card bg-gray-50 rounded-xl p-4 flex justify-between items-center flex-wrap gap-3">
+                            <div><i class="fas fa-music text-teal-600 text-xl mr-3"></i><span class="font-medium">Tinnitus Management</span><p class="text-sm text-gray-500 mt-1">TRT and sound therapy for ringing ears</p></div>
+                            <div class="text-right"><span class="font-bold text-teal-700">₹1,500</span><br><span class="text-xs text-gray-400">50 min</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reviews Tab -->
+            <div id="tab-reviews" class="tab-content hidden">
+                <div class="bg-white rounded-2xl shadow-sm p-6" data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <!-- Rating Summary -->
+                        <div class="md:w-1/3 text-center p-4 bg-gray-50 rounded-xl">
+                            <div class="text-5xl font-bold text-teal-700">4.9</div>
+                            <div class="star-rating text-xl">★★★★★</div>
+                            <p class="text-sm text-gray-500 mt-1">Based on 128 reviews</p>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center gap-2 text-sm"><span>5 ★</span><div class="flex-1 rating-progress-bar"><div class="rating-progress-fill" style="width: 85%"></div></div><span>85%</span></div>
+                                <div class="flex items-center gap-2 text-sm"><span>4 ★</span><div class="flex-1 rating-progress-bar"><div class="rating-progress-fill" style="width: 10%"></div></div><span>10%</span></div>
+                                <div class="flex items-center gap-2 text-sm"><span>3 ★</span><div class="flex-1 rating-progress-bar"><div class="rating-progress-fill" style="width: 3%"></div></div><span>3%</span></div>
+                                <div class="flex items-center gap-2 text-sm"><span>2 ★</span><div class="flex-1 rating-progress-bar"><div class="rating-progress-fill" style="width: 1%"></div></div><span>1%</span></div>
+                                <div class="flex items-center gap-2 text-sm"><span>1 ★</span><div class="flex-1 rating-progress-bar"><div class="rating-progress-fill" style="width: 1%"></div></div><span>1%</span></div>
+                            </div>
+                        </div>
+                        <!-- Review List -->
+                        <div class="md:w-2/3 space-y-4 max-h-96 overflow-y-auto pr-2">
+                            <div class="review-card bg-gray-50 rounded-xl p-4">
+                                <div class="flex justify-between"><div class="font-semibold">Rajesh Sharma</div><div class="star-rating text-sm">★★★★★</div></div>
+                                <p class="text-sm text-gray-500 mt-1">"Dr. Priya is extremely knowledgeable and patient. She diagnosed my mother's hearing issue accurately and recommended the perfect hearing aid. Highly recommend!"</p>
+                                <p class="text-xs text-gray-400 mt-2">2 weeks ago</p>
+                            </div>
+                            <div class="review-card bg-gray-50 rounded-xl p-4">
+                                <div class="flex justify-between"><div class="font-semibold">Neha Verma</div><div class="star-rating text-sm">★★★★★</div></div>
+                                <p class="text-sm text-gray-500 mt-1">"My son has shown remarkable improvement in his speech after just 3 months of therapy. Thank you Dr. Priya!"</p>
+                                <p class="text-xs text-gray-400 mt-2">1 month ago</p>
+                            </div>
+                            <div class="review-card bg-gray-50 rounded-xl p-4">
+                                <div class="flex justify-between"><div class="font-semibold">Amit Khurana</div><div class="star-rating text-sm">★★★★☆</div></div>
+                                <p class="text-sm text-gray-500 mt-1">"Very professional and thorough assessment. The clinic is well-equipped. Slightly long wait time but worth it."</p>
+                                <p class="text-xs text-gray-400 mt-2">2 months ago</p>
+                            </div>
+                            <div class="review-card bg-gray-50 rounded-xl p-4">
+                                <div class="flex justify-between"><div class="font-semibold">Sunita Patil</div><div class="star-rating text-sm">★★★★★</div></div>
+                                <p class="text-sm text-gray-500 mt-1">"Dr. Priya helped my father with tinnitus. His condition has improved significantly. Grateful for her expertise!"</p>
+                                <p class="text-xs text-gray-400 mt-2">3 months ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Availability Tab -->
+            <div id="tab-availability" class="tab-content hidden">
+                <div class="bg-white rounded-2xl shadow-sm p-6" data-aos="fade-up">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Weekly Schedule</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 border-b"><span class="font-medium">Monday</span><span class="availability-badge px-3 py-1 rounded-full text-sm">9:00 AM - 6:00 PM</span></div>
+                        <div class="flex justify-between items-center p-3 border-b"><span class="font-medium">Tuesday</span><span class="availability-badge px-3 py-1 rounded-full text-sm">9:00 AM - 6:00 PM</span></div>
+                        <div class="flex justify-between items-center p-3 border-b"><span class="font-medium">Wednesday</span><span class="availability-badge px-3 py-1 rounded-full text-sm">9:00 AM - 6:00 PM</span></div>
+                        <div class="flex justify-between items-center p-3 border-b"><span class="font-medium">Thursday</span><span class="availability-badge px-3 py-1 rounded-full text-sm">9:00 AM - 6:00 PM</span></div>
+                        <div class="flex justify-between items-center p-3 border-b"><span class="font-medium">Friday</span><span class="availability-badge px-3 py-1 rounded-full text-sm">9:00 AM - 6:00 PM</span></div>
+                        <div class="flex justify-between items-center p-3 border-b"><span class="font-medium">Saturday</span><span class="availability-badge px-3 py-1 rounded-full text-sm">10:00 AM - 4:00 PM</span></div>
+                        <div class="flex justify-between items-center p-3"><span class="font-medium">Sunday</span><span class="unavailable-badge px-3 py-1 rounded-full text-sm">Closed</span></div>
+                    </div>
+                    <div class="mt-6 p-4 bg-teal-50 rounded-xl">
+                        <p class="text-sm text-teal-700"><i class="fas fa-clock mr-2"></i> Next Available: Today at 2:30 PM</p>
+                        <button class="mt-3 bg-teal-600 text-white px-5 py-2 rounded-full font-medium text-sm">Book Appointment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RIGHT COLUMN - Quick Info Sidebar -->
+        <div class="lg:w-80 flex-shrink-0">
+            <div class="bg-white rounded-2xl shadow-sm p-5 sticky top-24">
+                <h3 class="font-bold text-lg mb-4">Quick Information</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between"><span class="text-gray-500">Experience</span><span class="font-medium">12+ years</span></div>
+                    <div class="flex justify-between"><span class="text-gray-500">Patients Served</span><span class="font-medium">2,000+</span></div>
+                    <div class="flex justify-between"><span class="text-gray-500">Response Rate</span><span class="font-medium text-green-600">98%</span></div>
+                    <div class="flex justify-between"><span class="text-gray-500">Response Time</span><span class="font-medium">&lt; 2 hours</span></div>
+                </div>
+                <hr class="my-4">
+                <h3 class="font-semibold mb-2">Contact Directly</h3>
+                <button class="w-full bg-gray-100 text-gray-700 py-2 rounded-lg mb-2 flex items-center justify-center gap-2"><i class="fab fa-whatsapp text-green-600"></i> +91 98765 43210</button>
+                <button class="w-full bg-gray-100 text-gray-700 py-2 rounded-lg flex items-center justify-center gap-2"><i class="fas fa-phone text-teal-600"></i> Call Now</button>
+                <hr class="my-4">
+                <button class="w-full border border-teal-600 text-teal-600 py-2 rounded-full font-medium hover:bg-teal-50 transition"><i class="far fa-heart mr-2"></i> Save to Wishlist</button>
+                <button class="w-full bg-orange-500 text-white py-2 rounded-full font-medium mt-2 hover:bg-orange-600 transition"><i class="fas fa-share-alt mr-2"></i> Share Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ======================== SIMILAR EXPERTS ======================== -->
+<section class="max-w-7xl mx-auto px-4 py-12 border-t">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">You May Also Like</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="bg-white rounded-xl p-4 shadow-sm flex gap-3">
+            <div class="w-14 h-14 rounded-full bg-teal-100 flex items-center justify-center text-2xl">👨‍⚕️</div>
+            <div><p class="font-semibold">Dr. Amit Khare</p><p class="text-xs text-gray-500">Audiologist • 4.7 ★</p><button class="text-teal-600 text-xs mt-1">View Profile →</button></div>
+        </div>
+        <div class="bg-white rounded-xl p-4 shadow-sm flex gap-3">
+            <div class="w-14 h-14 rounded-full bg-teal-100 flex items-center justify-center text-2xl">👩‍🏫</div>
+            <div><p class="font-semibold">Ms. Sonal Gupta</p><p class="text-xs text-gray-500">Speech Therapist • 4.8 ★</p><button class="text-teal-600 text-xs mt-1">View Profile →</button></div>
+        </div>
+        <div class="bg-white rounded-xl p-4 shadow-sm flex gap-3">
+            <div class="w-14 h-14 rounded-full bg-teal-100 flex items-center justify-center text-2xl">👨‍⚕️</div>
+            <div><p class="font-semibold">Dr. Rajesh Tiwari</p><p class="text-xs text-gray-500">Audiologist • 5.0 ★</p><button class="text-teal-600 text-xs mt-1">View Profile →</button></div>
+        </div>
+    </div>
+</section>
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="bg-gray-900 text-gray-400 py-8 mt-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+        <p>© 2025 HEARING DIAGNOSTIC HUB — Multi-Vendor Marketplace. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    AOS.init({ duration: 600, once: true });
+    
+    // Tab switching functionality
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = {
+        about: document.getElementById('tab-about'),
+        services: document.getElementById('tab-services'),
+        reviews: document.getElementById('tab-reviews'),
+        availability: document.getElementById('tab-availability')
+    };
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabId = tab.getAttribute('data-tab');
+            
+            // Update active tab style
+            tabs.forEach(t => t.classList.remove('tab-active', 'text-teal-700', 'border-b-2', 'border-teal-700'));
+            tab.classList.add('tab-active', 'text-teal-700', 'border-b-2', 'border-teal-700');
+            
+            // Hide all contents
+            Object.values(contents).forEach(content => {
+                if (content) content.classList.add('hidden');
+            });
+            
+            // Show selected content
+            if (contents[tabId]) {
+                contents[tabId].classList.remove('hidden');
+            }
+        });
+    });
+    
+    // Book appointment alert
+    document.querySelectorAll('.service-card button, .bg-orange-500, .bg-teal-600').forEach(btn => {
+        if (btn.innerText.includes('Book') || btn.innerText.includes('Book Appointment')) {
+            btn.addEventListener('click', () => {
+                alert('Appointment booking feature: Select date & time to confirm with Dr. Priya Mehta');
+            });
+        }
+    });
+</script>
+</body>
+</html>
